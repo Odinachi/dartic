@@ -573,7 +573,9 @@ class _QuickTip extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    final tip = _tips[DateTime.now().day % _tips.length];
+    final now = DateTime.now();
+    final dayIndex = now.difference(DateTime(2020, 1, 1)).inDays;
+    final tip = _tips[dayIndex % _tips.length];
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
