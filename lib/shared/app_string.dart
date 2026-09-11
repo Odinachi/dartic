@@ -57,5 +57,16 @@ class AppString {
   static const String lastNameMinLength =
       "Last name must be at least 2 characters";
 
+  static const String username = "Username";
+  static const String usernameRequired = "Username is required";
+  static const String usernameMinLength =
+      "Username must be at least 3 characters";
+  static const String usernameInvalid =
+      "Username can only contain letters, numbers, and underscores";
+  static const String usernameAlreadyTaken = "Username is already taken";
+  static const String setUsername = "Set Username";
+  static const String setUsernameDesc =
+      "Please set a unique username to complete your profile";
+
   static const String comingSoon = "Coming Soon";
 }

@@ -125,10 +125,54 @@ class FirebaseServices {
   Future<({bool? success, String? error})> saveProfile(UserModel user) async {
     try {
       final userDoc = _firestore.collection('Users').doc(user.uid);
-      await userDoc.set(user.toJson());
+      await userDoc.set(user.toJson(), SetOptions(merge: true));
       return (success: true, error: null);
     } catch (e) {
       return (success: false, error: e.toString());
+    }
+  }
+
+  Future<({bool? success, String? error})> updateUsername(
+      String username) async {
+    try {
+      final uid = _auth.currentUser?.uid;
+      if (uid == null) {
+        return (success: false, error: "No user is currently signed in.");
+      }
+      final userDoc = _firestore.collection('Users').doc(uid);
+      await userDoc.set({
+        'username': username.trim(),
+      }, SetOptions(merge: true));
+      return (success: true, error: null);
+    } catch (e) {
+      return (success: false, error: e.toString());
+    }
+  }
+
+  Future<({bool isAvailable, String? error})> checkUsernameAvailability(
+      String username) async {
+    try {
+      final cleanUsername = username.trim();
+      if (cleanUsername.isEmpty) {
+        return (isAvailable: false, error: "Username cannot be empty");
+      }
+      final querySnapshot = await _firestore
+          .collection('Users')
+          .where('username', isEqualTo: cleanUsername)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        return (isAvailable: true, error: null);
+      }
+
+      final isOwnDoc = querySnapshot.docs.first.id == _auth.currentUser?.uid;
+      return (
+        isAvailable: isOwnDoc,
+        error: isOwnDoc ? null : "Username is already taken"
+      );
+    } catch (e) {
+      return (isAvailable: false, error: e.toString());
     }
   }
 

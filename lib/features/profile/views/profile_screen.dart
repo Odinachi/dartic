@@ -158,6 +158,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontSize: 23, fontWeight: FontWeight.bold)),
                 ),
               ),
+              if (user?.username != null && user!.username!.isNotEmpty) ...[
+                SizedBox(height: 2.h),
+                Text("@${user.username!}",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.appBlue)),
+              ],
+              SizedBox(height: 4.h),
               Text("${AppString.joined} ${user?.createdAt?.year ?? "2023"}",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

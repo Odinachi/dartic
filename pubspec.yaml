@@ -45,7 +45,7 @@ dependencies:
   firebase_crashlytics: ^5.0.2
   firebase_auth: ^6.1.0
   flutter_bloc: ^9.0.1
-  flutter_svg: ^2.2.1
+  flutter_svg: ^2.0.17
   flutter_screenutil: ^5.9.3
   shimmer_animation: ^2.2.2
   youtube_player_flutter: ^9.0.3
@@ -53,7 +53,7 @@ dependencies:
   confetti: ^0.8.0
   firebase_messaging: ^16.0.2
   flutter_local_notifications: ^19.4.2
-  google_sign_in: ^7.2.0
+  google_sign_in: ^7.0.0
   sign_in_with_apple: ^7.0.1
   cloud_firestore: ^6.0.2
   url_launcher: ^6.1.0
@@ -72,7 +72,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^6.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

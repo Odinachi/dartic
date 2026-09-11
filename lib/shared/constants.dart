@@ -394,12 +394,26 @@ class AppButton extends StatelessWidget {
 class AppTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
+  final String? hintText;
+  final String? prefixText;
+  final Widget? prefixIcon;
+  final String? errorText;
+  final TextCapitalization textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onChanged;
   final String? Function(String?)? validator;
 
   const AppTextFormField({
     super.key,
     required this.controller,
     required this.labelText,
+    this.hintText,
+    this.prefixText,
+    this.prefixIcon,
+    this.errorText,
+    this.textCapitalization = TextCapitalization.words,
+    this.inputFormatters,
+    this.onChanged,
     this.validator,
   });
 
@@ -408,14 +422,20 @@ class AppTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       cursorColor: AppColors.appBlue,
-      textCapitalization: TextCapitalization.words,
-      inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))],
+      textCapitalization: textCapitalization,
+      onChanged: onChanged,
+      inputFormatters: inputFormatters ??
+          [FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))],
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w400,
           ),
       decoration: InputDecoration(
         labelText: labelText,
+        hintText: hintText,
+        prefixText: prefixText,
+        prefixIcon: prefixIcon,
+        errorText: errorText,
         labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontSize: 14,
               fontWeight: FontWeight.w400,

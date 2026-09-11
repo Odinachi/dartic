@@ -23,11 +23,27 @@ class AppCubit extends Cubit<AppState> {
         : await firebaseServices.signInWithApple();
 
     if (auth.account != null) {
-      emit(AuthSuccessful());
-      createProfile(
-        firstName: auth.givenName ?? "",
-        lastName: auth.familyName ?? "",
-      );
+      final existingProfile = (await firebaseServices.getProfile()).user;
+      if (existingProfile != null) {
+        profile = existingProfile;
+        if (existingProfile.currentLevel != null &&
+            existingProfile.username != null &&
+            existingProfile.username!.trim().isNotEmpty) {
+          userProgress = (await firebaseServices.getUserProgress()).progress;
+          emit(AuthSuccessful());
+        } else {
+          emit(AuthProfileMissing());
+        }
+      } else {
+        profile = UserModel(
+          uid: FirebaseAuth.instance.currentUser?.uid,
+          firstName: auth.givenName ?? "",
+          lastName: auth.familyName ?? "",
+          email: FirebaseAuth.instance.currentUser?.email,
+          createdAt: DateTime.now(),
+        );
+        emit(AuthProfileMissing());
+      }
     } else {
       emit(AuthError(auth.error ?? "Sign in failed"));
     }
@@ -44,7 +60,9 @@ class AppCubit extends Cubit<AppState> {
     }
     emit(AuthLoading());
     profile = (await firebaseServices.getProfile()).user;
-    if (profile?.currentLevel != null) {
+    if (profile?.currentLevel != null &&
+        profile?.username != null &&
+        profile!.username!.trim().isNotEmpty) {
       userProgress = (await firebaseServices.getUserProgress()).progress;
       emit(AuthProfileExists());
     } else {
@@ -63,23 +81,44 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  void createProfile(
-      {required String firstName,
-      required String lastName,
-      String? currentLevel}) async {
+  Future<({bool isAvailable, String? error})> checkUsernameAvailability(
+      String username) async {
+    return await firebaseServices.checkUsernameAvailability(username);
+  }
+
+  void updateUsername(String username) async {
+    emit(AuthLoading());
+    final result = await firebaseServices.updateUsername(username);
+    if (result.success == true) {
+      profile = (await firebaseServices.getProfile()).user;
+      userProgress = (await firebaseServices.getUserProgress()).progress;
+      emit(AuthProfileCreated());
+    } else {
+      emit(AuthError(result.error ?? "Failed to update username"));
+    }
+  }
+
+  void createProfile({
+    required String firstName,
+    required String lastName,
+    required String username,
+    String? currentLevel,
+  }) async {
     emit(AuthLoading());
     final result = await firebaseServices.saveProfile(UserModel(
         uid: FirebaseAuth.instance.currentUser?.uid ?? '',
-        firstName: firstName,
-        lastName: lastName,
-        createdAt: DateTime.now(),
-        currentLevel: currentLevel,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        username: username.trim(),
+        createdAt: profile?.createdAt ?? DateTime.now(),
+        currentLevel: currentLevel ?? profile?.currentLevel,
         email: FirebaseAuth.instance.currentUser?.email ?? ''));
     if (result.success == true) {
       profile = (await firebaseServices.getProfile()).user;
+      userProgress = (await firebaseServices.getUserProgress()).progress;
       emit(AuthProfileCreated());
     } else {
-      emit(AuthError("Profile creation failed"));
+      emit(AuthError(result.error ?? "Profile creation failed"));
     }
   }
 
