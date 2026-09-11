@@ -6,6 +6,7 @@ class UserModel {
   final String? currentLevel;
   final String? uid;
   final String? email;
+  final String? photoUrl;
 
   UserModel({
     this.firstName,
@@ -15,6 +16,7 @@ class UserModel {
     this.currentLevel,
     this.uid,
     this.email,
+    this.photoUrl,
   });
 
   UserModel copyWith({
@@ -25,6 +27,7 @@ class UserModel {
     String? currentLevel,
     String? uid,
     String? email,
+    String? photoUrl,
   }) =>
       UserModel(
         firstName: firstName ?? this.firstName,
@@ -34,6 +37,7 @@ class UserModel {
         currentLevel: currentLevel ?? this.currentLevel,
         uid: uid ?? this.uid,
         email: email ?? this.email,
+        photoUrl: photoUrl ?? this.photoUrl,
       );
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -44,6 +48,7 @@ class UserModel {
         currentLevel: json["current_level"],
         uid: json["uid"],
         email: json["email"],
+        photoUrl: json["photo_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,5 +59,6 @@ class UserModel {
         "current_level": currentLevel,
         "uid": uid,
         "email": email,
+        "photo_url": photoUrl,
       };
 }

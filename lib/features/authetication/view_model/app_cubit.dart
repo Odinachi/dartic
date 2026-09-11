@@ -40,6 +40,7 @@ class AppCubit extends Cubit<AppState> {
           firstName: auth.givenName ?? "",
           lastName: auth.familyName ?? "",
           email: FirebaseAuth.instance.currentUser?.email,
+          photoUrl: FirebaseAuth.instance.currentUser?.photoURL,
           createdAt: DateTime.now(),
         );
         emit(AuthProfileMissing());
@@ -128,6 +129,7 @@ class AppCubit extends Cubit<AppState> {
         username: cleanUsername,
         createdAt: profile?.createdAt ?? DateTime.now(),
         currentLevel: currentLevel ?? profile?.currentLevel,
+        photoUrl: profile?.photoUrl ?? FirebaseAuth.instance.currentUser?.photoURL,
         email: FirebaseAuth.instance.currentUser?.email ?? ''));
     if (result.success == true) {
       profile = (await firebaseServices.getProfile()).user;
