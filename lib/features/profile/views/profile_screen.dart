@@ -57,6 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               '${user?.firstName ?? ''} ${user?.lastName ?? ''}'.trim();
           final lessonsCompleted = progress?.passedCourses?.length ?? 0;
           final problemsSolved = progress?.passedDsa?.length ?? 0;
+          final reputationScore =
+              (lessonsCompleted * 15) + (problemsSolved * 25) + 70;
 
           return SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20.w, 17.h, 20.w, 30.h),
@@ -67,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 name: fullName.isEmpty ? 'Dart learner' : fullName,
                 username: user?.username,
                 year: user?.createdAt?.year,
+                reputationScore: reputationScore,
                 isDark: isDark,
                 surface: surface,
                 border: border,
@@ -78,6 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _StatsRow(
                 lessonsCompleted: lessonsCompleted,
                 problemsSolved: problemsSolved,
+                reputationScore: reputationScore,
                 surface: surface,
                 border: border,
               ),
@@ -168,6 +172,7 @@ class _ProfileHeader extends StatelessWidget {
     required this.name,
     required this.username,
     required this.year,
+    required this.reputationScore,
     required this.isDark,
     required this.surface,
     required this.border,
@@ -175,6 +180,7 @@ class _ProfileHeader extends StatelessWidget {
   final String name;
   final String? username;
   final int? year;
+  final int reputationScore;
   final bool isDark;
   final Color surface;
   final Color border;
@@ -208,6 +214,30 @@ class _ProfileHeader extends StatelessWidget {
                       ?.copyWith(fontSize: 13.sp, color: AppColors.grey)),
             ]),
           ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+            decoration: BoxDecoration(
+              color: isDark
+                  ? Colors.white.withValues(alpha: .08)
+                  : const Color(0xffF0F2F4),
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.star_rounded,
+                    size: 15.sp, color: const Color(0xffF59E0B)),
+                SizedBox(width: 4.w),
+                Text(
+                  '$reputationScore',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ],
+            ),
+          ),
         ]),
       );
 }
@@ -220,11 +250,13 @@ class _StatsRow extends StatelessWidget {
   const _StatsRow({
     required this.lessonsCompleted,
     required this.problemsSolved,
+    required this.reputationScore,
     required this.surface,
     required this.border,
   });
   final int lessonsCompleted;
   final int problemsSolved;
+  final int reputationScore;
   final Color surface;
   final Color border;
 
@@ -249,6 +281,9 @@ class _StatsRow extends StatelessWidget {
             VerticalDivider(width: 1, thickness: 1, color: border),
             _statCell(
                 value: '$problemsSolved', label: 'Solved', context: context),
+            VerticalDivider(width: 1, thickness: 1, color: border),
+            _statCell(
+                value: '$reputationScore', label: 'Reputation', context: context),
           ]),
         ),
       );
