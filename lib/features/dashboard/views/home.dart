@@ -93,7 +93,7 @@ class HomeScreen extends StatelessWidget {
             surface: surface,
             border: border,
             isDark: isDark,
-            onTap: onCourseTap,
+            onTap: onCourseTap ?? () => AppRouter.push(AppRouter.coursesList),
           ),
 
           SizedBox(height: 10.h),

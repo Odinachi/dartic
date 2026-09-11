@@ -6,6 +6,7 @@ import 'package:dartcoder/features/dashboard/views/activity_screen.dart';
 import 'package:dartcoder/features/dashboard/views/dashboard_screen.dart';
 import 'package:dartcoder/features/editor/views/dsa_list_screen.dart';
 import 'package:dartcoder/features/profile/views/badges_screen.dart';
+import 'package:dartcoder/features/courses/views/courses_list_screen.dart';
 
 import 'package:dartcoder/features/editor/views/editor_screen.dart';
 import 'package:dartcoder/shared/theme.dart';
@@ -48,6 +49,8 @@ class AppRouter {
         return CupertinoPageRoute(
             builder: (_) => QuizScoreScreen(
                 arg: settings.arguments as QuizScoreScreenArgs?));
+      case coursesList:
+        return CupertinoPageRoute(builder: (_) => const CoursesListScreen());
 
       default:
         return CupertinoPageRoute(builder: (_) => const OnboardingScreen());
@@ -64,6 +67,7 @@ class AppRouter {
   static const String dsaList = "/dsa_list";
   static const String activity = "/activity";
   static const String badges = "/badges";
+  static const String coursesList = "/courses_list";
 
   static Future push(String routeName, {Object? arg}) async =>
       await navKey.currentState?.pushNamed(routeName, arguments: arg);

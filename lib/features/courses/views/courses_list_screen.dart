@@ -20,7 +20,7 @@ class _CoursesListScreenState extends State<CoursesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: Text(widget.title ?? AppString.dartCourse),
       ),
       body: Padding(

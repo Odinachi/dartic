@@ -1,10 +1,10 @@
 import 'package:dartcoder/features/authetication/view_model/app_cubit.dart';
 import 'package:dartcoder/features/authetication/views/onboarding_screen.dart';
-import 'package:dartcoder/features/courses/views/courses_list_screen.dart';
 import 'package:dartcoder/features/editor/views/editor_screen.dart';
 import 'package:dartcoder/features/profile/views/profile_screen.dart';
 import 'package:dartcoder/shared/app_string.dart';
 import 'package:dartcoder/shared/assets.dart';
+import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/theme.dart';
 import 'package:dartcoder/features/dashboard/views/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     super.initState();
 
     context.read<AppCubit>().getUserProfile();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -57,17 +57,13 @@ class _DashboardScreenState extends State<DashboardScreen>
                   icon: Assets.svgs.home,
                   isActive: tabController.index == 0),
               navItem(
-                  label: AppString.courses,
-                  icon: Assets.svgs.course,
-                  isActive: tabController.index == 1),
-              navItem(
                   label: AppString.editor,
                   icon: Assets.svgs.editor,
-                  isActive: tabController.index == 2),
+                  isActive: tabController.index == 1),
               navItem(
                   label: AppString.profile,
                   icon: Assets.svgs.person,
-                  isActive: tabController.index == 3),
+                  isActive: tabController.index == 2),
             ],
             indicatorColor: Colors.transparent,
             dividerColor: Colors.transparent,
@@ -82,21 +78,14 @@ class _DashboardScreenState extends State<DashboardScreen>
             physics: const NeverScrollableScrollPhysics(),
             children: [
               HomeScreen(
-                onCourseTap: () {
-                  tabController.index = 1;
-                  setState(() {});
-                },
+                onCourseTap: () => AppRouter.push(AppRouter.coursesList),
               ),
-              CoursesListScreen(),
               EditorScreen(
                 arg: EditorScreenArg(isPractice: false),
               ),
               FirebaseAuth.instance.currentUser != null
                   ? ProfileScreen(
-                      onDiveIn: () {
-                        tabController.index = 1;
-                        setState(() {});
-                      },
+                      onDiveIn: () => AppRouter.push(AppRouter.coursesList),
                     )
                   : const OnboardingScreen(),
             ]),
