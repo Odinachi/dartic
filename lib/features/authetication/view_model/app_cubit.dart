@@ -88,7 +88,15 @@ class AppCubit extends Cubit<AppState> {
 
   void updateUsername(String username) async {
     emit(AuthLoading());
-    final result = await firebaseServices.updateUsername(username);
+    final cleanUsername = username.trim();
+    final availability =
+        await firebaseServices.checkUsernameAvailability(cleanUsername);
+    if (!availability.isAvailable) {
+      emit(AuthError(availability.error ?? "Username is already taken"));
+      return;
+    }
+
+    final result = await firebaseServices.updateUsername(cleanUsername);
     if (result.success == true) {
       profile = (await firebaseServices.getProfile()).user;
       userProgress = (await firebaseServices.getUserProgress()).progress;
@@ -105,11 +113,19 @@ class AppCubit extends Cubit<AppState> {
     String? currentLevel,
   }) async {
     emit(AuthLoading());
+    final cleanUsername = username.trim();
+    final availability =
+        await firebaseServices.checkUsernameAvailability(cleanUsername);
+    if (!availability.isAvailable) {
+      emit(AuthError(availability.error ?? "Username is already taken"));
+      return;
+    }
+
     final result = await firebaseServices.saveProfile(UserModel(
         uid: FirebaseAuth.instance.currentUser?.uid ?? '',
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        username: username.trim(),
+        username: cleanUsername,
         createdAt: profile?.createdAt ?? DateTime.now(),
         currentLevel: currentLevel ?? profile?.currentLevel,
         email: FirebaseAuth.instance.currentUser?.email ?? ''));

@@ -21,8 +21,6 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   final lastNameController = TextEditingController();
   final usernameController = TextEditingController();
   String? selectedLevel;
-  String? usernameError;
-  bool isCheckingUsername = false;
 
   final List<String> dartLevels = [
     AppString.expert,
@@ -48,11 +46,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     super.dispose();
   }
 
-  void _onSubmit() async {
-    setState(() {
-      usernameError = null;
-    });
-
+  void _onSubmit() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
 
@@ -65,27 +59,6 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
     }
 
     final username = usernameController.text.trim();
-    setState(() {
-      isCheckingUsername = true;
-    });
-
-    final availability =
-        await context.read<AppCubit>().checkUsernameAvailability(username);
-
-    if (!mounted) return;
-
-    setState(() {
-      isCheckingUsername = false;
-    });
-
-    if (!availability.isAvailable) {
-      setState(() {
-        usernameError = availability.error ?? AppString.usernameAlreadyTaken;
-      });
-      AppRouter.showMessage(
-          availability.error ?? AppString.usernameAlreadyTaken);
-      return;
-    }
 
     if (isExistingUser) {
       context.read<AppCubit>().updateUsername(username);
@@ -101,10 +74,16 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(builder: (_, state) {
-      final isExistingUser =
-          context.read<AppCubit>().profile?.currentLevel != null;
-      final isLoading = state is AuthLoading || isCheckingUsername;
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {
+        if (state is AuthError) {
+          AppRouter.showMessage(state.message);
+        }
+      },
+      builder: (context, state) {
+        final isExistingUser =
+            context.read<AppCubit>().profile?.currentLevel != null;
+        final isLoading = state is AuthLoading;
 
       return Scaffold(
         appBar: AppBar(
@@ -186,19 +165,11 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                             controller: usernameController,
                             labelText: AppString.username,
                             prefixText: "@",
-                            errorText: usernameError,
                             textCapitalization: TextCapitalization.none,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
                                   RegExp(r'[a-zA-Z0-9_]')),
                             ],
-                            onChanged: (_) {
-                              if (usernameError != null) {
-                                setState(() {
-                                  usernameError = null;
-                                });
-                              }
-                            },
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 return AppString.usernameRequired;
