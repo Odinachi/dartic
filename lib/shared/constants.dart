@@ -343,50 +343,128 @@ class AppData {
   };
 }
 
+/// The app's standard full-width button.
+///
+/// Built on Material [FilledButton] (or [OutlinedButton] when [borderColor]
+/// is set), so it gets ink ripples, hover/focus/pressed overlays, keyboard
+/// activation and button semantics for free. Passing a null [onTap] renders
+/// the disabled state; [isLoading] shows a spinner and blocks taps while
+/// keeping the button's colours and size.
 class AppButton extends StatelessWidget {
-  const AppButton(
-      {super.key,
-      this.leftIcon,
-      this.text = '',
-      this.backgroundColor,
-      this.textColor,
-      this.onTap,
-      this.borderColor});
+  const AppButton({
+    super.key,
+    this.leftIcon,
+    this.text = '',
+    this.backgroundColor,
+    this.textColor,
+    this.onTap,
+    this.borderColor,
+    this.isLoading = false,
+    this.semanticLabel,
+  });
   final Widget? leftIcon;
   final String text;
   final Color? backgroundColor;
   final Color? borderColor;
   final Color? textColor;
   final VoidCallback? onTap;
+  final bool isLoading;
+
+  /// Overrides [text] as the label announced by screen readers.
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 40.h,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.r),
-            border:
-                borderColor != null ? Border.all(color: borderColor!) : null,
-            color: backgroundColor ?? AppColors.appBlue),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (leftIcon != null) leftIcon!,
-            if (leftIcon != null) SizedBox(width: 10.w),
-            Text(
-              text,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: textColor),
+    final theme = Theme.of(context);
+    final textStyle = theme.textTheme.bodyMedium?.copyWith(
+      fontSize: 14.sp,
+      fontWeight: FontWeight.bold,
+    );
+    final background = backgroundColor ?? AppColors.appBlue;
+    final foreground =
+        textColor ?? textStyle?.color ?? theme.colorScheme.onSurface;
+
+    // While loading the button is non-interactive but should still look
+    // active; a genuinely disabled button is faded out.
+    final disabledBackground = isLoading
+        ? background
+        : background.withValues(alpha: background.a * 0.5);
+    final disabledForeground = isLoading
+        ? foreground
+        : foreground.withValues(alpha: foreground.a * 0.5);
+
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.r),
+    );
+    final padding = EdgeInsets.symmetric(horizontal: 12.w);
+    final onPressed = isLoading ? null : onTap;
+
+    final label = semanticLabel ?? text;
+    final child = Semantics(
+      label: isLoading ? '$label, loading' : label,
+      excludeSemantics: true,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (isLoading)
+            SizedBox.square(
+              dimension: 16.r,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: disabledForeground,
+              ),
             )
-          ],
-        ),
+          else if (leftIcon != null)
+            leftIcon!,
+          if (isLoading || leftIcon != null) SizedBox(width: 10.w),
+          Flexible(
+            child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
+          ),
+        ],
       ),
     );
+
+    final Widget button;
+    if (borderColor != null) {
+      button = OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: background,
+          foregroundColor: foreground,
+          disabledBackgroundColor: disabledBackground,
+          disabledForegroundColor: disabledForeground,
+          side: BorderSide(
+            color: onPressed == null && !isLoading
+                ? borderColor!.withValues(alpha: borderColor!.a * 0.5)
+                : borderColor!,
+          ),
+          shape: shape,
+          padding: padding,
+          textStyle: textStyle,
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: child,
+      );
+    } else {
+      button = FilledButton(
+        onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          backgroundColor: background,
+          foregroundColor: foreground,
+          disabledBackgroundColor: disabledBackground,
+          disabledForegroundColor: disabledForeground,
+          shape: shape,
+          padding: padding,
+          textStyle: textStyle,
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: child,
+      );
+    }
+
+    return SizedBox(width: double.infinity, height: 40.h, child: button);
   }
 }
 
