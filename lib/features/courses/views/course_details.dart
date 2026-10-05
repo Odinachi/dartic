@@ -107,7 +107,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                             data: dataStr,
-                            config: config,
+                            config: markdownConfig(context),
                             tocController: tocController,
                           ),
                           SizedBox(height: 20.h),

@@ -4,6 +4,7 @@ import 'package:dartcoder/features/editor/views/editor_screen.dart';
 import 'package:dartcoder/shared/app_string.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
+import 'package:dartcoder/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,12 +68,12 @@ class _DsaListScreenState extends State<DsaListScreen> {
         child: Center(child: CircularProgressIndicator()),
       );
     } else if (state is DSAListLoaded && !state.hasMore) {
-      return const Padding(
-        padding: EdgeInsets.all(16.0),
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Text(
             'No more items to load',
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: context.colors.onSurfaceVariant),
           ),
         ),
       );

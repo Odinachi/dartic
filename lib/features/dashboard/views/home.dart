@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.transparent,
         boxShadow: [
           BoxShadow(
-            color: AppColors.grey.withValues(alpha: 0.05),
+            color: context.colors.shadow.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -81,9 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
               gradient: LinearGradient(
                 stops: const [0.02, 1, 1],
                 colors: [
-                  Theme.of(context).secondaryHeaderColor.withValues(alpha: .5),
-                  Theme.of(context).secondaryHeaderColor.withValues(alpha: 1),
-                  Theme.of(context).secondaryHeaderColor.withValues(alpha: 1),
+                  context.colors.surface.withValues(alpha: .5),
+                  context.colors.surface,
+                  context.colors.surface,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.grey,
+                        color: context.colors.onSurfaceVariant,
                       ),
                 ),
                 SizedBox(height: 10.h),

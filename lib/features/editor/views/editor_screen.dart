@@ -13,6 +13,7 @@ import 'package:dartcoder/main.dart';
 import 'package:dartcoder/services/test_runner_service.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/text_editor.dart';
+import 'package:dartcoder/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
@@ -235,14 +236,14 @@ class _EditorScreenState extends State<EditorScreen>
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Theme.of(context).primaryColor,
+                    color: context.colors.primary,
                   ),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.check,
                   size: 50,
-                  color: Theme.of(context).primaryColor,
+                  color: context.colors.primary,
                 ),
               ),
             ),
@@ -253,14 +254,14 @@ class _EditorScreenState extends State<EditorScreen>
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Theme.of(context).primaryColor,
+                    color: context.colors.primary,
                   ),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.play_arrow,
                   size: 50,
-                  color: Theme.of(context).primaryColor,
+                  color: context.colors.primary,
                 ),
               ),
             ),
@@ -273,14 +274,14 @@ class _EditorScreenState extends State<EditorScreen>
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Theme.of(context).primaryColor,
+                color: context.colors.primary,
               ),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.play_arrow,
               size: 50,
-              color: Theme.of(context).primaryColor,
+              color: context.colors.primary,
             ),
           ),
         );
@@ -454,29 +455,25 @@ class _EditorScreenState extends State<EditorScreen>
                       child: TabBarView(controller: _tabController, children: [
                         if (widget.arg?.dsa != null)
                           DsaQuestionWidget(text: testSuite?.question ?? ""),
-                        ValueListenableBuilder(
-                            valueListenable: isDarkTheme,
-                            builder: (_, isDark, __) {
-                              return CodeTheme(
-                                data: CodeThemeData(
-                                    styles:
-                                        isDark ? nordTheme : atomOneLightTheme),
-                                child: Container(
-                                  color: isDark
-                                      ? const Color(0xff2E3440)
-                                      : const Color(0xfffafafa),
-                                  child: CodeField(
-                                    expands: true,
-                                    onChanged: _onTextChanged,
-                                    gutterStyle: const GutterStyle(
-                                      showFoldingHandles: false,
-                                      width: 70,
-                                    ),
-                                    controller: controller,
-                                  ),
+                        Builder(builder: (context) {
+                          final styles =
+                              context.isDark ? nordTheme : atomOneLightTheme;
+                          return CodeTheme(
+                            data: CodeThemeData(styles: styles),
+                            child: Container(
+                              color: styles['root']?.backgroundColor,
+                              child: CodeField(
+                                expands: true,
+                                onChanged: _onTextChanged,
+                                gutterStyle: const GutterStyle(
+                                  showFoldingHandles: false,
+                                  width: 70,
                                 ),
-                              );
-                            }),
+                                controller: controller,
+                              ),
+                            ),
+                          );
+                        }),
                         ValueListenableBuilder(
                             valueListenable: _outputNotifier,
                             builder: (_, output, __) {

@@ -50,7 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.grey,
+                                      color: context.colors.onSurfaceVariant,
                                     )),
                         SizedBox(
                           height: 20.h,
@@ -59,22 +59,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           onTap: () {
                             context.read<AppCubit>().signIn(false);
                           },
-                          textColor: AppColors.white,
-                          backgroundColor: AppColors.black,
+                          textColor: context.colors.surface,
+                          backgroundColor: context.colors.onSurface,
                           text: AppString.continueWithApple,
                           leftIcon: Assets.svgs.apple.svg(
                               height: 15.h,
                               width: 15.w,
-                              color: AppColors.white),
+                              color: context.colors.surface),
                         ),
                         SizedBox(height: 10.h),
                         AppButton(
                           onTap: () {
                             context.read<AppCubit>().signIn(true);
                           },
-                          backgroundColor:
-                              AppColors.white.withValues(alpha: 0.1),
-                          borderColor: AppColors.grey,
+                          backgroundColor: context.colors.surface,
+                          borderColor: context.colors.outline,
+                          textColor: context.colors.onSurface,
                           text: AppString.continueWithGoogle,
                           leftIcon: Assets.svgs.google.svg(
                             height: 15.h,
@@ -83,9 +83,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                         SizedBox(height: 10.h),
                         AppButton(
-                          backgroundColor:
-                              AppColors.appBlue.withValues(alpha: 0.2),
-                          textColor: AppColors.appBlue,
+                          backgroundColor: context.colors.primaryContainer,
+                          textColor: context.colors.onPrimaryContainer,
                           onTap: () =>
                               AppRouter.pushAndClear(AppRouter.dashboard),
                           text: AppString.continueAsGuest,
@@ -99,7 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         text: AppString.byContinuing,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontSize: 12,
-                              color: AppColors.grey,
+                              color: context.colors.onSurfaceVariant,
                             ),
                         children: [
                           TextSpan(
@@ -119,7 +118,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 ?.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.appBlue,
+                                  color: context.colors.primary,
                                 ),
                           ),
                           TextSpan(
@@ -130,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 ?.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.grey,
+                                  color: context.colors.onSurfaceVariant,
                                 ),
                           ),
                           TextSpan(
@@ -150,7 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 ?.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.appBlue,
+                                  color: context.colors.primary,
                                 ),
                           ),
                         ],

@@ -1,4 +1,3 @@
-import 'package:dartcoder/main.dart';
 import 'package:dartcoder/shared/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -38,9 +37,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
                 padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
-                  color: isDarkTheme.value
-                      ? AppColors.grey[800]
-                      : AppColors.grey[200],
+                  color: context.palette.codeBackground,
                   borderRadius: BorderRadius.circular(6.0),
                 ),
                 child: _buildCodeContent(part['text'] ?? ""),
@@ -97,18 +94,18 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   margin: const EdgeInsets.symmetric(horizontal: 2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: AppColors.appBlue.withValues(alpha: .2),
+                    color: context.colors.primaryContainer,
                     border: Border.all(
-                        color: AppColors.appBlue.withValues(alpha: .5)),
+                        color: context.colors.primary.withValues(alpha: .5)),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.grey.withValues(alpha: .05),
+                        color: context.colors.shadow.withValues(alpha: .05),
                         blurRadius: 8,
                         spreadRadius: 2,
                         offset: const Offset(0, 4),
                       ),
                       BoxShadow(
-                        color: AppColors.grey.withValues(alpha: .01),
+                        color: context.colors.shadow.withValues(alpha: .01),
                         blurRadius: 4,
                         spreadRadius: 1,
                         offset: const Offset(0, 2),
@@ -137,9 +134,9 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               height: 30,
               margin: const EdgeInsets.symmetric(horizontal: 2),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.colors.surface,
                 borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: Colors.grey),
+                border: Border.all(color: context.colors.outline),
               ),
             ),
           ));
@@ -234,7 +231,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: text.substring(lastEnd, match.start),
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.white70 : Colors.black87,
+            color: context.palette.codeText,
           ),
         ));
       }
@@ -246,7 +243,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: Colors.purpleAccent,
+            color: context.palette.codeType,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -256,7 +253,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.orange[300] : Colors.orange[700],
+            color: context.palette.codeModifier,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -265,7 +262,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.purple[300] : Colors.purple[700],
+            color: context.palette.codeControl,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -274,7 +271,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.teal[300] : Colors.teal[700],
+            color: context.palette.codeObject,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -284,7 +281,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: Colors.blueAccent,
+            color: context.palette.codeBuiltIn,
             fontWeight: FontWeight.bold,
           ),
         ));
@@ -293,7 +290,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.amber[300] : Colors.amber[800],
+            color: context.palette.codePunctuation,
           ),
         ));
       } else if (match.group(8) != null) {
@@ -301,9 +298,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value
-                ? Colors.lightGreen[300]
-                : Colors.lightGreen[700],
+            color: context.palette.codeNumber,
           ),
         ));
       } else if (match.group(9) != null) {
@@ -311,7 +306,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.cyan[300] : Colors.cyan[700],
+            color: context.palette.codeIdentifier,
           ),
         ));
       }
@@ -328,7 +323,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         spans.add(TextSpan(
           text: token,
           style: _getCodeTextStyle().copyWith(
-            color: isDarkTheme.value ? Colors.white70 : Colors.black87,
+            color: context.palette.codeText,
           ),
         ));
       }
@@ -341,7 +336,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       spans.add(TextSpan(
         text: text.substring(lastEnd),
         style: _getCodeTextStyle().copyWith(
-          color: isDarkTheme.value ? Colors.white70 : Colors.black87,
+          color: context.palette.codeText,
         ),
       ));
     }

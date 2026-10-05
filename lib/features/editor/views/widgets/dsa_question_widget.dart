@@ -160,7 +160,7 @@ class _DsaQuestionWidgetState extends State<DsaQuestionWidget> {
         child: MarkdownWidget(
           data: widget.text ?? "",
           selectable: true,
-          config: config,
+          config: markdownConfig(context),
         ),
       ),
     );

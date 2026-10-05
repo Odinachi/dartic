@@ -37,10 +37,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         height: 70.h,
         padding: EdgeInsets.only(bottom: 5.h),
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: context.colors.surfaceContainer,
           boxShadow: [
             BoxShadow(
-              color: AppColors.grey.withValues(alpha: 0.05),
+              color: context.colors.shadow.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, -5),
             ),
@@ -113,13 +113,17 @@ class _DashboardScreenState extends State<DashboardScreen>
         icon.svg(
           height: 15.h,
           width: 15.w,
-          color: isActive ? AppColors.appBlue : AppColors.grey,
+          color: isActive
+              ? context.colors.primary
+              : context.colors.onSurfaceVariant,
         ),
         Text(label,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
-                  color: isActive ? AppColors.appBlue : AppColors.grey,
+                  color: isActive
+                      ? context.colors.primary
+                      : context.colors.onSurfaceVariant,
                 )),
       ],
     );
