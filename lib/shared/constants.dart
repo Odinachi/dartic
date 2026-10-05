@@ -1,4 +1,3 @@
-import 'package:dartcoder/main.dart';
 import 'package:dartcoder/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -370,7 +369,7 @@ class AppButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
             border:
                 borderColor != null ? Border.all(color: borderColor!) : null,
-            color: backgroundColor ?? AppColors.appBlue),
+            color: backgroundColor ?? context.colors.primary),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -381,7 +380,7 @@ class AppButton extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
-                  color: textColor),
+                  color: textColor ?? context.colors.onPrimary),
             )
           ],
         ),
@@ -407,7 +406,6 @@ class AppTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      cursorColor: AppColors.appBlue,
       textCapitalization: TextCapitalization.words,
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))],
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -422,11 +420,11 @@ class AppTextFormField extends StatelessWidget {
             ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: AppColors.grey),
+          borderSide: BorderSide(color: context.colors.primary, width: 2),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: AppColors.grey),
+          borderSide: BorderSide(color: context.colors.outline),
         ),
       ),
       validator: validator ??
@@ -444,17 +442,16 @@ Widget loadingWidget(BuildContext context) {
   return Container(
       height: double.infinity,
       width: double.infinity,
-      color: AppColors.black.withValues(alpha: 0.5),
+      color: context.colors.scrim.withValues(alpha: 0.5),
       child: Center(
         child: CircularProgressIndicator(
-          color: Theme.of(context).textTheme.bodyMedium?.color,
+          color: context.colors.primary,
         ),
       ));
 }
 
-MarkdownConfig config = isDarkTheme.value
-    ? MarkdownConfig.darkConfig
-    : MarkdownConfig.defaultConfig;
+MarkdownConfig markdownConfig(BuildContext context) =>
+    context.isDark ? MarkdownConfig.darkConfig : MarkdownConfig.defaultConfig;
 
 class ShadowContainer extends StatelessWidget {
   const ShadowContainer(
@@ -471,16 +468,18 @@ class ShadowContainer extends StatelessWidget {
   final VoidCallback? onTap;
   final bool? completed;
 
-  Color _getDifficultyColor(String difficulty) {
+  (Color, Color) _getDifficultyColors(BuildContext context, String difficulty) {
+    final colors = context.colors;
+    final palette = context.palette;
     switch (difficulty.toLowerCase()) {
       case 'easy':
-        return Colors.green;
+        return (palette.success, palette.onSuccess);
       case 'medium':
-        return Colors.orange;
+        return (palette.warning, palette.onWarning);
       case 'hard':
-        return Colors.red;
+        return (colors.error, colors.onError);
       default:
-        return Colors.grey;
+        return (colors.outline, colors.surface);
     }
   }
 
@@ -492,20 +491,20 @@ class ShadowContainer extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 20.h, left: 5.w, right: 5.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: context.colors.surfaceContainerLow,
           border: Border.all(
               color: completed == true
-                  ? AppColors.green
-                  : AppColors.grey.withValues(alpha: .1)),
+                  ? context.palette.success
+                  : context.colors.outlineVariant),
           boxShadow: [
             BoxShadow(
-              color: AppColors.grey.withValues(alpha: .05),
+              color: context.colors.shadow.withValues(alpha: .05),
               blurRadius: 8,
               spreadRadius: 2,
               offset: const Offset(0, 4),
             ),
             BoxShadow(
-              color: AppColors.grey.withValues(alpha: .01),
+              color: context.colors.shadow.withValues(alpha: .01),
               blurRadius: 4,
               spreadRadius: 1,
               offset: const Offset(0, 2),
@@ -539,13 +538,14 @@ class ShadowContainer extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: _getDifficultyColor(difficulty ?? ""),
+                      color: _getDifficultyColors(context, difficulty ?? "").$1,
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       difficulty ?? "",
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color:
+                            _getDifficultyColors(context, difficulty ?? "").$2,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),

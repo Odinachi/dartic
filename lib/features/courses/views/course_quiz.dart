@@ -85,10 +85,10 @@ class _CourseQuizState extends State<CourseQuiz> {
                   width: 40.h,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
-                      border: Border.all(color: AppColors.appBlue)),
+                      border: Border.all(color: context.colors.primary)),
                   child: Center(
                     child: Icon(Icons.arrow_back_ios,
-                        size: 15.sp, color: AppColors.appBlue),
+                        size: 15.sp, color: context.colors.primary),
                   ),
                 ),
               ),
@@ -111,7 +111,6 @@ class _CourseQuizState extends State<CourseQuiz> {
                           curve: Curves.easeInOut);
                     }
                   },
-                  textColor: AppColors.white,
                   text: AppString.next,
                 ),
               ),
@@ -136,9 +135,6 @@ class _CourseQuizState extends State<CourseQuiz> {
                 SizedBox(height: 5.h),
                 LinearProgressIndicator(
                   value: quizzes.isEmpty ? 0 : currentQuestion / quizzes.length,
-                  backgroundColor: AppColors.grey.withValues(alpha: .3),
-                  valueColor:
-                      const AlwaysStoppedAnimation<Color>(AppColors.appBlue),
                   minHeight: 7.h,
                   borderRadius: BorderRadius.circular(50),
                 ),
@@ -221,25 +217,22 @@ class _CourseQuizState extends State<CourseQuiz> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4),
                                       color: selected
-                                          ? AppColors.appBlue
-                                              .withValues(alpha: .2)
-                                          : Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                          ? context.colors.primaryContainer
+                                          : context.colors.surfaceContainerLow,
                                       border: Border.all(
-                                          color: (selected
-                                                  ? AppColors.appBlue
-                                                  : AppColors.grey)
-                                              .withValues(alpha: .5)),
+                                          color: selected
+                                              ? context.colors.primary
+                                              : context.colors.outlineVariant),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.grey
+                                          color: context.colors.shadow
                                               .withValues(alpha: .05),
                                           blurRadius: 8,
                                           spreadRadius: 2,
                                           offset: const Offset(0, 4),
                                         ),
                                         BoxShadow(
-                                          color: AppColors.grey
+                                          color: context.colors.shadow
                                               .withValues(alpha: .01),
                                           blurRadius: 4,
                                           spreadRadius: 1,
@@ -269,25 +262,23 @@ class _CourseQuizState extends State<CourseQuiz> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.r),
                                   color: selected
-                                      ? AppColors.appBlue.withValues(alpha: .2)
-                                      : Theme.of(context)
-                                          .scaffoldBackgroundColor,
+                                      ? context.colors.primaryContainer
+                                      : context.colors.surfaceContainerLow,
                                   border: Border.all(
-                                      color: (selected
-                                              ? AppColors.appBlue
-                                              : AppColors.grey)
-                                          .withValues(alpha: .5)),
+                                      color: selected
+                                          ? context.colors.primary
+                                          : context.colors.outlineVariant),
                                   boxShadow: [
                                     BoxShadow(
-                                      color:
-                                          AppColors.grey.withValues(alpha: .05),
+                                      color: context.colors.shadow
+                                          .withValues(alpha: .05),
                                       blurRadius: 8,
                                       spreadRadius: 2,
                                       offset: const Offset(0, 4),
                                     ),
                                     BoxShadow(
-                                      color:
-                                          AppColors.grey.withValues(alpha: .01),
+                                      color: context.colors.shadow
+                                          .withValues(alpha: .01),
                                       blurRadius: 4,
                                       spreadRadius: 1,
                                       offset: const Offset(0, 2),
@@ -305,14 +296,14 @@ class _CourseQuizState extends State<CourseQuiz> {
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                               color: selected
-                                                  ? AppColors.appBlue
-                                                  : AppColors.grey),
+                                                  ? context.colors.primary
+                                                  : context.colors.outline),
                                         ),
                                         child: Icon(
                                           Icons.circle,
                                           size: 10,
                                           color: selected
-                                              ? AppColors.appBlue
+                                              ? context.colors.primary
                                               : Colors.transparent,
                                         ),
                                       ),

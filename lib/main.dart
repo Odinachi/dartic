@@ -7,13 +7,12 @@ import 'package:dartcoder/services/notification_service.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/text_editor.dart';
 import 'package:dartcoder/shared/theme.dart';
+import 'package:dartcoder/shared/theme_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-final isDarkTheme = ValueNotifier<bool>(true);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +30,8 @@ void main() async {
         ),
       ],
       child: ValueListenableBuilder(
-          valueListenable: isDarkTheme,
-          builder: (_, isDark, __) {
+          valueListenable: themeController,
+          builder: (_, themeMode, __) {
             return ScreenUtilInit(
               builder: (context, child) => MultiBlocListener(
                 listeners: [
@@ -59,7 +58,7 @@ void main() async {
                 ],
                 child: MaterialApp(
                   navigatorKey: AppRouter.navKey,
-                  themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+                  themeMode: themeMode,
                   theme: lightTheme,
                   darkTheme: darkTheme,
                   debugShowCheckedModeBanner: false,
@@ -78,3 +77,4 @@ void main() async {
 final cacheService = CacheService();
 final firebaseService = FirebaseServices();
 final editor = TextEditor(cacheService: cacheService);
+final themeController = ThemeController(cacheService: cacheService);

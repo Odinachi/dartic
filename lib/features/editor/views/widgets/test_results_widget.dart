@@ -1,4 +1,5 @@
 import 'package:dartcoder/features/editor/models/test_case.dart';
+import 'package:dartcoder/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -28,10 +29,11 @@ class TestResultsWidget extends StatelessWidget {
     }
 
     if (testResult == null) {
-      return const Center(
+      return Center(
         child: Text(
           'Click "Run Tests" to check your solution',
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+          style:
+              TextStyle(fontSize: 16, color: context.colors.onSurfaceVariant),
         ),
       );
     }
@@ -52,10 +54,10 @@ class TestResultsWidget extends StatelessWidget {
   Widget _buildSummaryCard(BuildContext context) {
     final passRate = testResult!.passRate;
     final color = passRate == 1.0
-        ? Colors.green
+        ? context.palette.success
         : passRate > 0.5
-            ? Colors.orange
-            : Colors.red;
+            ? context.palette.warning
+            : context.colors.error;
 
     return Card(
       child: Padding(
@@ -84,7 +86,7 @@ class TestResultsWidget extends StatelessWidget {
             SizedBox(height: 8.h),
             LinearProgressIndicator(
               value: passRate,
-              backgroundColor: Colors.grey[300],
+              backgroundColor: context.colors.surfaceContainerHighest,
               valueColor: AlwaysStoppedAnimation<Color>(color),
             ),
             SizedBox(height: 8.h),
@@ -92,7 +94,7 @@ class TestResultsWidget extends StatelessWidget {
               'Execution time: ${testResult!.totalExecutionTime.inMilliseconds}ms',
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Colors.grey[600],
+                color: context.colors.onSurfaceVariant,
               ),
             ),
           ],
@@ -113,14 +115,15 @@ class TestResultsWidget extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.h),
-        ...testResult!.results.map((result) => _buildTestCaseCard(result)),
+        ...testResult!.results
+            .map((result) => _buildTestCaseCard(context, result)),
       ],
     );
   }
 
-  Widget _buildTestCaseCard(TestResult result) {
+  Widget _buildTestCaseCard(BuildContext context, TestResult result) {
     final passed = result.passed;
-    final color = passed ? Colors.green : Colors.red;
+    final color = passed ? context.palette.success : context.colors.error;
 
     return Card(
       margin: EdgeInsets.only(bottom: 8.h),
@@ -133,7 +136,7 @@ class TestResultsWidget extends StatelessWidget {
           result.testCase.name ?? "",
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: passed ? Colors.green[700] : Colors.red[700],
+            color: color,
           ),
         ),
         subtitle: Text(
@@ -147,7 +150,7 @@ class TestResultsWidget extends StatelessWidget {
           '${result.executionTime.inMilliseconds}ms',
           style: TextStyle(
             fontSize: 11.sp,
-            color: Colors.grey[600],
+            color: context.colors.onSurfaceVariant,
           ),
         ),
         children: [
@@ -157,16 +160,18 @@ class TestResultsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (result.testCase.description != null) ...[
-                  _buildDetailRow('Description', result.testCase.description!),
+                  _buildDetailRow(
+                      context, 'Description', result.testCase.description!),
                   SizedBox(height: 8.h),
                 ],
-                _buildDetailRow(
-                    'Input', _formatInput(result.testCase.inputs ?? [])),
+                _buildDetailRow(context, 'Input',
+                    _formatInput(result.testCase.inputs ?? [])),
+                SizedBox(height: 8.h),
+                _buildDetailRow(context, 'Expected',
+                    _formatOutput(result.testCase.expectedOutput)),
                 SizedBox(height: 8.h),
                 _buildDetailRow(
-                    'Expected', _formatOutput(result.testCase.expectedOutput)),
-                SizedBox(height: 8.h),
-                _buildDetailRow(
+                  context,
                   'Actual',
                   result.errorMessage ?? _formatOutput(result.actualOutput),
                   isError: result.errorMessage != null,
@@ -179,7 +184,8 @@ class TestResultsWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(String label, String value, {bool isError = false}) {
+  Widget _buildDetailRow(BuildContext context, String label, String value,
+      {bool isError = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -188,7 +194,7 @@ class TestResultsWidget extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 12.sp,
-            color: Colors.grey[700],
+            color: context.colors.onSurfaceVariant,
           ),
         ),
         SizedBox(height: 4.h),
@@ -196,10 +202,14 @@ class TestResultsWidget extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
-            color: isError ? Colors.red[50] : Colors.grey[100],
+            color: isError
+                ? context.colors.errorContainer
+                : context.colors.surfaceContainerHigh,
             borderRadius: BorderRadius.circular(4),
             border: Border.all(
-              color: isError ? Colors.red[200]! : Colors.grey[300]!,
+              color: isError
+                  ? context.colors.error.withValues(alpha: .4)
+                  : context.colors.outlineVariant,
             ),
           ),
           child: Text(
@@ -207,7 +217,9 @@ class TestResultsWidget extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 11.sp,
-              color: isError ? Colors.red[700] : Colors.black87,
+              color: isError
+                  ? context.colors.onErrorContainer
+                  : context.colors.onSurface,
             ),
           ),
         ),

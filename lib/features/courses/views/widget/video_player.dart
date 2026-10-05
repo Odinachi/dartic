@@ -101,7 +101,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
         width: videoWidth,
         height: videoHeight,
         decoration: BoxDecoration(
-          color: AppColors.appBlue.withValues(alpha: .3),
+          color: context.colors.primary.withValues(alpha: .3),
           borderRadius: BorderRadius.circular(20),
         ),
         child: const Center(
@@ -120,23 +120,23 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       width: videoWidth,
       height: videoHeight,
       decoration: BoxDecoration(
-        color: AppColors.grey.withValues(alpha: 0.3),
+        color: context.colors.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               size: 60,
-              color: Colors.red,
+              color: context.colors.error,
             ),
             SizedBox(height: 16.h),
             Text(
               'Unable to load video',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.red,
+                    color: context.colors.error,
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -161,12 +161,12 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
         player: YoutubePlayer(
           controller: _controller,
           showVideoProgressIndicator: true,
-          progressIndicatorColor: AppColors.appBlue,
+          progressIndicatorColor: context.colors.primary,
           progressColors: ProgressBarColors(
-            playedColor: AppColors.appBlue,
+            playedColor: context.colors.primary,
             handleColor: Colors.white,
-            bufferedColor: AppColors.grey.withValues(alpha: 0.5),
-            backgroundColor: AppColors.grey.withValues(alpha: 0.3),
+            bufferedColor: Colors.white.withValues(alpha: 0.5),
+            backgroundColor: Colors.white.withValues(alpha: 0.3),
           ),
           onReady: () {
             setState(() {

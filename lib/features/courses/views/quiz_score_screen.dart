@@ -5,7 +5,6 @@ import 'package:dartcoder/shared/app_string.dart';
 import 'package:dartcoder/shared/assets.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
-import 'package:dartcoder/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,7 +65,6 @@ class _QuizScoreScreenState extends State<QuizScoreScreen> {
                   }
                 }
               },
-              textColor: AppColors.white,
               text: widget.arg?.courseId == 33 ? "Home" : AppString.next,
             ),
           ),

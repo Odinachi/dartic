@@ -118,11 +118,11 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                                     ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide(color: AppColors.grey),
+                              borderSide: BorderSide(color: context.colors.outline),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide(color: AppColors.grey),
+                              borderSide: BorderSide(color: context.colors.primary, width: 2),
                             ),
                           ),
                           items: dartLevels

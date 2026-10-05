@@ -6,7 +6,6 @@ import 'package:dartcoder/features/dashboard/views/dashboard_screen.dart';
 import 'package:dartcoder/features/editor/views/dsa_list_screen.dart';
 
 import 'package:dartcoder/features/editor/views/editor_screen.dart';
-import 'package:dartcoder/shared/theme.dart';
 import 'package:dartcoder/features/courses/views/course_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +77,9 @@ class AppRouter {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
               decoration: BoxDecoration(
-                  color: AppColors.black,
+                  color: Theme.of(navKey.currentContext!)
+                      .colorScheme
+                      .inverseSurface,
                   borderRadius: BorderRadius.circular(8)),
               child: Text(message,
                   style: Theme.of(navKey.currentContext!)
@@ -87,7 +88,9 @@ class AppRouter {
                       ?.copyWith(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.white)),
+                          color: Theme.of(navKey.currentContext!)
+                              .colorScheme
+                              .onInverseSurface)),
             ),
           ),
         ],

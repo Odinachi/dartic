@@ -49,9 +49,8 @@ class _AnimatedBottomNavState extends State<AnimatedBottomNav> {
                       child: AppButton(
                         onTap: widget.onPrevious,
                         text: AppString.previous,
-                        backgroundColor:
-                            AppColors.appBlue.withValues(alpha: 0.2),
-                        textColor: AppColors.appBlue,
+                        backgroundColor: context.colors.primaryContainer,
+                        textColor: context.colors.onPrimaryContainer,
                       ),
                     ),
                     SizedBox(width: 15.w),
@@ -59,7 +58,6 @@ class _AnimatedBottomNavState extends State<AnimatedBottomNav> {
                       child: AppButton(
                         onTap: widget.onNext,
                         text: AppString.nextCourse,
-                        textColor: AppColors.white,
                       ),
                     ),
                   ],
@@ -69,9 +67,8 @@ class _AnimatedBottomNavState extends State<AnimatedBottomNav> {
                   children: [
                     Expanded(
                       child: AppButton(
-                        backgroundColor:
-                            AppColors.appBlue.withValues(alpha: 0.2),
-                        textColor: AppColors.appBlue,
+                        backgroundColor: context.colors.primaryContainer,
+                        textColor: context.colors.onPrimaryContainer,
                         onTap: widget.onEditor,
                         text: AppString.practice,
                       ),
@@ -79,8 +76,8 @@ class _AnimatedBottomNavState extends State<AnimatedBottomNav> {
                     SizedBox(width: 15.w),
                     Expanded(
                       child: AppButton(
-                        backgroundColor: AppColors.grey.withValues(alpha: 0.2),
-                        textColor: AppColors.grey,
+                        backgroundColor: context.colors.surfaceContainerHighest,
+                        textColor: context.colors.onSurfaceVariant,
                         onTap: widget.onQuiz,
                         text: AppString.takeQuiz,
                       ),

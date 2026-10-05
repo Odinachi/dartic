@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheService {
@@ -9,6 +10,7 @@ class CacheService {
 
   late final SharedPreferences sharedPreferences;
   final _codeKey = "code";
+  final _themeModeKey = "theme_mode";
 
   Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -24,4 +26,14 @@ class CacheService {
 
   String? getCode({String? key}) =>
       sharedPreferences.getString(key ?? _codeKey);
+
+  ThemeMode getThemeMode() {
+    final name = sharedPreferences.getString(_themeModeKey);
+    return ThemeMode.values.where((m) => m.name == name).firstOrNull ??
+        ThemeMode.system;
+  }
+
+  Future<void> saveThemeMode(ThemeMode mode) async {
+    await sharedPreferences.setString(_themeModeKey, mode.name);
+  }
 }

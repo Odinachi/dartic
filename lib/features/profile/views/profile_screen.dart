@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               initialValue: null,
               onSelected: (v) {
                 if (v == "theme") {
-                  isDarkTheme.value = !isDarkTheme.value;
+                  _showThemePicker();
                 } else if (v == "logout") {
                   context.read<AppCubit>().signOut();
                 } else if (v == "delete_account") {
@@ -43,74 +43,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                 PopupMenuItem(
-                    value: "theme",
-                    child: ValueListenableBuilder(
-                        valueListenable: isDarkTheme,
-                        builder: (_, isDark, __) {
-                          return Row(
-                            children: [
-                              Icon(
-                                isDark ? Icons.sunny : Icons.dark_mode,
-                                color:
-                                    isDark ? AppColors.white : AppColors.black,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 3.0),
-                                child: Text(
-                                  isDark ? "Light Theme" : "Dark Theme",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          color: isDark
-                                              ? AppColors.white
-                                              : AppColors.black),
-                                ),
-                              ),
-                            ],
-                          );
-                        })),
+                  value: "theme",
+                  child: _menuRow(
+                      icon: _themeIcon(themeController.value),
+                      text: "Theme: ${_themeLabel(themeController.value)}"),
+                ),
                 PopupMenuItem(
                   value: "logout",
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: isDarkTheme.value
-                            ? AppColors.white
-                            : AppColors.black,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 3.0),
-                        child: Text(
-                          "Logout",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(),
-                        ),
-                      )
-                    ],
-                  ),
+                  child: _menuRow(icon: Icons.logout, text: "Logout"),
                 ),
                 PopupMenuItem(
                   value: "delete_account",
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.delete,
-                        color: AppColors.red,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 3.0),
-                        child: Text("Delete Account",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: AppColors.red)),
-                      ),
-                    ],
-                  ),
+                  child: _menuRow(
+                      icon: Icons.delete,
+                      text: "Delete Account",
+                      color: context.colors.error),
                 ),
               ],
               child: Padding(
@@ -163,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 13,
                       fontWeight: FontWeight.normal,
-                      color: AppColors.grey)),
+                      color: context.colors.onSurfaceVariant)),
               SizedBox(height: 40.h),
               Padding(
                 padding: EdgeInsets.only(
@@ -227,6 +174,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget _menuRow(
+      {required IconData icon, required String text, Color? color}) {
+    return Row(
+      children: [
+        Icon(icon, color: color ?? context.colors.onSurface),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(text,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: color ?? context.colors.onSurface)),
+        ),
+      ],
+    );
+  }
+
+  static IconData _themeIcon(ThemeMode mode) => switch (mode) {
+        ThemeMode.system => Icons.brightness_auto,
+        ThemeMode.light => Icons.light_mode,
+        ThemeMode.dark => Icons.dark_mode,
+      };
+
+  static String _themeLabel(ThemeMode mode) => switch (mode) {
+        ThemeMode.system => "System",
+        ThemeMode.light => "Light",
+        ThemeMode.dark => "Dark",
+      };
+
+  void _showThemePicker() {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => SimpleDialog(
+        title: const Text("Theme"),
+        children: [
+          for (final mode in ThemeMode.values)
+            SimpleDialogOption(
+              onPressed: () {
+                themeController.setThemeMode(mode);
+                Navigator.of(dialogContext).pop();
+              },
+              child: Row(
+                children: [
+                  Icon(_themeIcon(mode)),
+                  const SizedBox(width: 12),
+                  Expanded(child: Text(_themeLabel(mode))),
+                  if (themeController.value == mode)
+                    Icon(Icons.check, color: dialogContext.colors.primary),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
   Widget actionContainer(
       {String? title,
       String? desc,
@@ -237,17 +240,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       margin: EdgeInsets.only(bottom: 10.h, left: 20.w, right: 20.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
-        color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border.all(color: AppColors.grey.withValues(alpha: .1)),
+        color: context.colors.surfaceContainerLow,
+        border: Border.all(color: context.colors.outlineVariant),
         boxShadow: [
           BoxShadow(
-            color: AppColors.grey.withValues(alpha: .05),
+            color: context.colors.shadow.withValues(alpha: .05),
             blurRadius: 8,
             spreadRadius: 2,
             offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color: AppColors.grey.withValues(alpha: .01),
+            color: context.colors.shadow.withValues(alpha: .01),
             blurRadius: 4,
             spreadRadius: 1,
             offset: const Offset(0, 2),
@@ -278,8 +281,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: isNext ? 80.w : 100.w,
                 child: AppButton(
                   backgroundColor:
-                      isNext ? AppColors.appBlue.withValues(alpha: 0.2) : null,
-                  textColor: isNext ? AppColors.appBlue : null,
+                      isNext ? context.colors.primaryContainer : null,
+                  textColor: isNext ? context.colors.onPrimaryContainer : null,
                   onTap: onTap,
                   text: actionText ?? "Continue",
                 ),
