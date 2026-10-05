@@ -40,6 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? AppRouter.pushAndClear(AppRouter.onboarding)
                         : AppRouter.push(AppRouter.dsaList);
                   }),
+              SizedBox(height: 20.h),
+              dashboardCard(
+                  image: Assets.images.dsa,
+                  title: AppString.dataStructureCourse,
+                  desc: AppString.learnDataStructures,
+                  onTap: () => AppRouter.push(AppRouter.dsaCourse)),
+              SizedBox(height: 20.h),
             ],
           ),
         ),

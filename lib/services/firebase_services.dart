@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartcoder/features/authentication/models/user_model.dart';
 import 'package:dartcoder/features/authentication/models/user_progress.dart';
+import 'package:dartcoder/features/courses/models/course_model.dart';
 import 'package:dartcoder/features/editor/models/dsa_list_model.dart';
 import 'package:dartcoder/features/editor/models/test_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -289,6 +290,27 @@ class FirebaseServices {
       }, SetOptions(merge: true));
     } catch (e) {
       // Handle error if needed
+    }
+  }
+
+  Future<({List<CourseModel>? courses, String? error})>
+      fetchDsaCourses() async {
+    try {
+      final snapshot = await _firestore
+          .collection('DSA_Course')
+          .withConverter(
+              fromFirestore: (snapshot, _) =>
+                  CourseModel.fromJson(snapshot.data()!),
+              toFirestore: (model, _) => model.toJson())
+          .orderBy("id")
+          .get();
+
+      return (
+        courses: snapshot.docs.map((doc) => doc.data()).toList(),
+        error: null
+      );
+    } catch (e) {
+      return (courses: null, error: e.toString());
     }
   }
 }
