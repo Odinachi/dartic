@@ -1,4 +1,5 @@
 import 'package:dartcoder/features/authentication/view_model/app_cubit.dart';
+import 'package:dartcoder/features/courses/view_model/dsa_course_cubit.dart';
 import 'package:dartcoder/features/editor/view_model/editor_cubit.dart';
 
 import 'package:dartcoder/services/cache_service.dart';
@@ -28,6 +29,10 @@ void main() async {
         ),
         BlocProvider<EditorCubit>(
           create: (context) => EditorCubit(firebaseServices: firebaseService),
+        ),
+        BlocProvider<DsaCourseCubit>(
+          create: (context) =>
+              DsaCourseCubit(firebaseServices: firebaseService),
         ),
       ],
       child: ValueListenableBuilder(

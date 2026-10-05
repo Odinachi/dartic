@@ -9,6 +9,13 @@ class CourseModel {
   final bool? completed;
   final List<String>? videos;
 
+  /// Markdown body for courses served from Firestore (e.g. DSA_Course).
+  /// When set it is rendered instead of loading [path] from the asset bundle.
+  final String? content;
+
+  /// Section heading used to group courses in the course list.
+  final String? section;
+
   CourseModel({
     this.title,
     this.path,
@@ -19,18 +26,22 @@ class CourseModel {
     this.isCourse = true,
     this.completed = false,
     this.videos,
+    this.content,
+    this.section,
   });
 
   factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
         title: json["title"],
         path: json["path"],
-        id: json["id"],
+        id: (json["id"] as num?)?.toInt(),
         desc: json["desc"],
         quiz: json["quiz"],
-        canPractice: json["canPractice"],
-        isCourse: json["isCourse"],
-        completed: json["completed"],
+        canPractice: json["canPractice"] ?? true,
+        isCourse: json["isCourse"] ?? true,
+        completed: json["completed"] ?? false,
         videos: List<String>.from(json["videos"] ?? []),
+        content: json["content"],
+        section: json["section"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +54,7 @@ class CourseModel {
         "isCourse": isCourse,
         "completed": completed,
         "videos": videos,
+        "content": content,
+        "section": section,
       };
 }

@@ -35,7 +35,11 @@ class _CourseDetailsState extends State<CourseDetails> {
   );
 
   void loadData(CourseModel course) async {
-    await rootBundle.loadString(course.path ?? "").then((e) {
+    final content = course.content;
+    await (content != null
+            ? Future.value(content)
+            : rootBundle.loadString(course.path ?? ""))
+        .then((e) {
       dataStr = e;
       courseNotifier.value = course;
       showNav.value = false;
@@ -69,7 +73,13 @@ class _CourseDetailsState extends State<CourseDetails> {
 
   final showNav = ValueNotifier(false);
 
-  final courses = AppData.courses;
+  late final List<CourseModel> courses = widget.arg?.courses ??
+      AppData.courses.values.expand((e) => e).toList();
+
+  bool get trackProgress => widget.arg?.trackProgress ?? true;
+
+  CourseModel? courseWithId(int id) =>
+      courses.where((e) => e.id == id).firstOrNull;
 
   @override
   Widget build(BuildContext context) {
@@ -161,15 +171,11 @@ class _CourseDetailsState extends State<CourseDetails> {
                             },
                             isVisible: show,
                             onPrevious: () {
-                              if (courseNotifier.value.id != 0) {
-                                final item = courses.values
-                                    .toList()
-                                    .reduce((value, element) => value + element)
-                                    .where((e) =>
-                                        e.id == (courseNotifier.value.id! - 1))
-                                    .firstOrNull;
-                                if (item != null) {
-                                  loadData(item);
+                              final item = courseWithId(
+                                  (courseNotifier.value.id ?? 0) - 1);
+                              if (item != null) {
+                                loadData(item);
+                                if (trackProgress) {
                                   context
                                       .read<AppCubit>()
                                       .updateCurrentCourse(item.id ?? 0);
@@ -184,15 +190,11 @@ class _CourseDetailsState extends State<CourseDetails> {
                                   arg: EditorScreenArg(isPractice: true));
                             },
                             onNext: () {
-                              if (courseNotifier.value.id != 33) {
-                                final item = courses.values
-                                    .toList()
-                                    .reduce((value, element) => value + element)
-                                    .where((e) =>
-                                        e.id == (courseNotifier.value.id! + 1))
-                                    .firstOrNull;
-                                if (item != null) {
-                                  loadData(item);
+                              final item = courseWithId(
+                                  (courseNotifier.value.id ?? 0) + 1);
+                              if (item != null) {
+                                loadData(item);
+                                if (trackProgress) {
                                   context
                                       .read<AppCubit>()
                                       .updateCurrentCourse(item.id ?? 0);
@@ -215,5 +217,17 @@ class _CourseDetailsState extends State<CourseDetails> {
 
 class CourseDetailsArgs {
   final CourseModel course;
-  CourseDetailsArgs({required this.course});
+
+  /// The course the user can step through with Previous/Next.
+  /// Defaults to the bundled Dart course.
+  final List<CourseModel>? courses;
+
+  /// Whether moving between lessons updates the user's Dart course progress.
+  final bool trackProgress;
+
+  CourseDetailsArgs({
+    required this.course,
+    this.courses,
+    this.trackProgress = true,
+  });
 }
