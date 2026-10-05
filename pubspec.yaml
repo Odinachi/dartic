@@ -36,7 +36,7 @@ dependencies:
       ref: master
   flutter_highlight: ^0.7.0
   flutter_code_editor: ^0.3.3
-  dart_style: ^3.1.1
+  dart_style: ^3.0.1
   markdown_widget: ^2.3.2+8
   shared_preferences: ^2.5.3
   lottie: ^3.3.1
