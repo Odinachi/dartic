@@ -1,0 +1,705 @@
+[
+  {
+    "question": "What are the three steps of divide and conquer?",
+    "options": [
+      "Divide, conquer (recurse), combine",
+      "Sort, search, return",
+      "Push, pop, peek",
+      "Hash, bucket, compare"
+    ],
+    "answer": [
+      "Divide, conquer (recurse), combine"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In merge sort, where does most of the work happen?",
+    "options": [
+      "In the merge (combine) step",
+      "In the split step",
+      "In choosing a pivot",
+      "In the base case"
+    ],
+    "answer": [
+      "In the merge (combine) step"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In quick sort, where does most of the work happen?",
+    "options": [
+      "In the partition (divide) step",
+      "In the combine step",
+      "In the base case",
+      "After recursion finishes"
+    ],
+    "answer": [
+      "In the partition (divide) step"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is merge sort's time complexity in the worst case?",
+    "options": [
+      "O(n log n)",
+      "O(n²)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is quick sort's worst-case time complexity?",
+    "options": [
+      "O(n²)",
+      "O(n log n)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is quick sort's average time complexity?",
+    "options": [
+      "O(n log n)",
+      "O(n²)",
+      "O(n)",
+      "O(n³)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How much extra memory does a typical merge sort use?",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How much extra memory does quick sort use on average?",
+    "options": [
+      "O(log n) for the recursion stack",
+      "O(n)",
+      "O(n²)",
+      "None at all"
+    ],
+    "answer": [
+      "O(log n) for the recursion stack"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which of the two is stable?",
+    "options": [
+      "Merge sort",
+      "Quick sort",
+      "Both",
+      "Neither"
+    ],
+    "answer": [
+      "Merge sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which of the two sorts in place?",
+    "options": [
+      "Quick sort",
+      "Merge sort",
+      "Both",
+      "Neither"
+    ],
+    "answer": [
+      "Quick sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<int> merge(List<int> l, List<int> r) {\n  final out = <int>[];\n  var i = 0, j = 0;\n  while (i < l.length && j < r.length) {\n    out.add(l[i] <= r[j] ? l[i++] : r[j++]);\n  }\n  return out\n    ..addAll(l.sublist(i))\n    ..addAll(r.sublist(j));\n}\n\nList<int> mergeSort(List<int> a) {\n  if (a.length <= 1) return a;\n  final mid = a.length ~/ 2;\n  return merge(mergeSort(a.sublist(0, mid)), mergeSort(a.sublist(mid)));\n}\n\nvoid main() {\n  print(merge([1, 5, 9], [2, 3, 10]));\n}\n```",
+    "options": [
+      "[1, 2, 3, 5, 9, 10]",
+      "[1, 5, 9, 2, 3, 10]",
+      "[2, 3, 10, 1, 5, 9]",
+      "[1, 2, 5, 3, 9, 10]"
+    ],
+    "answer": [
+      "[1, 2, 3, 5, 9, 10]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<int> merge(List<int> l, List<int> r) {\n  final out = <int>[];\n  var i = 0, j = 0;\n  while (i < l.length && j < r.length) {\n    out.add(l[i] <= r[j] ? l[i++] : r[j++]);\n  }\n  return out\n    ..addAll(l.sublist(i))\n    ..addAll(r.sublist(j));\n}\n\nList<int> mergeSort(List<int> a) {\n  if (a.length <= 1) return a;\n  final mid = a.length ~/ 2;\n  return merge(mergeSort(a.sublist(0, mid)), mergeSort(a.sublist(mid)));\n}\n\nvoid main() {\n  print(mergeSort([38, 27, 43, 3, 9]));\n}\n```",
+    "options": [
+      "[3, 9, 27, 38, 43]",
+      "[38, 27, 43, 3, 9]",
+      "[43, 38, 27, 9, 3]",
+      "[3, 27, 9, 38, 43]"
+    ],
+    "answer": [
+      "[3, 9, 27, 38, 43]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does merge use `<=` rather than `<` when comparing fronts?",
+    "options": [
+      "On ties, the left element goes first, keeping the sort stable",
+      "It's faster",
+      "To avoid an infinite loop",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "On ties, the left element goes first, keeping the sort stable"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the base case of recursive merge sort?",
+    "options": [
+      "A list of 0 or 1 elements is already sorted",
+      "A list of 2 elements",
+      "An empty list only",
+      "When the pivot is found"
+    ],
+    "answer": [
+      "A list of 0 or 1 elements is already sorted"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many levels of splitting does merge sort have for n elements?",
+    "options": [
+      "About log₂ n",
+      "n",
+      "n / 2",
+      "√n"
+    ],
+    "answer": [
+      "About log₂ n"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is merge sort O(n log n)?",
+    "options": [
+      "log n levels, each doing O(n) merging work",
+      "n levels of O(log n) work each, only by luck",
+      "It compares each pair once",
+      "It uses hashing"
+    ],
+    "answer": [
+      "log n levels, each doing O(n) merging work"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete recursive merge sort:\n\n```dart\nList<int> mergeSort(List<int> a) {\n  if (a.length %order% 1) return a;\n  final mid = a.length %order% 2;\n  final left = mergeSort(a.%order%(0, mid));\n  final right = mergeSort(a.sublist(mid));\n  return merge(left, right);\n}\n```",
+    "options": [
+      "<=",
+      "~/",
+      "sublist",
+      ">=",
+      "/",
+      "getRange"
+    ],
+    "answer": [
+      "<=",
+      "~/",
+      "sublist"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does bottom-up merge sort do instead of recursion?",
+    "options": [
+      "Merges runs of width 1, 2, 4, 8, ... iteratively",
+      "Picks pivots in a loop",
+      "Uses insertion sort only",
+      "Sorts from right to left"
+    ],
+    "answer": [
+      "Merges runs of width 1, 2, 4, 8, ... iteratively"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort is the natural choice for sorting a linked list?",
+    "options": [
+      "Merge sort",
+      "Quick sort",
+      "Selection sort",
+      "Counting sort"
+    ],
+    "answer": [
+      "Merge sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort is used for \"external sorting\" of files too big for memory?",
+    "options": [
+      "Merge sort (sort chunks, then merge them)",
+      "Quick sort",
+      "Bubble sort",
+      "Heap sort"
+    ],
+    "answer": [
+      "Merge sort (sort chunks, then merge them)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does partitioning do in quick sort?",
+    "options": [
+      "Places the pivot in its final position with smaller elements left and larger right",
+      "Splits the list exactly in half",
+      "Merges two sorted lists",
+      "Sorts the whole list"
+    ],
+    "answer": [
+      "Places the pivot in its final position with smaller elements left and larger right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint partition(List<int> a, int lo, int hi) {\n  final pivot = a[hi];\n  var store = lo;\n  for (var i = lo; i < hi; i++) {\n    if (a[i] < pivot) {\n      final t = a[i];\n      a[i] = a[store];\n      a[store] = t;\n      store++;\n    }\n  }\n  final t = a[store];\n  a[store] = a[hi];\n  a[hi] = t;\n  return store;\n}\n\nvoid main() {\n  final a = [7, 2, 9, 4, 3, 8, 5];\n  final p = partition(a, 0, a.length - 1);\n  print('$p ${a[p]}');\n}\n```",
+    "options": [
+      "3 5",
+      "6 5",
+      "0 7",
+      "3 4"
+    ],
+    "answer": [
+      "3 5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint partition(List<int> a, int lo, int hi) {\n  final pivot = a[hi];\n  var store = lo;\n  for (var i = lo; i < hi; i++) {\n    if (a[i] < pivot) {\n      final t = a[i];\n      a[i] = a[store];\n      a[store] = t;\n      store++;\n    }\n  }\n  final t = a[store];\n  a[store] = a[hi];\n  a[hi] = t;\n  return store;\n}\n\nvoid main() {\n  final a = [4, 1, 3, 2];\n  partition(a, 0, 3);\n  print(a);\n}\n```",
+    "options": [
+      "[1, 2, 3, 4]",
+      "[4, 1, 3, 2]",
+      "[1, 3, 2, 4]",
+      "[2, 1, 3, 4]"
+    ],
+    "answer": [
+      "[1, 2, 3, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Lomuto partition, which element is used as the pivot?",
+    "options": [
+      "The last element of the range",
+      "The first element",
+      "The middle element",
+      "The maximum"
+    ],
+    "answer": [
+      "The last element of the range"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After partitioning around a pivot at index p, which ranges does quick sort recurse on?",
+    "options": [
+      "lo..p − 1 and p + 1..hi",
+      "lo..p and p..hi",
+      "lo..hi twice",
+      "Only lo..p − 1"
+    ],
+    "answer": [
+      "lo..p − 1 and p + 1..hi"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can always choosing the first element as pivot be disastrous?",
+    "options": [
+      "On already sorted input every split is maximally unbalanced, giving O(n²)",
+      "It throws an error",
+      "It makes the sort unstable only",
+      "It uses too much memory"
+    ],
+    "answer": [
+      "On already sorted input every split is maximally unbalanced, giving O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many comparisons does first-element-pivot quick sort make on 1,000 already sorted numbers?",
+    "options": [
+      "499,500",
+      "About 10,000",
+      "1,000",
+      "About 20"
+    ],
+    "answer": [
+      "499,500"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which pivot strategies avoid the worst case on sorted input?",
+    "options": [
+      "Random pivot or median-of-three",
+      "Always the first element",
+      "Always the last element",
+      "Always the smallest element"
+    ],
+    "answer": [
+      "Random pivot or median-of-three"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is three-way partitioning useful for?",
+    "options": [
+      "Lists with many duplicate values",
+      "Lists with no duplicates",
+      "Linked lists",
+      "Very small lists only"
+    ],
+    "answer": [
+      "Lists with many duplicate values"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What are the three regions in three-way partitioning?",
+    "options": [
+      "Less than, equal to, and greater than the pivot",
+      "Small, medium and large lists",
+      "Left half, middle, right half by index",
+      "Sorted, unsorted, unknown"
+    ],
+    "answer": [
+      "Less than, equal to, and greater than the pivot"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [2, 1, 2, 3, 2];\n  final pivot = 2;\n  final less = a.where((x) => x < pivot).toList();\n  final equal = a.where((x) => x == pivot).toList();\n  final greater = a.where((x) => x > pivot).toList();\n  print([...less, ...equal, ...greater]);\n}\n```",
+    "options": [
+      "[1, 2, 2, 2, 3]",
+      "[2, 2, 2, 1, 3]",
+      "[1, 3, 2, 2, 2]",
+      "[2, 1, 2, 3, 2]"
+    ],
+    "answer": [
+      "[1, 2, 2, 2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is Dart's `List.sort` guaranteed to be stable?",
+    "options": [
+      "No",
+      "Yes",
+      "Only for ints",
+      "Only for strings"
+    ],
+    "answer": [
+      "No"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How can you make a sort's result independent of stability?",
+    "options": [
+      "Add an explicit tie-breaker to the comparator",
+      "Sort twice",
+      "Use toSet first",
+      "Reverse the list"
+    ],
+    "answer": [
+      "Add an explicit tie-breaker to the comparator"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which package provides a stable `mergeSort` for Dart lists?",
+    "options": [
+      "package:collection",
+      "dart:core",
+      "dart:math",
+      "package:path"
+    ],
+    "answer": [
+      "package:collection"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final tasks = [(2, 'b'), (1, 'z'), (1, 'a')];\n  tasks.sort((x, y) {\n    final c = x.$1.compareTo(y.$1);\n    return c != 0 ? c : x.$2.compareTo(y.$2);\n  });\n  print(tasks.map((t) => t.$2).join());\n}\n```",
+    "options": [
+      "azb",
+      "zab",
+      "bza",
+      "abz"
+    ],
+    "answer": [
+      "azb"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final dates = [DateTime(2026, 3, 9), DateTime(2026, 3, 2), DateTime(2026, 3, 5)];\n  dates.sort();\n  print(dates.first.day);\n}\n```",
+    "options": [
+      "2",
+      "9",
+      "5",
+      "3"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the lower bound on worst-case comparisons for any comparison sort?",
+    "options": [
+      "Ω(n log n)",
+      "Ω(n)",
+      "Ω(log n)",
+      "Ω(n²)"
+    ],
+    "answer": [
+      "Ω(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can't a comparison sort beat n log n in the worst case?",
+    "options": [
+      "There are n! orderings and each comparison only halves the possibilities",
+      "Computers are too slow",
+      "Because of memory limits",
+      "It can, with hashing"
+    ],
+    "answer": [
+      "There are n! orderings and each comparison only halves the possibilities"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does merge sort count inversions in O(n log n)?",
+    "options": [
+      "When a right-half element is taken during merge, it forms inversions with all remaining left elements",
+      "By comparing every pair",
+      "By counting swaps in partition",
+      "It can't"
+    ],
+    "answer": [
+      "When a right-half element is taken during merge, it forms inversions with all remaining left elements"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "During a merge, left = [5, 7, 9] (all remaining) and right[j] = 4 is taken. How many cross inversions are added?",
+    "options": [
+      "3",
+      "1",
+      "0",
+      "4"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\n(List<int>, int) sortCount(List<int> a) {\n  if (a.length <= 1) return (a, 0);\n  final mid = a.length ~/ 2;\n  final (l, x) = sortCount(a.sublist(0, mid));\n  final (r, y) = sortCount(a.sublist(mid));\n  final out = <int>[];\n  var i = 0, j = 0, c = 0;\n  while (i < l.length && j < r.length) {\n    if (l[i] <= r[j]) {\n      out.add(l[i++]);\n    } else {\n      c += l.length - i;\n      out.add(r[j++]);\n    }\n  }\n  out\n    ..addAll(l.sublist(i))\n    ..addAll(r.sublist(j));\n  return (out, x + y + c);\n}\n\nvoid main() {\n  print(sortCount([3, 1, 2]).$2);\n}\n```",
+    "options": [
+      "2",
+      "1",
+      "3",
+      "0"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does quickselect find?",
+    "options": [
+      "The k-th smallest element in O(n) average time",
+      "The median in O(1)",
+      "All duplicates",
+      "The sorted order"
+    ],
+    "answer": [
+      "The k-th smallest element in O(n) average time"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is quickselect O(n) on average instead of O(n log n)?",
+    "options": [
+      "It recurses into only one side after partitioning",
+      "It skips partitioning",
+      "It uses hashing",
+      "It sorts only half the list"
+    ],
+    "answer": [
+      "It recurses into only one side after partitioning"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which algorithm does Dart's `List.sort` use internally?",
+    "options": [
+      "A dual-pivot quicksort with insertion sort for small ranges",
+      "Bubble sort",
+      "Pure merge sort",
+      "Counting sort"
+    ],
+    "answer": [
+      "A dual-pivot quicksort with insertion sort for small ranges"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which has better cache behavior in practice?",
+    "options": [
+      "Quick sort, because it works in place",
+      "Merge sort, because it copies",
+      "They're identical",
+      "Neither uses the cache"
+    ],
+    "answer": [
+      "Quick sort, because it works in place"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if quick sort recurses on lo..p and p..hi (including the pivot again)?",
+    "options": [
+      "It can recurse forever on the same range",
+      "It sorts faster",
+      "Nothing changes",
+      "It becomes stable"
+    ],
+    "answer": [
+      "It can recurse forever on the same range"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  print(5.clamp(0, 3));\n  print((-2).clamp(0, 3));\n}\n```",
+    "options": [
+      "3 then 0",
+      "5 then -2",
+      "3 then -2",
+      "0 then 3"
+    ],
+    "answer": [
+      "3 then 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `a.setAll(0, src)` do?",
+    "options": [
+      "Overwrites a's elements starting at index 0 with src's elements",
+      "Appends src to a",
+      "Sorts a",
+      "Clears a"
+    ],
+    "answer": [
+      "Overwrites a's elements starting at index 0 with src's elements"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Split a list at index mid (copying the second half):\n\n```dart\nvoid main() {\n  final a = [1, 2, 3, 4];\n  final right = a.%fill%(2);\n  print(right); // [3, 4]\n}\n```",
+    "answer": [
+      "sublist"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<int> merge(List<int> l, List<int> r) {\n  final out = <int>[];\n  var i = 0, j = 0;\n  while (i < l.length && j < r.length) {\n    out.add(l[i] <= r[j] ? l[i++] : r[j++]);\n  }\n  return out\n    ..addAll(l.sublist(i))\n    ..addAll(r.sublist(j));\n}\n\nList<int> mergeSort(List<int> a) {\n  if (a.length <= 1) return a;\n  final mid = a.length ~/ 2;\n  return merge(mergeSort(a.sublist(0, mid)), mergeSort(a.sublist(mid)));\n}\n\nvoid main() {\n  final a = [3, 1, 2];\n  final b = mergeSort(a);\n  print('$a $b');\n}\n```",
+    "options": [
+      "[3, 1, 2] [1, 2, 3]",
+      "[1, 2, 3] [1, 2, 3]",
+      "[3, 1, 2] [3, 1, 2]",
+      "[1, 2, 3] [3, 1, 2]"
+    ],
+    "answer": [
+      "[3, 1, 2] [1, 2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A merge sort that uses `sublist` and a `merge` returning a new list leaves the input list unchanged. Why?",
+    "options": [
+      "It builds new lists with sublist and merge instead of modifying the input",
+      "Dart copies lists on every call",
+      "It's sorted in place then restored",
+      "It isn't unchanged"
+    ],
+    "answer": [
+      "It builds new lists with sublist and merge instead of modifying the input"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If you need a guaranteed O(n log n) sort that's also stable, which do you choose?",
+    "options": [
+      "Merge sort",
+      "Quick sort",
+      "Selection sort",
+      "Quick sort with a fixed first pivot"
+    ],
+    "answer": [
+      "Merge sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If memory is tight and average speed matters most, which do you choose?",
+    "options": [
+      "Quick sort (with random pivots)",
+      "Merge sort",
+      "Bubble sort",
+      "Counting sort with huge ranges"
+    ],
+    "answer": [
+      "Quick sort (with random pivots)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the quick sort recursion:\n\n```dart\nvoid quickSort(List<int> a, int lo, int hi) {\n  if (lo %order% hi) return;\n  final p = partition(a, lo, hi);\n  quickSort(a, lo, p %order% 1);\n  quickSort(a, p %order% 1, hi);\n}\n```",
+    "options": [
+      ">=",
+      "-",
+      "+",
+      "<",
+      "*"
+    ],
+    "answer": [
+      ">=",
+      "-",
+      "+"
+    ],
+    "type": "order"
+  }
+]

@@ -1,0 +1,724 @@
+[
+  {
+    "question": "What does a hash function do in a hash table?",
+    "options": [
+      "Turns a key into an integer used to pick a bucket",
+      "Sorts the keys",
+      "Encrypts the values",
+      "Counts the entries"
+    ],
+    "answer": [
+      "Turns a key into an integer used to pick a bucket"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How is a hash code usually turned into a bucket index?",
+    "options": [
+      "hash % capacity",
+      "hash * capacity",
+      "hash ~/ 2",
+      "capacity - hash"
+    ],
+    "answer": [
+      "hash % capacity"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the average cost of get, put and remove in a hash table?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the worst-case cost of a hash table lookup?",
+    "options": [
+      "O(n), when every key lands in the same bucket",
+      "O(1) always",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n), when every key lands in the same bucket"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which property is REQUIRED of a hash function?",
+    "options": [
+      "Equal keys must produce equal hashes",
+      "Every key must have a unique hash",
+      "It must be slow to compute",
+      "It must return a String"
+    ],
+    "answer": [
+      "Equal keys must produce equal hashes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a collision?",
+    "options": [
+      "Two different keys mapping to the same bucket",
+      "Two equal keys in one map",
+      "A hash code that is negative",
+      "A map running out of memory"
+    ],
+    "answer": [
+      "Two different keys mapping to the same bucket"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why are collisions unavoidable?",
+    "options": [
+      "There are more possible keys than buckets (pigeonhole principle)",
+      "Hash functions are random",
+      "Dart's hashCode is broken",
+      "Buckets are always full"
+    ],
+    "answer": [
+      "There are more possible keys than buckets (pigeonhole principle)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is separate chaining?",
+    "options": [
+      "Each bucket holds a list of the entries that hash to it",
+      "Storing keys and values in two separate maps",
+      "Linking maps together",
+      "Moving to the next empty bucket"
+    ],
+    "answer": [
+      "Each bucket holds a list of the entries that hash to it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint simpleHash(String key) {\n  var hash = 0;\n  for (final u in key.codeUnits) {\n    hash = (hash * 31 + u) & 0x7fffffff;\n  }\n  return hash;\n}\n\nvoid main() {\n  print(simpleHash('a'));\n  print(simpleHash('ab'));\n}\n```",
+    "options": [
+      "97 then 3105",
+      "97 then 98",
+      "1 then 2",
+      "97 then 195"
+    ],
+    "answer": [
+      "97 then 3105"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does a good string hash multiply by a constant like 31 at each step?",
+    "options": [
+      "So the position of each character affects the hash",
+      "To make it slower",
+      "To keep the hash small",
+      "To sort characters"
+    ],
+    "answer": [
+      "So the position of each character affects the hash"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is wrong with using `key.length` as a hash function?",
+    "options": [
+      "Many different keys share a length, so they all collide",
+      "length can be negative",
+      "It isn't deterministic",
+      "It's too slow"
+    ],
+    "answer": [
+      "Many different keys share a length, so they all collide"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Mask off the sign bit so the hash is non-negative:\n\n```dart\nvoid main() {\n  final h = 'Ada'.hashCode %fill% 0x7fffffff;\n  print(h >= 0); // true\n}\n```",
+    "answer": [
+      "&"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What is the load factor of a hash table?",
+    "options": [
+      "Number of entries ÷ number of buckets",
+      "Number of buckets ÷ number of entries",
+      "The size of the largest bucket",
+      "The time to resize"
+    ],
+    "answer": [
+      "Number of entries ÷ number of buckets"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A table has 12 entries and 16 buckets. What is its load factor?",
+    "options": [
+      "0.75",
+      "1.33",
+      "0.5",
+      "12"
+    ],
+    "answer": [
+      "0.75"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a common maximum load factor before resizing?",
+    "options": [
+      "0.75",
+      "10",
+      "0.01",
+      "100"
+    ],
+    "answer": [
+      "0.75"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens when the load factor gets too high?",
+    "options": [
+      "Buckets get longer and lookups slow down",
+      "The table throws an error",
+      "Keys are deleted",
+      "Nothing; load factor doesn't matter"
+    ],
+    "answer": [
+      "Buckets get longer and lookups slow down"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why must every entry be rehashed when a hash table resizes?",
+    "options": [
+      "The bucket index hash % capacity changes when capacity changes",
+      "Hash codes expire",
+      "Resizing sorts the keys",
+      "To delete duplicates"
+    ],
+    "answer": [
+      "The bucket index hash % capacity changes when capacity changes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is put still O(1) amortized even though resizing is O(n)?",
+    "options": [
+      "Doubling the capacity makes resizes rare, like a growable list",
+      "Resizing happens in the background",
+      "Resizing only copies one bucket",
+      "It isn't; put is O(n)"
+    ],
+    "answer": [
+      "Doubling the capacity makes resizes rare, like a growable list"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a chaining hash map, `put` with an existing key should:",
+    "options": [
+      "Update the existing entry's value",
+      "Add a second entry with the same key",
+      "Throw an error",
+      "Ignore the new value"
+    ],
+    "answer": [
+      "Update the existing entry's value"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Inside a bucket, which method finds the exact matching key?",
+    "options": [
+      "== (equality)",
+      "hashCode",
+      "toString",
+      "compareTo"
+    ],
+    "answer": [
+      "== (equality)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What do `hashCode` and `==` each do during a lookup?",
+    "options": [
+      "hashCode picks the bucket; == finds the exact entry in it",
+      "hashCode finds the entry; == picks the bucket",
+      "Both pick the bucket",
+      "Neither is used"
+    ],
+    "answer": [
+      "hashCode picks the bucket; == finds the exact entry in it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Coord {\n  final int x, y;\n  const Coord(this.x, this.y);\n\n  @override\n  bool operator ==(Object other) =>\n      other is Coord && other.x == x && other.y == y;\n\n  @override\n  int get hashCode => Object.hash(x, y);\n}\n\nvoid main() {\n  final m = {const Coord(1, 2): 'gem'};\n  print(m[Coord(1, 2)]);\n}\n```",
+    "options": [
+      "gem",
+      "null",
+      "It throws an error",
+      "Coord(1, 2)"
+    ],
+    "answer": [
+      "gem"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final m = <(int, int), String>{(0, 1): 'start'};\n  print(m[(0, 1)]);\n}\n```",
+    "options": [
+      "start",
+      "null",
+      "(0, 1)",
+      "It throws an error"
+    ],
+    "answer": [
+      "start"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which key types work correctly in a hash map without extra code?",
+    "options": [
+      "String, int and records",
+      "Lists",
+      "Any class without == override when compared by value",
+      "StringBuffer"
+    ],
+    "answer": [
+      "String, int and records"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final m = <List<int>, String>{[1]: 'one'};\n  print(m[[1]]);\n}\n```",
+    "options": [
+      "null",
+      "one",
+      "[1]",
+      "It throws an error"
+    ],
+    "answer": [
+      "null"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a hash set?",
+    "options": [
+      "A hash table that stores only keys",
+      "A sorted list",
+      "A map of maps",
+      "A set that can contain duplicates"
+    ],
+    "answer": [
+      "A hash table that stores only keys"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final s = <String>{};\n  print(s.add('x'));\n  print(s.add('x'));\n}\n```",
+    "options": [
+      "true then false",
+      "true then true",
+      "false then true",
+      "false then false"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of `map.containsValue(v)`?",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is `containsValue` slow but `containsKey` fast?",
+    "options": [
+      "Hashing only organizes entries by key",
+      "Values are stored on disk",
+      "containsValue sorts first",
+      "They are the same speed"
+    ],
+    "answer": [
+      "Hashing only organizes entries by key"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final orders = [(id: 1, who: 'ada'), (id: 2, who: 'bob'), (id: 3, who: 'ada')];\n  final byWho = <String, List<int>>{};\n  for (final o in orders) {\n    byWho.putIfAbsent(o.who, () => []).add(o.id);\n  }\n  print(byWho['ada']);\n}\n```",
+    "options": [
+      "[1, 3]",
+      "[1]",
+      "[3]",
+      "null"
+    ],
+    "answer": [
+      "[1, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Create the list only the first time a key appears:\n\n```dart\nvoid main() {\n  final groups = <String, List<int>>{};\n  groups.%fill%('a', () => []).add(1);\n  print(groups); // {a: [1]}\n}\n```",
+    "answer": [
+      "putIfAbsent"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final users = [(id: 7, name: 'Ada'), (id: 9, name: 'Bob')];\n  final byId = {for (final u in users) u.id: u.name};\n  print(byId[9]);\n}\n```",
+    "options": [
+      "Bob",
+      "Ada",
+      "null",
+      "9"
+    ],
+    "answer": [
+      "Bob"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you access a named record field like `(id: 1, who: 'ada')`?",
+    "options": [
+      "record.id",
+      "record.$1",
+      "record['id']",
+      "record.get('id')"
+    ],
+    "answer": [
+      "record.id"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is iteration order guaranteed for `HashMap` from `dart:collection`?",
+    "options": [
+      "No",
+      "Yes, insertion order",
+      "Yes, sorted by key",
+      "Yes, reverse insertion order"
+    ],
+    "answer": [
+      "No"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which map does the literal `{}` (with keys and values) create by default?",
+    "options": [
+      "LinkedHashMap (keeps insertion order)",
+      "HashMap (no order)",
+      "SplayTreeMap (sorted)",
+      "An unmodifiable map"
+    ],
+    "answer": [
+      "LinkedHashMap (keeps insertion order)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What goes wrong if you change a key object's fields (used in hashCode) after inserting it?",
+    "options": [
+      "The map looks in the wrong bucket and can't find it",
+      "The map re-sorts itself",
+      "Dart throws immediately",
+      "Nothing"
+    ],
+    "answer": [
+      "The map looks in the wrong bucket and can't find it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why do some hash table implementations randomize hashing per program run?",
+    "options": [
+      "To defend against attackers who choose keys that all collide",
+      "To make lookups faster",
+      "To save memory",
+      "To keep keys sorted"
+    ],
+    "answer": [
+      "To defend against attackers who choose keys that all collide"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the bucket index calculation:\n\n```dart\nint indexFor(Object key, int capacity) =>\n    (key.%order% & 0x7fffffff) %order% capacity;\n```",
+    "options": [
+      "hashCode",
+      "%",
+      "~/",
+      "toString",
+      "*"
+    ],
+    "answer": [
+      "hashCode",
+      "%"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Complete the chaining `get`:\n\n```dart\nV? get(K key) {\n  %order% (final e in _bucketFor(key)) {\n    if (e.key %order% key) return e.%order%;\n  }\n  return null;\n}\n```",
+    "options": [
+      "for",
+      "==",
+      "value",
+      "while",
+      "!=",
+      "key"
+    ],
+    "answer": [
+      "for",
+      "==",
+      "value"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final buckets = List.generate(4, (_) => <int>[]);\n  for (final x in [1, 5, 9, 2]) {\n    buckets[x % 4].add(x);\n  }\n  print(buckets[1]);\n}\n```",
+    "options": [
+      "[1, 5, 9]",
+      "[1]",
+      "[2]",
+      "[]"
+    ],
+    "answer": [
+      "[1, 5, 9]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Keys `[1, 5, 9, 2]` go into 4 buckets using `x % 4`. Which bucket is most crowded?",
+    "options": [
+      "Bucket 1",
+      "Bucket 0",
+      "Bucket 2",
+      "Bucket 3"
+    ],
+    "answer": [
+      "Bucket 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var capacity = 8, size = 0;\n  for (var i = 0; i < 7; i++) {\n    size++;\n    if (size / capacity > 0.75) capacity *= 2;\n  }\n  print(capacity);\n}\n```",
+    "options": [
+      "16",
+      "8",
+      "32",
+      "7"
+    ],
+    "answer": [
+      "16"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which use case is a natural fit for a hash map?",
+    "options": [
+      "Counting word frequencies",
+      "Keeping items in sorted order",
+      "Finding the smallest item repeatedly",
+      "Undo history"
+    ],
+    "answer": [
+      "Counting word frequencies"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which use case is a natural fit for a hash set?",
+    "options": [
+      "Tracking visited nodes in a graph search",
+      "Storing a leaderboard in rank order",
+      "A FIFO print queue",
+      "Reversing a string"
+    ],
+    "answer": [
+      "Tracking visited nodes in a graph search"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final counts = <String, int>{};\n  for (final w in 'a b a c a'.split(' ')) {\n    counts[w] = (counts[w] ?? 0) + 1;\n  }\n  print(counts);\n}\n```",
+    "options": [
+      "{a: 3, b: 1, c: 1}",
+      "{a: 1, b: 1, c: 1}",
+      "{c: 1, b: 1, a: 3}",
+      "[a, b, c]"
+    ],
+    "answer": [
+      "{a: 3, b: 1, c: 1}"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is `Object.hash(x, y)` used for?",
+    "options": [
+      "Combining several fields into one well-distributed hash code",
+      "Encrypting objects",
+      "Comparing two objects",
+      "Converting objects to strings"
+    ],
+    "answer": [
+      "Combining several fields into one well-distributed hash code"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does iterating every entry of a chaining hash table cost?",
+    "options": [
+      "O(n + capacity)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n + capacity)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which of these would make a hash map degrade to O(n) lookups?",
+    "options": [
+      "A hashCode that returns the same value for every key",
+      "A load factor of 0.5",
+      "Using String keys",
+      "Resizing by doubling"
+    ],
+    "answer": [
+      "A hashCode that returns the same value for every key"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Bad {\n  final int v;\n  Bad(this.v);\n  @override\n  bool operator ==(Object o) => o is Bad && o.v == v;\n  @override\n  int get hashCode => 1;\n}\n\nvoid main() {\n  final s = {Bad(1), Bad(2), Bad(1)};\n  print(s.length);\n}\n```",
+    "options": [
+      "2",
+      "3",
+      "1",
+      "It throws an error"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A class's `hashCode` always returns 1 but `==` is correct. Sets of it still behave correctly. What's the problem?",
+    "options": [
+      "All items share one bucket, so operations become O(n)",
+      "It allows duplicates",
+      "It loses items",
+      "It doesn't compile"
+    ],
+    "answer": [
+      "All items share one bucket, so operations become O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final m = {'a': 1};\n  m['a'] = 2;\n  m['b'] = 3;\n  print('${m.length} ${m['a']}');\n}\n```",
+    "options": [
+      "2 2",
+      "3 2",
+      "2 1",
+      "3 1"
+    ],
+    "answer": [
+      "2 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `map.remove(key)` return when the key isn't present?",
+    "options": [
+      "null",
+      "false",
+      "-1",
+      "It throws an error"
+    ],
+    "answer": [
+      "null"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final m = {'x': 10};\n  print(m.remove('x'));\n  print(m.remove('x'));\n}\n```",
+    "options": [
+      "10 then null",
+      "true then false",
+      "10 then 10",
+      "null then null"
+    ],
+    "answer": [
+      "10 then null"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the space complexity of a hash table with n entries and c buckets?",
+    "options": [
+      "O(n + c)",
+      "O(1)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n + c)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final seen = <int>{};\n  final dups = [3, 1, 3, 2, 1].where((x) => !seen.add(x)).toList();\n  print(dups);\n}\n```",
+    "options": [
+      "[3, 1]",
+      "[1, 2, 3]",
+      "[3, 1, 2]",
+      "[]"
+    ],
+    "answer": [
+      "[3, 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which statement about two UNEQUAL keys is true?",
+    "options": [
+      "They may have the same hash code (a collision)",
+      "They must have different hash codes",
+      "They can't be in the same map",
+      "They always go to different buckets"
+    ],
+    "answer": [
+      "They may have the same hash code (a collision)"
+    ],
+    "type": "mcq"
+  }
+]

@@ -187,7 +187,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                           if (!isExistingUser) ...[
                             SizedBox(height: 25.h),
                             DropdownButtonFormField<String>(
-                              value: selectedLevel,
+                              initialValue: selectedLevel,
                               hint: Text(AppString.selectDartLevel),
                               decoration: InputDecoration(
                                 labelText: AppString.selectDartLevel,

@@ -1,0 +1,722 @@
+[
+  {
+    "question": "What is a collision in a hash table?",
+    "options": [
+      "Two different keys mapping to the same bucket or slot",
+      "Two equal keys being inserted",
+      "A hash code that's too large",
+      "A table that is full"
+    ],
+    "answer": [
+      "Two different keys mapping to the same bucket or slot"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does the birthday paradox tell us about hashing?",
+    "options": [
+      "Collisions happen much sooner than intuition suggests",
+      "Collisions never happen with good hash functions",
+      "Hash tables need 365 buckets",
+      "Only dates can collide"
+    ],
+    "answer": [
+      "Collisions happen much sooner than intuition suggests"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "With 23 people, roughly what is the chance two share a birthday?",
+    "options": [
+      "About 50%",
+      "About 6%",
+      "About 23%",
+      "About 99%"
+    ],
+    "answer": [
+      "About 50%"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does separate chaining handle collisions?",
+    "options": [
+      "Each bucket stores a list of all entries that hash to it",
+      "It probes for the next free slot",
+      "It rejects the second key",
+      "It doubles the table immediately"
+    ],
+    "answer": [
+      "Each bucket stores a list of all entries that hash to it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does open addressing handle collisions?",
+    "options": [
+      "It stores entries directly in the array and probes for another free slot",
+      "It stores a list in each bucket",
+      "It throws an error",
+      "It overwrites the old entry"
+    ],
+    "answer": [
+      "It stores entries directly in the array and probes for another free slot"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Can the load factor exceed 1 with separate chaining?",
+    "options": [
+      "Yes, buckets simply hold more entries",
+      "No, never",
+      "Only for String keys",
+      "Only after a resize"
+    ],
+    "answer": [
+      "Yes, buckets simply hold more entries"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Can the load factor reach or exceed 1 with open addressing?",
+    "options": [
+      "No, there must always be empty slots",
+      "Yes, without problems",
+      "Only with linear probing",
+      "Only with tombstones"
+    ],
+    "answer": [
+      "No, there must always be empty slots"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the probe sequence for linear probing starting at slot h?",
+    "options": [
+      "h, h+1, h+2, h+3, ...",
+      "h, h+1, h+4, h+9, ...",
+      "h, h+s, h+2s, ... with s from a second hash",
+      "Random slots"
+    ],
+    "answer": [
+      "h, h+1, h+2, h+3, ..."
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the probe sequence for quadratic probing starting at slot h?",
+    "options": [
+      "h, h+1, h+4, h+9, ...",
+      "h, h+1, h+2, h+3, ...",
+      "h, 2h, 3h, ...",
+      "h, h-1, h-2, ..."
+    ],
+    "answer": [
+      "h, h+1, h+4, h+9, ..."
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does double hashing use to choose the probe step size?",
+    "options": [
+      "A second hash function",
+      "The key's length",
+      "A random number each time",
+      "Always a step of 1"
+    ],
+    "answer": [
+      "A second hash function"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is primary clustering?",
+    "options": [
+      "Long runs of occupied slots that grow as linear probing extends them",
+      "Keys sorted into clusters by value",
+      "Buckets in chaining getting long",
+      "Two hash tables sharing memory"
+    ],
+    "answer": [
+      "Long runs of occupied slots that grow as linear probing extends them"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which probing method suffers most from primary clustering?",
+    "options": [
+      "Linear probing",
+      "Quadratic probing",
+      "Double hashing",
+      "Separate chaining"
+    ],
+    "answer": [
+      "Linear probing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which probing method is the most cache-friendly?",
+    "options": [
+      "Linear probing",
+      "Double hashing",
+      "Quadratic probing",
+      "Random probing"
+    ],
+    "answer": [
+      "Linear probing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const cap = 10, home = 8;\n  print([for (var j = 0; j < 4; j++) (home + j) % cap]);\n}\n```",
+    "options": [
+      "[8, 9, 0, 1]",
+      "[8, 9, 10, 11]",
+      "[8, 9, 12, 17]",
+      "[8, 0, 2, 4]"
+    ],
+    "answer": [
+      "[8, 9, 0, 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const cap = 16, home = 3;\n  print([for (var j = 0; j < 4; j++) (home + j * j) % cap]);\n}\n```",
+    "options": [
+      "[3, 4, 7, 12]",
+      "[3, 4, 5, 6]",
+      "[3, 6, 9, 12]",
+      "[3, 4, 7, 11]"
+    ],
+    "answer": [
+      "[3, 4, 7, 12]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint hash2(int key) => 7 - (key % 7);\n\nvoid main() {\n  print(hash2(14));\n  print(hash2(15));\n}\n```",
+    "options": [
+      "7 then 6",
+      "0 then 1",
+      "7 then 1",
+      "1 then 6"
+    ],
+    "answer": [
+      "7 then 6"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why must the double-hashing step size never be 0?",
+    "options": [
+      "A step of 0 would probe the same slot forever",
+      "0 is not a valid int",
+      "It would skip the home slot",
+      "It makes hashing slower"
+    ],
+    "answer": [
+      "A step of 0 would probe the same slot forever"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is a prime table capacity often used with double hashing?",
+    "options": [
+      "So every step size eventually visits every slot",
+      "Primes are faster to divide",
+      "To avoid negative indexes",
+      "Because 0 is prime"
+    ],
+    "answer": [
+      "So every step size eventually visits every slot"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In linear probing, when does a lookup for a missing key stop?",
+    "options": [
+      "When it reaches an empty slot",
+      "When it reaches a tombstone",
+      "After exactly one probe",
+      "When it reaches the end of the array"
+    ],
+    "answer": [
+      "When it reaches an empty slot"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can't open addressing delete a key by simply setting its slot to empty?",
+    "options": [
+      "Keys placed later in the same probe chain would become unreachable",
+      "Dart doesn't allow null in lists",
+      "It would make the table full",
+      "It would change other keys' hash codes"
+    ],
+    "answer": [
+      "Keys placed later in the same probe chain would become unreachable"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a tombstone in open addressing?",
+    "options": [
+      "A marker for a deleted slot that lookups probe past",
+      "An empty slot",
+      "The last slot in the array",
+      "A key that can't be deleted"
+    ],
+    "answer": [
+      "A marker for a deleted slot that lookups probe past"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How should a lookup treat a tombstone?",
+    "options": [
+      "Keep probing past it",
+      "Stop and report not found",
+      "Return its value",
+      "Throw an error"
+    ],
+    "answer": [
+      "Keep probing past it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How should an insert treat a tombstone?",
+    "options": [
+      "It may reuse the slot, after confirming the key isn't further along the chain",
+      "Skip it forever",
+      "Stop the insert",
+      "Delete the whole chain"
+    ],
+    "answer": [
+      "It may reuse the slot, after confirming the key isn't further along the chain"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What problem do many tombstones cause?",
+    "options": [
+      "Longer probe chains and slower lookups, until the table is rehashed",
+      "Lost keys",
+      "Duplicate keys",
+      "Negative load factors"
+    ],
+    "answer": [
+      "Longer probe chains and slower lookups, until the table is rehashed"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Check whether a slot holds the tombstone sentinel object:\n\n```dart\nconst tombstone = Object();\n\nbool isDeleted(Object? slot) => %fill%(slot, tombstone);\n```",
+    "answer": [
+      "identical"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nconst tomb = Object();\n\nvoid main() {\n  final slots = <Object?>[null, 1, 9, 17, null];\n  slots[2] = tomb;\n  var i = 1;\n  while (slots[i] != null && slots[i] != 17) {\n    i++;\n  }\n  print(i);\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "1"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final slots = <int?>[null, 1, null, 17, null];\n  var i = 1;\n  while (slots[i] != null && slots[i] != 17) {\n    i++;\n  }\n  print(slots[i] == 17);\n}\n```",
+    "options": [
+      "false",
+      "true",
+      "null",
+      "It throws an error"
+    ],
+    "answer": [
+      "false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In linear probing, keys 1, 9 and 17 share home slot 1 and sit in slots 1, 2, 3. If 9 is deleted by setting slot 2 to null, what happens when looking up 17?",
+    "options": [
+      "The search stops at the empty slot 2 and wrongly reports 17 missing",
+      "It finds 17 normally",
+      "It throws an error",
+      "It finds 9"
+    ],
+    "answer": [
+      "The search stops at the empty slot 2 and wrongly reports 17 missing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens with linear probing if the table becomes completely full?",
+    "options": [
+      "A lookup for a missing key can probe forever",
+      "Lookups become faster",
+      "New keys overwrite old ones safely",
+      "Nothing changes"
+    ],
+    "answer": [
+      "A lookup for a missing key can probe forever"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What typical maximum load factor do open-addressing tables use?",
+    "options": [
+      "Around 0.5 to 0.75",
+      "Exactly 1.0",
+      "Around 5",
+      "No limit"
+    ],
+    "answer": [
+      "Around 0.5 to 0.75"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Using Knuth's estimate ½(1 + 1/(1 − α)), what is the expected number of probes for a successful search at α = 0.5?",
+    "options": [
+      "1.5",
+      "2",
+      "1",
+      "3"
+    ],
+    "answer": [
+      "1.5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Using the same formula, roughly how many probes at α = 0.9?",
+    "options": [
+      "5.5",
+      "1.9",
+      "10",
+      "50"
+    ],
+    "answer": [
+      "5.5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does Knuth's formula tell us about open addressing near α = 1?",
+    "options": [
+      "Probe counts explode, so tables must resize early",
+      "Performance stays constant",
+      "It becomes faster",
+      "Collisions stop happening"
+    ],
+    "answer": [
+      "Probe counts explode, so tables must resize early"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which collision strategy makes deletion easiest?",
+    "options": [
+      "Separate chaining",
+      "Linear probing",
+      "Quadratic probing",
+      "Double hashing"
+    ],
+    "answer": [
+      "Separate chaining"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which strategy usually has better cache performance?",
+    "options": [
+      "Open addressing (one flat array)",
+      "Separate chaining (lists per bucket)",
+      "They are always identical",
+      "Neither uses the cache"
+    ],
+    "answer": [
+      "Open addressing (one flat array)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a hash flooding attack?",
+    "options": [
+      "Sending many keys chosen to collide so lookups become O(n)",
+      "Filling a table with random keys",
+      "Deleting all keys at once",
+      "Using very long keys"
+    ],
+    "answer": [
+      "Sending many keys chosen to collide so lookups become O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which defense makes collisions hard for attackers to predict?",
+    "options": [
+      "Randomized (seeded) hash functions",
+      "Sorting keys",
+      "Using smaller tables",
+      "Removing the load factor limit"
+    ],
+    "answer": [
+      "Randomized (seeded) hash functions"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does Java's HashMap cap the worst case for very long chains?",
+    "options": [
+      "It converts long chains into balanced trees (O(log n))",
+      "It deletes old entries",
+      "It refuses new keys",
+      "It switches to linear probing"
+    ],
+    "answer": [
+      "It converts long chains into balanced trees (O(log n))"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Two keys have the same hash code. What can you conclude?",
+    "options": [
+      "Nothing about equality; you must still compare them with ==",
+      "They are equal",
+      "They are different",
+      "One of them is null"
+    ],
+    "answer": [
+      "Nothing about equality; you must still compare them with =="
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\ndouble chance(int people, int days) {\n  var none = 1.0;\n  for (var i = 0; i < people; i++) {\n    none *= (days - i) / days;\n  }\n  return 1 - none;\n}\n\nvoid main() {\n  print(chance(2, 2));\n}\n```",
+    "options": [
+      "0.5",
+      "1.0",
+      "0.0",
+      "0.25"
+    ],
+    "answer": [
+      "0.5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `Random(42)` give you compared to `Random()`?",
+    "options": [
+      "A repeatable sequence of random numbers",
+      "Numbers up to 42 only",
+      "A cryptographically secure generator",
+      "Exactly 42 numbers"
+    ],
+    "answer": [
+      "A repeatable sequence of random numbers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the linear probe step:\n\n```dart\nvar i = home(key);\nwhile (slots[i] %order% null) {\n  if (slots[i] == key) return true;\n  i = (i %order% 1) %order% slots.length;\n}\nreturn false;\n```",
+    "options": [
+      "!=",
+      "+",
+      "%",
+      "==",
+      "-",
+      "~/"
+    ],
+    "answer": [
+      "!=",
+      "+",
+      "%"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What is the average chain length in separate chaining with load factor α?",
+    "options": [
+      "α",
+      "1/α",
+      "α²",
+      "Always 1"
+    ],
+    "answer": [
+      "α"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A chaining table has 3,000 entries in 1,000 buckets. What's the average chain length?",
+    "options": [
+      "3",
+      "0.33",
+      "1,000",
+      "3,000"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is secondary clustering?",
+    "options": [
+      "Keys with the same home slot following the same probe sequence",
+      "Clusters inside chaining buckets",
+      "Two tables clustering together",
+      "Clusters caused by tombstones only"
+    ],
+    "answer": [
+      "Keys with the same home slot following the same probe sequence"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which method avoids secondary clustering by giving keys with the same home different step sizes?",
+    "options": [
+      "Double hashing",
+      "Quadratic probing",
+      "Linear probing",
+      "Separate chaining"
+    ],
+    "answer": [
+      "Double hashing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is backward-shift deletion?",
+    "options": [
+      "Moving later entries in a linear-probing cluster back into the gap, avoiding tombstones",
+      "Deleting from the end of a list",
+      "Shifting the whole table left",
+      "Undoing the last insert"
+    ],
+    "answer": [
+      "Moving later entries in a linear-probing cluster back into the gap, avoiding tombstones"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const cap = 13;\n  print([5 % cap, 18 % cap, 31 % cap]);\n}\n```",
+    "options": [
+      "[5, 5, 5]",
+      "[5, 18, 31]",
+      "[5, 5, 6]",
+      "[0, 5, 5]"
+    ],
+    "answer": [
+      "[5, 5, 5]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const cap = 13, home = 5, step = 3;\n  print([for (var j = 0; j < 4; j++) (home + j * step) % cap]);\n}\n```",
+    "options": [
+      "[5, 8, 11, 1]",
+      "[5, 8, 11, 14]",
+      "[5, 6, 7, 8]",
+      "[5, 8, 11, 0]"
+    ],
+    "answer": [
+      "[5, 8, 11, 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens when resizing an open-addressing table?",
+    "options": [
+      "Every live key is re-inserted with new home slots; tombstones are dropped",
+      "Keys are copied to the same indexes",
+      "Only the first half is copied",
+      "Tombstones are copied too"
+    ],
+    "answer": [
+      "Every live key is re-inserted with new home slots; tombstones are dropped"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which structure does Python's dict use internally?",
+    "options": [
+      "Open addressing",
+      "Separate chaining with linked lists",
+      "A sorted array",
+      "A B-tree"
+    ],
+    "answer": [
+      "Open addressing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final used = <int>{};\n  var collisions = 0;\n  for (final slot in [3, 7, 3, 1, 7, 7]) {\n    if (!used.add(slot)) collisions++;\n  }\n  print(collisions);\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "6",
+      "0"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In separate chaining, what does deleting an entry involve?",
+    "options": [
+      "Removing it from its bucket's list",
+      "Leaving a tombstone",
+      "Shifting all buckets",
+      "Rehashing the table"
+    ],
+    "answer": [
+      "Removing it from its bucket's list"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which statement about the two strategies is true?",
+    "options": [
+      "Chaining degrades gradually at high load; open addressing degrades sharply near full",
+      "Open addressing handles α > 1 better",
+      "Chaining needs tombstones",
+      "They perform identically at every load"
+    ],
+    "answer": [
+      "Chaining degrades gradually at high load; open addressing degrades sharply near full"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a probing insert, why keep scanning after finding a tombstone?",
+    "options": [
+      "The key might already exist further along the chain",
+      "Tombstones can't be reused",
+      "To count the chain length",
+      "It's not necessary"
+    ],
+    "answer": [
+      "The key might already exist further along the chain"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Remember the first reusable slot only once:\n\n```dart\nvoid main() {\n  int? firstFree;\n  for (final i in [4, 6, 9]) {\n    firstFree %fill% i;\n  }\n  print(firstFree); // 4\n}\n```",
+    "answer": [
+      "??="
+    ],
+    "type": "fill"
+  }
+]

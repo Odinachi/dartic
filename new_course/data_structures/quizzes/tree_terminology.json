@@ -1,0 +1,719 @@
+[
+  {
+    "question": "Which statement describes a tree?",
+    "options": [
+      "One root, every other node has exactly one parent, and no cycles",
+      "Every node has exactly two children",
+      "Nodes connected in a single line",
+      "Any set of nodes with edges, cycles allowed"
+    ],
+    "answer": [
+      "One root, every other node has exactly one parent, and no cycles"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many edges does a tree with n nodes have?",
+    "options": [
+      "n - 1",
+      "n",
+      "n + 1",
+      "2n"
+    ],
+    "answer": [
+      "n - 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a leaf?",
+    "options": [
+      "A node with no children",
+      "The root node",
+      "A node with exactly one child",
+      "A node at depth 1"
+    ],
+    "answer": [
+      "A node with no children"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the root?",
+    "options": [
+      "The only node with no parent",
+      "Any node with no children",
+      "The node with the largest value",
+      "The deepest node"
+    ],
+    "answer": [
+      "The only node with no parent"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, which nodes are leaves?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "E, F, C, H, I",
+      "A, B, D, G",
+      "H and I only",
+      "B, C, D"
+    ],
+    "answer": [
+      "E, F, C, H, I"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, what is the depth of H?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "0"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, what is the height of D?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "2",
+      "1",
+      "3",
+      "0"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, what is the height of the whole tree?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "9"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, which nodes are siblings of E?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "F",
+      "C and D",
+      "B",
+      "H and I"
+    ],
+    "answer": [
+      "F"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, which nodes are ancestors of H?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "G, D, A",
+      "I",
+      "B, E, F",
+      "Only G"
+    ],
+    "answer": [
+      "G, D, A"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In this tree, which nodes make up the subtree rooted at D?\n\n```dart\n//        A\n//      / | \\\n//     B  C  D\n//    / \\     \\\n//   E   F     G\n//            / \\\n//           H   I\n```",
+    "options": [
+      "D, G, H, I",
+      "D only",
+      "G, H, I",
+      "A, D"
+    ],
+    "answer": [
+      "D, G, H, I"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does depth measure?",
+    "options": [
+      "Edges from the root down to the node",
+      "Edges from the node down to its deepest leaf",
+      "Number of children",
+      "Number of siblings"
+    ],
+    "answer": [
+      "Edges from the root down to the node"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does height measure?",
+    "options": [
+      "Edges on the longest path from the node down to a leaf",
+      "Edges from the root to the node",
+      "Number of nodes in the tree",
+      "Number of leaves"
+    ],
+    "answer": [
+      "Edges on the longest path from the node down to a leaf"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the depth of the root?",
+    "options": [
+      "0",
+      "1",
+      "The tree's height",
+      "-1"
+    ],
+    "answer": [
+      "0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the height of a leaf?",
+    "options": [
+      "0",
+      "1",
+      "-1",
+      "The tree's height"
+    ],
+    "answer": [
+      "0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In recursive code, how does depth usually flow?",
+    "options": [
+      "Passed DOWN as a parameter (depth + 1)",
+      "Returned UP from children",
+      "Stored in a global variable only",
+      "Computed by sorting"
+    ],
+    "answer": [
+      "Passed DOWN as a parameter (depth + 1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In recursive code, how does height usually flow?",
+    "options": [
+      "Returned UP: 1 + the max of the children's heights",
+      "Passed DOWN as a parameter",
+      "Read from the root's value",
+      "Always equal to depth"
+    ],
+    "answer": [
+      "Returned UP: 1 + the max of the children's heights"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a binary tree?",
+    "options": [
+      "A tree where every node has at most two children",
+      "A tree with exactly two levels",
+      "A tree that stores only 0s and 1s",
+      "A tree with two roots"
+    ],
+    "answer": [
+      "A tree where every node has at most two children"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass N {\n  final int v;\n  final N? left, right;\n  N(this.v, [this.left, this.right]);\n}\n\nint size(N? n) => n == null ? 0 : 1 + size(n.left) + size(n.right);\n\nvoid main() {\n  print(size(N(1, N(2, N(4)), N(3))));\n}\n```",
+    "options": [
+      "4",
+      "3",
+      "10",
+      "2"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass N {\n  final int v;\n  final N? left, right;\n  N(this.v, [this.left, this.right]);\n}\n\nint height(N? n) {\n  if (n == null) return -1;\n  final l = height(n.left), r = height(n.right);\n  return 1 + (l > r ? l : r);\n}\n\nvoid main() {\n  print(height(N(1, N(2, N(4)), N(3))));\n  print(height(N(7)));\n}\n```",
+    "options": [
+      "2 then 0",
+      "3 then 1",
+      "2 then 1",
+      "1 then 0"
+    ],
+    "answer": [
+      "2 then 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does the lesson's binary `height` return -1 for null?",
+    "options": [
+      "So that a leaf ends up with height 0",
+      "Because null is negative",
+      "To mark errors",
+      "Dart requires it"
+    ],
+    "answer": [
+      "So that a leaf ends up with height 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass N {\n  final int v;\n  final N? left, right;\n  N(this.v, [this.left, this.right]);\n}\n\nint sum(N? n) => n == null ? 0 : n.v + sum(n.left) + sum(n.right);\n\nvoid main() {\n  print(sum(N(5, N(3, null, N(1)), N(2))));\n}\n```",
+    "options": [
+      "11",
+      "10",
+      "5",
+      "8"
+    ],
+    "answer": [
+      "11"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a full binary tree?",
+    "options": [
+      "Every node has 0 or 2 children",
+      "Every level is completely filled",
+      "All leaves are at depth 1",
+      "Every node has exactly one child"
+    ],
+    "answer": [
+      "Every node has 0 or 2 children"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a complete binary tree?",
+    "options": [
+      "All levels full except possibly the last, which fills left to right",
+      "Every node has 2 children",
+      "All leaves on different levels",
+      "A tree with no leaves"
+    ],
+    "answer": [
+      "All levels full except possibly the last, which fills left to right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a perfect binary tree?",
+    "options": [
+      "All internal nodes have 2 children and all leaves are at the same depth",
+      "A tree with height 1",
+      "A tree with only a root",
+      "A tree sorted left to right"
+    ],
+    "answer": [
+      "All internal nodes have 2 children and all leaves are at the same depth"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a balanced binary tree (height-balanced)?",
+    "options": [
+      "At every node, left and right subtree heights differ by at most 1",
+      "It has the same number of nodes on each side of the root",
+      "All values are equal",
+      "It has an even number of nodes"
+    ],
+    "answer": [
+      "At every node, left and right subtree heights differ by at most 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a degenerate (skewed) binary tree behave like?",
+    "options": [
+      "A linked list",
+      "A hash table",
+      "A heap",
+      "A perfect tree"
+    ],
+    "answer": [
+      "A linked list"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many nodes does a perfect binary tree of height 3 have?",
+    "options": [
+      "15",
+      "8",
+      "7",
+      "16"
+    ],
+    "answer": [
+      "15"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the approximate height of a balanced binary tree with 1,000,000 nodes?",
+    "options": [
+      "About 20",
+      "About 1,000",
+      "About 500,000",
+      "About 1,000,000"
+    ],
+    "answer": [
+      "About 20"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the height of a degenerate binary tree with n nodes?",
+    "options": [
+      "n - 1",
+      "log₂ n",
+      "1",
+      "n / 2"
+    ],
+    "answer": [
+      "n - 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Many tree operations cost O(height). Why do balanced trees matter?",
+    "options": [
+      "They keep height around log n instead of n",
+      "They use less memory per node",
+      "They avoid recursion",
+      "They sort values automatically"
+    ],
+    "answer": [
+      "They keep height around log n instead of n"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass N {\n  final int v;\n  final N? left, right;\n  N(this.v, [this.left, this.right]);\n}\n\nbool isBalanced(N? root) => _check(root) != -1;\n\nint _check(N? n) {\n  if (n == null) return 0;\n  final l = _check(n.left);\n  if (l == -1) return -1;\n  final r = _check(n.right);\n  if (r == -1) return -1;\n  if ((l - r).abs() > 1) return -1;\n  return 1 + (l > r ? l : r);\n}\n\nvoid main() {\n  print(isBalanced(N(1, N(2), N(3))));\n  print(isBalanced(N(1, N(2, N(3)))));\n}\n```",
+    "options": [
+      "true then false",
+      "false then true",
+      "true then true",
+      "false then false"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is the bottom-up balance check O(n) rather than O(n²)?",
+    "options": [
+      "Each node's height is computed once and reused by its parent",
+      "It only checks the root",
+      "It uses a hash map",
+      "It stops after one level"
+    ],
+    "answer": [
+      "Each node's height is computed once and reused by its parent"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass T {\n  final String v;\n  final List<T> kids;\n  T(this.v, [this.kids = const []]);\n}\n\nint countLeaves(T n) =>\n    n.kids.isEmpty ? 1 : n.kids.fold(0, (s, c) => s + countLeaves(c));\n\nvoid main() {\n  print(countLeaves(T('a', [T('b', [T('d'), T('e')]), T('c')])));\n}\n```",
+    "options": [
+      "3",
+      "5",
+      "2",
+      "4"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass T {\n  final String v;\n  final List<T> kids;\n  T(this.v, [this.kids = const []]);\n}\n\nvoid show(T n, [int depth = 0]) {\n  print('${'-' * depth}${n.v}');\n  for (final k in n.kids) {\n    show(k, depth + 1);\n  }\n}\n\nvoid main() {\n  show(T('a', [T('b', [T('c')])]));\n}\n```",
+    "options": [
+      "a then -b then --c",
+      "a then b then c",
+      "--a then -b then c",
+      "c then b then a"
+    ],
+    "answer": [
+      "a then -b then --c"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which is NOT naturally a tree?",
+    "options": [
+      "A road network with loops between cities",
+      "A file system",
+      "A Flutter widget tree",
+      "An HTML document"
+    ],
+    "answer": [
+      "A road network with loops between cities"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a JSON document, what are the leaves?",
+    "options": [
+      "Primitive values like strings, numbers and booleans",
+      "Maps",
+      "Lists",
+      "The top-level object"
+    ],
+    "answer": [
+      "Primitive values like strings, numbers and booleans"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint countKeys(Object? node) {\n  if (node is Map) {\n    return node.length + node.values.fold<int>(0, (s, v) => s + countKeys(v));\n  }\n  if (node is List) return node.fold<int>(0, (s, v) => s + countKeys(v));\n  return 0;\n}\n\nvoid main() {\n  print(countKeys({'a': {'b': 1, 'c': 2}, 'd': [ {'e': 3} ]}));\n}\n```",
+    "options": [
+      "5",
+      "3",
+      "4",
+      "6"
+    ],
+    "answer": [
+      "5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the degree of a node?",
+    "options": [
+      "The number of its children",
+      "Its depth",
+      "Its height",
+      "Its value"
+    ],
+    "answer": [
+      "The number of its children"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is an internal node?",
+    "options": [
+      "A node with at least one child",
+      "A node with no children",
+      "Only the root",
+      "A node inside a cycle"
+    ],
+    "answer": [
+      "A node with at least one child"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a level of a tree?",
+    "options": [
+      "All nodes at the same depth",
+      "All leaves",
+      "A path from root to leaf",
+      "All nodes with the same value"
+    ],
+    "answer": [
+      "All nodes at the same depth"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass N {\n  final int v;\n  final N? left, right;\n  N(this.v, [this.left, this.right]);\n}\n\nint countAt(N? n, int d) {\n  if (n == null) return 0;\n  if (d == 0) return 1;\n  return countAt(n.left, d - 1) + countAt(n.right, d - 1);\n}\n\nvoid main() {\n  final t = N(1, N(2, N(4), N(5)), N(3, null, N(6)));\n  print(countAt(t, 2));\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "6",
+      "1"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass B {\n  int v;\n  B? left, right;\n  B(this.v, [this.left, this.right]);\n}\n\nB? mirror(B? n) {\n  if (n == null) return null;\n  final tmp = n.left;\n  n.left = mirror(n.right);\n  n.right = mirror(tmp);\n  return n;\n}\n\nvoid main() {\n  final r = mirror(B(1, B(2, B(4)), B(3)))!;\n  print('${r.left!.v} ${r.right!.v} ${r.right!.right!.v}');\n}\n```",
+    "options": [
+      "3 2 4",
+      "2 3 4",
+      "3 2 null",
+      "4 2 3"
+    ],
+    "answer": [
+      "3 2 4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of visiting every node of a tree once?",
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(n²)",
+      "O(height)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the extra space of a recursive traversal, due to the call stack?",
+    "options": [
+      "O(height)",
+      "O(1)",
+      "O(n²)",
+      "O(log n) always"
+    ],
+    "answer": [
+      "O(height)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Check whether a general tree node is a leaf:\n\n```dart\nclass TreeNode {\n  final List<TreeNode> children = [];\n  bool get isLeaf => children.%fill%;\n}\n```",
+    "answer": [
+      "isEmpty"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "Complete the recursive node count for a binary tree:\n\n```dart\nint size(N? n) => n %order% null ? 0 : 1 %order% size(n.left) + size(n.%order%);\n```",
+    "options": [
+      "==",
+      "+",
+      "right",
+      "!=",
+      "-",
+      "left"
+    ],
+    "answer": [
+      "==",
+      "+",
+      "right"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Complete the binary tree height:\n\n```dart\nint height(N? n) {\n  if (n == null) return %order%;\n  final l = height(n.left), r = height(n.right);\n  return %order% + (l > r ? %order% : r);\n}\n```",
+    "options": [
+      "-1",
+      "1",
+      "l",
+      "0",
+      "r",
+      "2"
+    ],
+    "answer": [
+      "-1",
+      "1",
+      "l"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Which Flutter concept is a tree?",
+    "options": [
+      "The widget tree",
+      "A Stream",
+      "A Future",
+      "A StatefulWidget's State object"
+    ],
+    "answer": [
+      "The widget tree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass W {\n  final String t;\n  final List<W> kids;\n  const W(this.t, [this.kids = const []]);\n}\n\nint depthOf(W w, String target, [int d = 0]) {\n  if (w.t == target) return d;\n  for (final k in w.kids) {\n    final r = depthOf(k, target, d + 1);\n    if (r != -1) return r;\n  }\n  return -1;\n}\n\nvoid main() {\n  const app = W('App', [W('Scaffold', [W('Body', [W('Text')])])]);\n  print(depthOf(app, 'Text'));\n}\n```",
+    "options": [
+      "3",
+      "4",
+      "2",
+      "-1"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many children can a node have in a general (n-ary) tree?",
+    "options": [
+      "Any number",
+      "At most 2",
+      "Exactly 2",
+      "At most 1"
+    ],
+    "answer": [
+      "Any number"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which tree shape do binary heaps always use?",
+    "options": [
+      "Complete",
+      "Degenerate",
+      "Full only",
+      "Unbalanced"
+    ],
+    "answer": [
+      "Complete"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A tree has 10 nodes. How many edges does it have?",
+    "options": [
+      "9",
+      "10",
+      "11",
+      "20"
+    ],
+    "answer": [
+      "9"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What problem can occur if you build a node class with a shared default children list and later add children to nodes?",
+    "options": [
+      "Nodes may end up sharing one list, so children appear in the wrong places",
+      "The tree becomes balanced",
+      "Dart throws a compile error",
+      "Nothing"
+    ],
+    "answer": [
+      "Nodes may end up sharing one list, so children appear in the wrong places"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var perfectNodes = 0;\n  for (var level = 0; level <= 4; level++) {\n    perfectNodes += 1 << level;\n  }\n  print(perfectNodes);\n}\n```",
+    "options": [
+      "31",
+      "16",
+      "32",
+      "15"
+    ],
+    "answer": [
+      "31"
+    ],
+    "type": "mcq"
+  }
+]

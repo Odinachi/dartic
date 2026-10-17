@@ -1,0 +1,52 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // ── Data Structures course: signed-in users only, read-only ──
+    // Content is written by scripts/upload_dsa_course (Admin SDK, which
+    // bypasses these rules), so clients never need write access.
+    match /DSA_course/{lessonId} {
+      allow read: if signedIn();
+      allow write: if false;
+
+      // content/main and quiz/main
+      match /{subcollection}/{docId} {
+        allow read: if signedIn();
+        allow write: if false;
+      }
+    }
+
+    match /DSA_course_modules/{moduleId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // ── Algorithm practice problems (existing) ──
+    match /DSA/{problemId} {
+      allow read: if signedIn();
+      allow write: if false;
+
+      match /problem/{docId} {
+        allow read: if signedIn();
+        allow write: if false;
+      }
+    }
+
+    // ── User profiles and progress (existing) ──
+    match /Users/{userId} {
+      // Signed-in users can read profiles: the username availability check
+      // queries other users' documents by `username`.
+      allow read: if signedIn();
+      allow create, update, delete: if signedIn() && request.auth.uid == userId;
+
+      match /progress/{docId} {
+        allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+    }
+  }
+}

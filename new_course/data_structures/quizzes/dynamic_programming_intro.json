@@ -1,0 +1,701 @@
+[
+  {
+    "question": "What is dynamic programming?",
+    "options": [
+      "Solving overlapping subproblems once and reusing their stored answers",
+      "Programming that changes at runtime",
+      "Allocating memory dynamically",
+      "Sorting data dynamically"
+    ],
+    "answer": [
+      "Solving overlapping subproblems once and reusing their stored answers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which two properties make a problem suitable for DP?",
+    "options": [
+      "Optimal substructure and overlapping subproblems",
+      "Sorted input and unique keys",
+      "Recursion and randomness",
+      "Graphs and trees"
+    ],
+    "answer": [
+      "Optimal substructure and overlapping subproblems"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does \"overlapping subproblems\" mean?",
+    "options": [
+      "The same smaller problems are solved many times by naive recursion",
+      "Subproblems share memory",
+      "Subproblems run in parallel",
+      "Each subproblem is unique"
+    ],
+    "answer": [
+      "The same smaller problems are solved many times by naive recursion"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does \"optimal substructure\" mean?",
+    "options": [
+      "The best answer can be built from best answers to smaller subproblems",
+      "The data is sorted",
+      "The problem has a tree structure",
+      "Every choice is greedy"
+    ],
+    "answer": [
+      "The best answer can be built from best answers to smaller subproblems"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is merge sort divide and conquer rather than DP?",
+    "options": [
+      "Its subproblems (the two halves) don't overlap",
+      "It isn't recursive",
+      "It doesn't have subproblems",
+      "It is DP"
+    ],
+    "answer": [
+      "Its subproblems (the two halves) don't overlap"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is memoization?",
+    "options": [
+      "Caching results of recursive calls so each subproblem is solved once",
+      "Writing memos in code comments",
+      "Filling a table bottom-up",
+      "Sorting the inputs"
+    ],
+    "answer": [
+      "Caching results of recursive calls so each subproblem is solved once"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is tabulation?",
+    "options": [
+      "Filling a table from the smallest subproblems up, using loops",
+      "Caching recursive calls",
+      "Printing results as a table",
+      "Sorting a table"
+    ],
+    "answer": [
+      "Filling a table from the smallest subproblems up, using loops"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which approach can overflow the call stack on very large inputs?",
+    "options": [
+      "Memoization (top-down recursion)",
+      "Tabulation (bottom-up)",
+      "Both equally",
+      "Neither"
+    ],
+    "answer": [
+      "Memoization (top-down recursion)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which approach only solves the subproblems that are actually needed?",
+    "options": [
+      "Memoization",
+      "Tabulation",
+      "Both",
+      "Neither"
+    ],
+    "answer": [
+      "Memoization"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many calls does naive recursive fib(30) make?",
+    "options": [
+      "About 2.7 million",
+      "30",
+      "59",
+      "About 1,000"
+    ],
+    "answer": [
+      "About 2.7 million"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvar calls = 0;\nfinal memo = <int, int>{};\n\nint fib(int n) {\n  calls++;\n  if (n <= 1) return n;\n  return memo[n] ??= fib(n - 1) + fib(n - 2);\n}\n\nvoid main() {\n  fib(10);\n  print(calls);\n}\n```",
+    "options": [
+      "19",
+      "177",
+      "10",
+      "55"
+    ],
+    "answer": [
+      "19"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint fibTable(int n) {\n  if (n <= 1) return n;\n  final dp = List<int>.filled(n + 1, 0);\n  dp[1] = 1;\n  for (var i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  return dp[n];\n}\n\nvoid main() {\n  print(fibTable(12));\n}\n```",
+    "options": [
+      "144",
+      "89",
+      "233",
+      "12"
+    ],
+    "answer": [
+      "144"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of memoized or tabulated Fibonacci?",
+    "options": [
+      "O(n)",
+      "O(2ⁿ)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How can tabulated Fibonacci use O(1) space?",
+    "options": [
+      "Keep only the last two values instead of the whole table",
+      "Use a Set",
+      "Use recursion",
+      "It can't"
+    ],
+    "answer": [
+      "Keep only the last two values instead of the whole table"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the DP recipe in order:\n\n```dart\n// 1. define the %order%\n// 2. write the %order%\n// 3. set the %order%\n// 4. choose a fill order, then return the answer\n```",
+    "options": [
+      "state",
+      "recurrence",
+      "base cases",
+      "pivot",
+      "heap"
+    ],
+    "answer": [
+      "state",
+      "recurrence",
+      "base cases"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "In \"climbing stairs\" (1 or 2 steps at a time), what is the recurrence?",
+    "options": [
+      "ways[i] = ways[i − 1] + ways[i − 2]",
+      "ways[i] = ways[i − 1] × 2",
+      "ways[i] = i",
+      "ways[i] = ways[i − 1] + 1"
+    ],
+    "answer": [
+      "ways[i] = ways[i − 1] + ways[i − 2]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint climb(int n) {\n  final w = List<int>.filled(n + 1, 0);\n  w[0] = 1;\n  if (n >= 1) w[1] = 1;\n  for (var i = 2; i <= n; i++) {\n    w[i] = w[i - 1] + w[i - 2];\n  }\n  return w[n];\n}\n\nvoid main() {\n  print(climb(5));\n}\n```",
+    "options": [
+      "8",
+      "5",
+      "13",
+      "10"
+    ],
+    "answer": [
+      "8"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does greedy fail for coin change with coins [1, 3, 4] and amount 6?",
+    "options": [
+      "Greedy picks 4 + 1 + 1 (3 coins) but 3 + 3 uses only 2",
+      "Greedy can't use coin 1",
+      "6 can't be made",
+      "Greedy works fine"
+    ],
+    "answer": [
+      "Greedy picks 4 + 1 + 1 (3 coins) but 3 + 3 uses only 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In minimum coin change, what does dp[a] represent?",
+    "options": [
+      "The fewest coins needed to make amount a",
+      "The number of ways to make a",
+      "The largest coin ≤ a",
+      "The amount a itself"
+    ],
+    "answer": [
+      "The fewest coins needed to make amount a"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the base case of minimum coin change?",
+    "options": [
+      "dp[0] = 0",
+      "dp[0] = 1",
+      "dp[1] = 1",
+      "dp[0] = infinity"
+    ],
+    "answer": [
+      "dp[0] = 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint minCoins(List<int> coins, int amount) {\n  const inf = 1 << 30;\n  final dp = List<int>.filled(amount + 1, inf);\n  dp[0] = 0;\n  for (var a = 1; a <= amount; a++) {\n    for (final c in coins) {\n      if (c <= a && dp[a - c] + 1 < dp[a]) dp[a] = dp[a - c] + 1;\n    }\n  }\n  return dp[amount] >= inf ? -1 : dp[amount];\n}\n\nvoid main() {\n  print(minCoins([1, 3, 4], 6));\n  print(minCoins([5, 10], 3));\n}\n```",
+    "options": [
+      "2 then -1",
+      "3 then -1",
+      "2 then 0",
+      "6 then 3"
+    ],
+    "answer": [
+      "2 then -1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of minimum coin change with A as the amount and C coins?",
+    "options": [
+      "O(A × C)",
+      "O(A + C)",
+      "O(2^A)",
+      "O(C log A)"
+    ],
+    "answer": [
+      "O(A × C)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In \"count the ways to make change\", why must coins be the OUTER loop?",
+    "options": [
+      "So each combination is counted once (1+2 and 2+1 count as one)",
+      "For speed only",
+      "To avoid negative indexes",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "So each combination is counted once (1+2 and 2+1 count as one)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint countWays(List<int> coins, int amount) {\n  final ways = List<int>.filled(amount + 1, 0);\n  ways[0] = 1;\n  for (final c in coins) {\n    for (var a = c; a <= amount; a++) {\n      ways[a] += ways[a - c];\n    }\n  }\n  return ways[amount];\n}\n\nvoid main() {\n  print(countWays([1, 2], 4));\n}\n```",
+    "options": [
+      "3",
+      "5",
+      "4",
+      "2"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In counting DP, why is ways[0] = 1?",
+    "options": [
+      "There's exactly one way to make amount 0: use no coins",
+      "It's arbitrary",
+      "To avoid division by zero",
+      "Because coin 1 exists"
+    ],
+    "answer": [
+      "There's exactly one way to make amount 0: use no coins"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the minimum-path-sum grid (moving right or down), what is the recurrence?",
+    "options": [
+      "dp[r][c] = grid[r][c] + min(dp[r−1][c], dp[r][c−1])",
+      "dp[r][c] = dp[r−1][c] + dp[r][c−1]",
+      "dp[r][c] = max of neighbors",
+      "dp[r][c] = grid[r][c]"
+    ],
+    "answer": [
+      "dp[r][c] = grid[r][c] + min(dp[r−1][c], dp[r][c−1])"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nint minPath(List<List<int>> g) {\n  final r = g.length, c = g[0].length;\n  final dp = List.generate(r, (_) => List.filled(c, 0));\n  for (var i = 0; i < r; i++) {\n    for (var j = 0; j < c; j++) {\n      if (i == 0 && j == 0) {\n        dp[i][j] = g[i][j];\n      } else if (i == 0) {\n        dp[i][j] = dp[i][j - 1] + g[i][j];\n      } else if (j == 0) {\n        dp[i][j] = dp[i - 1][j] + g[i][j];\n      } else {\n        dp[i][j] = g[i][j] + min(dp[i - 1][j], dp[i][j - 1]);\n      }\n    }\n  }\n  return dp[r - 1][c - 1];\n}\n\nvoid main() {\n  print(minPath([[1, 2], [5, 1]]));\n}\n```",
+    "options": [
+      "4",
+      "7",
+      "3",
+      "9"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many monotonic (right/down only) paths cross a 2×2-step grid (from (0,0) to (2,2))?",
+    "options": [
+      "6",
+      "4",
+      "2",
+      "8"
+    ],
+    "answer": [
+      "6"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nfinal memo = <(int, int), int>{};\n\nint paths(int r, int c) {\n  if (r == 0 || c == 0) return 1;\n  return memo[(r, c)] ??= paths(r - 1, c) + paths(r, c - 1);\n}\n\nvoid main() {\n  print(paths(3, 3));\n}\n```",
+    "options": [
+      "20",
+      "6",
+      "9",
+      "27"
+    ],
+    "answer": [
+      "20"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why use a record like `(r, c)` as the memo key in grid DP?",
+    "options": [
+      "The answer depends on both coordinates, so the key must include both",
+      "Records are faster than ints",
+      "Maps require records",
+      "To sort the keys"
+    ],
+    "answer": [
+      "The answer depends on both coordinates, so the key must include both"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the longest common subsequence (LCS) of 'abcde' and 'ace'?",
+    "options": [
+      "ace (length 3)",
+      "abc (length 3)",
+      "a (length 1)",
+      "abcde (length 5)"
+    ],
+    "answer": [
+      "ace (length 3)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In LCS, when a[i−1] == b[j−1], what is dp[i][j]?",
+    "options": [
+      "dp[i−1][j−1] + 1",
+      "max(dp[i−1][j], dp[i][j−1])",
+      "0",
+      "dp[i][j−1]"
+    ],
+    "answer": [
+      "dp[i−1][j−1] + 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In LCS, when a[i−1] != b[j−1], what is dp[i][j]?",
+    "options": [
+      "max(dp[i−1][j], dp[i][j−1])",
+      "dp[i−1][j−1] + 1",
+      "0",
+      "dp[i−1][j−1]"
+    ],
+    "answer": [
+      "max(dp[i−1][j], dp[i][j−1])"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nint lcs(String a, String b) {\n  final dp = List.generate(a.length + 1, (_) => List.filled(b.length + 1, 0));\n  for (var i = 1; i <= a.length; i++) {\n    for (var j = 1; j <= b.length; j++) {\n      dp[i][j] = a[i - 1] == b[j - 1]\n          ? dp[i - 1][j - 1] + 1\n          : max(dp[i - 1][j], dp[i][j - 1]);\n    }\n  }\n  return dp[a.length][b.length];\n}\n\nvoid main() {\n  print(lcs('dart', 'start'));\n  print(lcs('abc', 'xyz'));\n}\n```",
+    "options": [
+      "3 then 0",
+      "4 then 0",
+      "3 then 1",
+      "2 then 0"
+    ],
+    "answer": [
+      "3 then 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which real tool is based on LCS?",
+    "options": [
+      "File diff tools (showing what changed)",
+      "Image compression",
+      "Password hashing",
+      "Network routing"
+    ],
+    "answer": [
+      "File diff tools (showing what changed)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of LCS for strings of lengths n and m?",
+    "options": [
+      "O(n × m)",
+      "O(n + m)",
+      "O(2^(n+m))",
+      "O(n log m)"
+    ],
+    "answer": [
+      "O(n × m)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In 0/1 knapsack, what choice is made for each item?",
+    "options": [
+      "Take it or skip it",
+      "Take a fraction of it",
+      "Take it unlimited times",
+      "Sort it"
+    ],
+    "answer": [
+      "Take it or skip it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the 1D 0/1 knapsack table, why is the capacity loop run BACKWARDS?",
+    "options": [
+      "So each item is used at most once per capacity",
+      "To find the maximum faster",
+      "To avoid negative weights",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "So each item is used at most once per capacity"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if the 1D knapsack loop runs FORWARDS over capacity?",
+    "options": [
+      "Items can be reused, which solves the unbounded knapsack instead",
+      "It crashes",
+      "It gives the same answer",
+      "It always returns 0"
+    ],
+    "answer": [
+      "Items can be reused, which solves the unbounded knapsack instead"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nint knapsack(List<(int, int)> items, int cap) {\n  final dp = List<int>.filled(cap + 1, 0);\n  for (final (w, v) in items) {\n    for (var c = cap; c >= w; c--) {\n      dp[c] = max(dp[c], dp[c - w] + v);\n    }\n  }\n  return dp[cap];\n}\n\nvoid main() {\n  print(knapsack([(1, 1), (3, 4), (4, 5), (5, 7)], 7));\n}\n```",
+    "options": [
+      "9",
+      "8",
+      "12",
+      "17"
+    ],
+    "answer": [
+      "9"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of 0/1 knapsack with n items and capacity W?",
+    "options": [
+      "O(n × W)",
+      "O(2ⁿ)",
+      "O(n + W)",
+      "O(n log W)"
+    ],
+    "answer": [
+      "O(n × W)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which phrase in a problem usually signals counting DP?",
+    "options": [
+      "\"How many ways...\"",
+      "\"Find the shortest path in a weighted graph\"",
+      "\"Sort the list\"",
+      "\"Is the string a palindrome?\""
+    ],
+    "answer": [
+      "\"How many ways...\""
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which phrase usually signals optimization DP?",
+    "options": [
+      "\"Minimum cost\" or \"maximum profit\"",
+      "\"Reverse the list\"",
+      "\"Print every element\"",
+      "\"Find the first element\""
+    ],
+    "answer": [
+      "\"Minimum cost\" or \"maximum profit\""
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What's a good first step when you suspect DP?",
+    "options": [
+      "Write the brute-force recursion and check if it repeats the same calls",
+      "Sort the input",
+      "Use a priority queue",
+      "Guess a formula"
+    ],
+    "answer": [
+      "Write the brute-force recursion and check if it repeats the same calls"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nint rob(List<int> h) {\n  var take = 0, skip = 0;\n  for (final m in h) {\n    final nt = skip + m;\n    skip = max(take, skip);\n    take = nt;\n  }\n  return max(take, skip);\n}\n\nvoid main() {\n  print(rob([1, 2, 3, 1]));\n  print(rob([2, 1, 1, 2]));\n}\n```",
+    "options": [
+      "4 then 4",
+      "3 then 3",
+      "4 then 3",
+      "7 then 6"
+    ],
+    "answer": [
+      "4 then 4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In house robber, why does robbing the current house use the previous \"skip\" value?",
+    "options": [
+      "You can't rob two adjacent houses",
+      "Skip is always larger",
+      "To save memory",
+      "It's random"
+    ],
+    "answer": [
+      "You can't rob two adjacent houses"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `return memo[n] ??= compute();` do?",
+    "options": [
+      "Computes and stores the value only if memo[n] is null, then returns it",
+      "Always recomputes",
+      "Deletes memo[n]",
+      "Returns null"
+    ],
+    "answer": [
+      "Computes and stores the value only if memo[n] is null, then returns it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What problem does edit distance solve?",
+    "options": [
+      "The minimum insertions, deletions and substitutions to turn one string into another",
+      "The longest palindrome",
+      "The number of vowels",
+      "Sorting strings"
+    ],
+    "answer": [
+      "The minimum insertions, deletions and substitutions to turn one string into another"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which app feature commonly uses edit distance?",
+    "options": [
+      "Autocorrect and spelling suggestions",
+      "Image filters",
+      "Push notifications",
+      "Battery optimization"
+    ],
+    "answer": [
+      "Autocorrect and spelling suggestions"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the longest increasing subsequence DP, what does dp[i] usually mean?",
+    "options": [
+      "Length of the longest increasing subsequence ending at index i",
+      "The i-th smallest element",
+      "The number of elements before i",
+      "The sum up to i"
+    ],
+    "answer": [
+      "Length of the longest increasing subsequence ending at index i"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nint lis(List<int> a) {\n  final dp = List<int>.filled(a.length, 1);\n  for (var i = 0; i < a.length; i++) {\n    for (var j = 0; j < i; j++) {\n      if (a[j] < a[i]) dp[i] = max(dp[i], dp[j] + 1);\n    }\n  }\n  return dp.reduce(max);\n}\n\nvoid main() {\n  print(lis([10, 9, 2, 5, 3, 7, 101, 18]));\n}\n```",
+    "options": [
+      "4",
+      "3",
+      "5",
+      "8"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the most common mistake when defining a DP?",
+    "options": [
+      "A vague state definition",
+      "Using too many comments",
+      "Using loops",
+      "Using integers"
+    ],
+    "answer": [
+      "A vague state definition"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Store and return a memoized value in one line:\n\n```dart\nfinal memo = <int, int>{};\n\nint f(int n) {\n  if (n <= 1) return 1;\n  return memo[n] %fill% f(n - 1) * n;\n}\n```",
+    "answer": [
+      "??="
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "DP often converts which kind of brute-force running time into polynomial time?",
+    "options": [
+      "Exponential",
+      "Logarithmic",
+      "Constant",
+      "Linear"
+    ],
+    "answer": [
+      "Exponential"
+    ],
+    "type": "mcq"
+  }
+]

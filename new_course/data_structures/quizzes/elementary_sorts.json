@@ -1,0 +1,701 @@
+[
+  {
+    "question": "What is the worst-case time complexity of bubble, selection and insertion sort?",
+    "options": [
+      "O(n²)",
+      "O(n log n)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does \"in-place\" mean for a sorting algorithm?",
+    "options": [
+      "It uses only O(1) extra memory",
+      "It never moves elements",
+      "It sorts in O(n)",
+      "It keeps equal elements in order"
+    ],
+    "answer": [
+      "It uses only O(1) extra memory"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does \"stable\" mean for a sorting algorithm?",
+    "options": [
+      "Equal elements keep their original relative order",
+      "It never crashes",
+      "It always runs in O(n log n)",
+      "It uses no extra memory"
+    ],
+    "answer": [
+      "Equal elements keep their original relative order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does \"adaptive\" mean for a sorting algorithm?",
+    "options": [
+      "It runs faster on input that's already partly sorted",
+      "It changes algorithm randomly",
+      "It works on any data type",
+      "It sorts in place"
+    ],
+    "answer": [
+      "It runs faster on input that's already partly sorted"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is an inversion?",
+    "options": [
+      "A pair i < j where a[i] > a[j]",
+      "A reversed list",
+      "A swap of two elements",
+      "A pair of equal elements"
+    ],
+    "answer": [
+      "A pair i < j where a[i] > a[j]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many inversions does a reversed list of n elements have?",
+    "options": [
+      "n(n − 1)/2",
+      "n",
+      "0",
+      "n²"
+    ],
+    "answer": [
+      "n(n − 1)/2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does bubble sort work?",
+    "options": [
+      "Repeatedly swaps adjacent elements that are out of order",
+      "Selects the minimum and swaps it to the front",
+      "Inserts each element into a sorted prefix",
+      "Splits the list in half recursively"
+    ],
+    "answer": [
+      "Repeatedly swaps adjacent elements that are out of order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After the first pass of bubble sort (ascending), what is guaranteed?",
+    "options": [
+      "The largest element is at the end",
+      "The smallest element is at the start",
+      "The list is sorted",
+      "The middle element is correct"
+    ],
+    "answer": [
+      "The largest element is at the end"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [5, 1, 4, 2, 8];\n  for (var i = 0; i < a.length - 1; i++) {\n    if (a[i] > a[i + 1]) {\n      final t = a[i];\n      a[i] = a[i + 1];\n      a[i + 1] = t;\n    }\n  }\n  print(a);\n}\n```",
+    "options": [
+      "[1, 4, 2, 5, 8]",
+      "[1, 2, 4, 5, 8]",
+      "[5, 1, 4, 2, 8]",
+      "[1, 5, 4, 2, 8]"
+    ],
+    "answer": [
+      "[1, 4, 2, 5, 8]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does bubble sort's early-exit optimization do?",
+    "options": [
+      "Stops if a full pass makes no swaps",
+      "Stops after n/2 passes",
+      "Skips the first element",
+      "Stops when the minimum is found"
+    ],
+    "answer": [
+      "Stops if a full pass makes no swaps"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is bubble sort's best case with early exit (already sorted input)?",
+    "options": [
+      "O(n)",
+      "O(n²)",
+      "O(1)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does selection sort work?",
+    "options": [
+      "Finds the minimum of the unsorted part and swaps it to the front of that part",
+      "Swaps adjacent out-of-order elements",
+      "Slides each element left into place",
+      "Merges sorted halves"
+    ],
+    "answer": [
+      "Finds the minimum of the unsorted part and swaps it to the front of that part"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [64, 25, 12, 22, 11];\n  var m = 0;\n  for (var j = 1; j < a.length; j++) {\n    if (a[j] < a[m]) m = j;\n  }\n  final t = a[0];\n  a[0] = a[m];\n  a[m] = t;\n  print(a);\n}\n```",
+    "options": [
+      "[11, 25, 12, 22, 64]",
+      "[11, 12, 22, 25, 64]",
+      "[25, 64, 12, 22, 11]",
+      "[64, 25, 12, 22, 11]"
+    ],
+    "answer": [
+      "[11, 25, 12, 22, 64]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many swaps does selection sort perform at most?",
+    "options": [
+      "n − 1",
+      "n²",
+      "n(n − 1)/2",
+      "log n"
+    ],
+    "answer": [
+      "n − 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why might selection sort be chosen despite being O(n²)?",
+    "options": [
+      "It does the fewest writes, useful when writing is expensive",
+      "It's stable",
+      "It's O(n) on sorted data",
+      "It's the fastest algorithm"
+    ],
+    "answer": [
+      "It does the fewest writes, useful when writing is expensive"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is selection sort stable?",
+    "options": [
+      "No: long-distance swaps can reorder equal elements",
+      "Yes",
+      "Only for integers",
+      "Only for sorted input"
+    ],
+    "answer": [
+      "No: long-distance swaps can reorder equal elements"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is selection sort adaptive?",
+    "options": [
+      "No: it scans the whole unsorted part even on sorted input",
+      "Yes",
+      "Only with early exit",
+      "Only for small lists"
+    ],
+    "answer": [
+      "No: it scans the whole unsorted part even on sorted input"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does insertion sort work?",
+    "options": [
+      "Takes each element and slides it left into its place in the sorted prefix",
+      "Finds the maximum and moves it to the end",
+      "Splits the list into halves",
+      "Swaps random pairs"
+    ],
+    "answer": [
+      "Takes each element and slides it left into its place in the sorted prefix"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid insertionSort(List<int> a) {\n  for (var i = 1; i < a.length; i++) {\n    final cur = a[i];\n    var j = i - 1;\n    while (j >= 0 && a[j] > cur) {\n      a[j + 1] = a[j];\n      j--;\n    }\n    a[j + 1] = cur;\n  }\n}\n\nvoid main() {\n  final a = [3, 1, 2];\n  insertionSort(a);\n  print(a);\n}\n```",
+    "options": [
+      "[1, 2, 3]",
+      "[3, 2, 1]",
+      "[1, 3, 2]",
+      "[2, 1, 3]"
+    ],
+    "answer": [
+      "[1, 2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete insertion sort:\n\n```dart\nfor (var i = 1; i < a.length; i++) {\n  final cur = a[i];\n  var j = i %order% 1;\n  while (j >= 0 && a[j] %order% cur) {\n    a[j + 1] = a[j];\n    j--;\n  }\n  a[j %order% 1] = cur;\n}\n```",
+    "options": [
+      "-",
+      ">",
+      "+",
+      ">=",
+      "*"
+    ],
+    "answer": [
+      "-",
+      ">",
+      "+"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Why does insertion sort save `cur = a[i]` before shifting?",
+    "options": [
+      "Shifting overwrites a[i], so the value must be kept",
+      "To sort descending",
+      "To count inversions",
+      "It isn't needed"
+    ],
+    "answer": [
+      "Shifting overwrites a[i], so the value must be kept"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is insertion sort's best case (already sorted input)?",
+    "options": [
+      "O(n)",
+      "O(n²)",
+      "O(1)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many shifts does insertion sort perform?",
+    "options": [
+      "Exactly the number of inversions",
+      "Always n²",
+      "Always n",
+      "log n"
+    ],
+    "answer": [
+      "Exactly the number of inversions"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint shifts(List<int> a) {\n  var s = 0;\n  for (var i = 1; i < a.length; i++) {\n    final cur = a[i];\n    var j = i - 1;\n    while (j >= 0 && a[j] > cur) {\n      a[j + 1] = a[j];\n      j--;\n      s++;\n    }\n    a[j + 1] = cur;\n  }\n  return s;\n}\n\nvoid main() {\n  print(shifts([1, 2, 4, 3, 5]));\n  print(shifts([4, 3, 2, 1]));\n}\n```",
+    "options": [
+      "1 then 6",
+      "1 then 4",
+      "2 then 6",
+      "0 then 6"
+    ],
+    "answer": [
+      "1 then 6"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which elementary sort is best for small or nearly sorted lists?",
+    "options": [
+      "Insertion sort",
+      "Selection sort",
+      "Bubble sort without early exit",
+      "None"
+    ],
+    "answer": [
+      "Insertion sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why do hybrid sorts like Timsort use insertion sort for small chunks?",
+    "options": [
+      "It's simple, cache-friendly and very fast on short or nearly sorted runs",
+      "It's O(n log n)",
+      "It uses no comparisons",
+      "It's unstable"
+    ],
+    "answer": [
+      "It's simple, cache-friendly and very fast on short or nearly sorted runs"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if insertion sort uses `a[j] >= cur` instead of `a[j] > cur`?",
+    "options": [
+      "Equal elements move past each other, so it's no longer stable",
+      "It becomes faster",
+      "It crashes",
+      "Nothing"
+    ],
+    "answer": [
+      "Equal elements move past each other, so it's no longer stable"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which of the three elementary sorts are stable (in their standard form)?",
+    "options": [
+      "Bubble and insertion",
+      "Selection only",
+      "All three",
+      "None"
+    ],
+    "answer": [
+      "Bubble and insertion"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final cards = [(4, 'S'), (4, 'H'), (2, 'D')];\n  for (var i = 0; i < cards.length - 1; i++) {\n    var m = i;\n    for (var j = i + 1; j < cards.length; j++) {\n      if (cards[j].$1 < cards[m].$1) m = j;\n    }\n    final t = cards[i];\n    cards[i] = cards[m];\n    cards[m] = t;\n  }\n  print(cards.map((c) => c.$2).join());\n}\n```",
+    "options": [
+      "DHS",
+      "DSH",
+      "SHD",
+      "HSD"
+    ],
+    "answer": [
+      "DHS"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Selection-sorting cards [(4, S), (4, H), (2, D)] by rank produces D, H, S. What does the H/S order show?",
+    "options": [
+      "Selection sort is not stable",
+      "Selection sort is adaptive",
+      "The comparator is wrong",
+      "Cards can't be sorted"
+    ],
+    "answer": [
+      "Selection sort is not stable"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does stability matter when sorting by multiple keys?",
+    "options": [
+      "Sorting by a secondary key first, then stably by the primary key keeps ties in secondary order",
+      "It makes sorting faster",
+      "It reduces memory",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "Sorting by a secondary key first, then stably by the primary key keeps ties in secondary order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a comparator `(a, b) => b.compareTo(a)` produce?",
+    "options": [
+      "Descending order",
+      "Ascending order",
+      "Random order",
+      "An error"
+    ],
+    "answer": [
+      "Descending order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What should a comparator return when a should come BEFORE b?",
+    "options": [
+      "A negative number",
+      "A positive number",
+      "0",
+      "true"
+    ],
+    "answer": [
+      "A negative number"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid sortBy<T>(List<T> a, int Function(T, T) cmp) {\n  for (var i = 1; i < a.length; i++) {\n    final cur = a[i];\n    var j = i - 1;\n    while (j >= 0 && cmp(a[j], cur) > 0) {\n      a[j + 1] = a[j];\n      j--;\n    }\n    a[j + 1] = cur;\n  }\n}\n\nvoid main() {\n  final words = ['pear', 'fig', 'banana', 'kiwi'];\n  sortBy<String>(words, (a, b) => a.length.compareTo(b.length));\n  print(words);\n}\n```",
+    "options": [
+      "[fig, pear, kiwi, banana]",
+      "[fig, kiwi, pear, banana]",
+      "[banana, kiwi, pear, fig]",
+      "[pear, fig, banana, kiwi]"
+    ],
+    "answer": [
+      "[fig, pear, kiwi, banana]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Stable-sorting ['pear', 'fig', 'banana', 'kiwi'] by length gives fig, pear, kiwi, banana. Why does 'pear' come before 'kiwi'?",
+    "options": [
+      "Both have length 4, and a stable sort keeps their original order",
+      "Alphabetical order",
+      "pear is shorter",
+      "It's random"
+    ],
+    "answer": [
+      "Both have length 4, and a stable sort keeps their original order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which algorithm does the fewest comparisons on already-sorted input?",
+    "options": [
+      "Insertion sort (n − 1 comparisons)",
+      "Selection sort",
+      "They're all equal",
+      "Bubble sort without early exit"
+    ],
+    "answer": [
+      "Insertion sort (n − 1 comparisons)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many comparisons does selection sort make on any input of n elements?",
+    "options": [
+      "n(n − 1)/2",
+      "n − 1",
+      "n log n",
+      "It depends on the input"
+    ],
+    "answer": [
+      "n(n − 1)/2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var count = 0;\n  final a = [2, 4, 1, 3, 5];\n  for (var i = 0; i < a.length; i++) {\n    for (var j = i + 1; j < a.length; j++) {\n      if (a[i] > a[j]) count++;\n    }\n  }\n  print(count);\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "5"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort would you use in production Dart code for 1,000,000 numbers?",
+    "options": [
+      "List.sort() (O(n log n))",
+      "Bubble sort",
+      "Selection sort",
+      "Insertion sort"
+    ],
+    "answer": [
+      "List.sort() (O(n log n))"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is cocktail shaker sort?",
+    "options": [
+      "Bubble sort that alternates left-to-right and right-to-left passes",
+      "Selection sort with two minimums",
+      "Insertion sort with binary search",
+      "A random shuffle"
+    ],
+    "answer": [
+      "Bubble sort that alternates left-to-right and right-to-left passes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does binary insertion sort improve?",
+    "options": [
+      "The number of comparisons (O(log i) to find each spot), but not the shifts",
+      "The number of shifts",
+      "Stability",
+      "It makes it O(n log n) overall"
+    ],
+    "answer": [
+      "The number of comparisons (O(log i) to find each spot), but not the shifts"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid insertionSort(List<int> a) {\n  for (var i = 1; i < a.length; i++) {\n    final cur = a[i];\n    var j = i - 1;\n    while (j >= 0 && a[j] > cur) {\n      a[j + 1] = a[j];\n      j--;\n    }\n    a[j + 1] = cur;\n  }\n}\n\nvoid main() {\n  final a = [5, 4, 3, 2, 1];\n  insertionSort(a);\n  print('${a.first} ${a.last}');\n}\n```",
+    "options": [
+      "1 5",
+      "5 1",
+      "1 1",
+      "5 5"
+    ],
+    "answer": [
+      "1 5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [3, 2, 1];\n  var passes = 0;\n  for (var end = a.length - 1; end > 0; end--) {\n    var swapped = false;\n    for (var i = 0; i < end; i++) {\n      if (a[i] > a[i + 1]) {\n        final t = a[i];\n        a[i] = a[i + 1];\n        a[i + 1] = t;\n        swapped = true;\n      }\n    }\n    passes++;\n    if (!swapped) break;\n  }\n  print('$a $passes');\n}\n```",
+    "options": [
+      "[1, 2, 3] 2",
+      "[1, 2, 3] 3",
+      "[1, 2, 3] 1",
+      "[3, 2, 1] 0"
+    ],
+    "answer": [
+      "[1, 2, 3] 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [1, 2, 3, 4];\n  var passes = 0;\n  for (var end = a.length - 1; end > 0; end--) {\n    var swapped = false;\n    for (var i = 0; i < end; i++) {\n      if (a[i] > a[i + 1]) swapped = true;\n    }\n    passes++;\n    if (!swapped) break;\n  }\n  print(passes);\n}\n```",
+    "options": [
+      "1",
+      "3",
+      "4",
+      "0"
+    ],
+    "answer": [
+      "1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What error occurs if bubble sort's inner loop runs `i < a.length` while comparing `a[i + 1]`?",
+    "options": [
+      "RangeError on the last iteration",
+      "StackOverflowError",
+      "No error",
+      "TypeError"
+    ],
+    "answer": [
+      "RangeError on the last iteration"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which elementary sort's inner loop is a `while` that may stop early?",
+    "options": [
+      "Insertion sort",
+      "Selection sort",
+      "Bubble sort without early exit",
+      "None"
+    ],
+    "answer": [
+      "Insertion sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After step i of selection sort, what is true?",
+    "options": [
+      "The first i + 1 positions hold the i + 1 smallest elements in order",
+      "The last i elements are sorted",
+      "The list is half sorted",
+      "Nothing is guaranteed"
+    ],
+    "answer": [
+      "The first i + 1 positions hold the i + 1 smallest elements in order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After step i of insertion sort, what is true?",
+    "options": [
+      "The first i + 1 elements are sorted relative to each other (but may not be final)",
+      "The first i + 1 elements are the smallest overall",
+      "The last element is the largest",
+      "The list is fully sorted"
+    ],
+    "answer": [
+      "The first i + 1 elements are sorted relative to each other (but may not be final)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Swap two list elements using a temporary variable:\n\n```dart\nvoid main() {\n  final a = [1, 2];\n  final %fill% = a[0];\n  a[0] = a[1];\n  a[1] = t;\n  print(a); // [2, 1]\n}\n```",
+    "answer": [
+      "t"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "Which statement about all three elementary sorts is true?",
+    "options": [
+      "They are all in-place comparison sorts",
+      "They are all stable",
+      "They are all O(n log n)",
+      "They all need extra arrays"
+    ],
+    "answer": [
+      "They are all in-place comparison sorts"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = ['b', 'a', 'c'];\n  for (var i = 1; i < a.length; i++) {\n    final cur = a[i];\n    var j = i - 1;\n    while (j >= 0 && a[j].compareTo(cur) > 0) {\n      a[j + 1] = a[j];\n      j--;\n    }\n    a[j + 1] = cur;\n  }\n  print(a.join());\n}\n```",
+    "options": [
+      "abc",
+      "bac",
+      "cba",
+      "acb"
+    ],
+    "answer": [
+      "abc"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If doubling the input size roughly quadruples a sort's running time, what is its complexity?",
+    "options": [
+      "O(n²)",
+      "O(n log n)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which elementary sort is commonly used to teach sorting but rarely used in practice?",
+    "options": [
+      "Bubble sort",
+      "Insertion sort",
+      "List.sort",
+      "Merge sort"
+    ],
+    "answer": [
+      "Bubble sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Sorting 2,000 random numbers, which is usually fastest?",
+    "options": [
+      "List.sort()",
+      "Insertion sort",
+      "Selection sort",
+      "Bubble sort"
+    ],
+    "answer": [
+      "List.sort()"
+    ],
+    "type": "mcq"
+  }
+]

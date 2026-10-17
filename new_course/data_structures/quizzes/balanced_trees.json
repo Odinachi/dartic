@@ -1,0 +1,714 @@
+[
+  {
+    "question": "What does a self-balancing BST guarantee?",
+    "options": [
+      "Height stays O(log n), so operations stay O(log n) regardless of insertion order",
+      "Every node has exactly two children",
+      "Keys are stored in a hash table",
+      "Search is always O(1)"
+    ],
+    "answer": [
+      "Height stays O(log n), so operations stay O(log n) regardless of insertion order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a rotation?",
+    "options": [
+      "A local O(1) restructuring of nodes that preserves BST order",
+      "Reversing the whole tree",
+      "Sorting the keys",
+      "Swapping two leaf values"
+    ],
+    "answer": [
+      "A local O(1) restructuring of nodes that preserves BST order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of a single rotation?",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a rotation NOT change?",
+    "options": [
+      "The in-order (sorted) sequence of keys",
+      "The heights of nodes",
+      "The root of the subtree",
+      "Parent–child links"
+    ],
+    "answer": [
+      "The in-order (sorted) sequence of keys"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a right rotation at node y with left child x, what becomes the new subtree root?",
+    "options": [
+      "x",
+      "y",
+      "x's left child",
+      "y's right child"
+    ],
+    "answer": [
+      "x"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a right rotation at y (left child x), where does x's old right subtree go?",
+    "options": [
+      "It becomes y's left subtree",
+      "It becomes x's left subtree",
+      "It's deleted",
+      "It becomes y's right subtree"
+    ],
+    "answer": [
+      "It becomes y's left subtree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  int key;\n  Node? left, right;\n  Node(this.key, [this.left, this.right]);\n}\n\nNode rotateRight(Node y) {\n  final x = y.left!;\n  y.left = x.right;\n  x.right = y;\n  return x;\n}\n\nNode rotateLeft(Node x) {\n  final y = x.right!;\n  x.right = y.left;\n  y.left = x;\n  return y;\n}\n\nvoid main() {\n  final root = rotateRight(Node(3, Node(2, Node(1))));\n  print('${root.key} ${root.left!.key} ${root.right!.key}');\n}\n```",
+    "options": [
+      "2 1 3",
+      "3 2 1",
+      "1 2 3",
+      "2 3 1"
+    ],
+    "answer": [
+      "2 1 3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  int key;\n  Node? left, right;\n  Node(this.key, [this.left, this.right]);\n}\n\nNode rotateRight(Node y) {\n  final x = y.left!;\n  y.left = x.right;\n  x.right = y;\n  return x;\n}\n\nNode rotateLeft(Node x) {\n  final y = x.right!;\n  x.right = y.left;\n  y.left = x;\n  return y;\n}\n\nvoid main() {\n  final root = rotateLeft(Node(1, null, Node(2, null, Node(3))));\n  print('${root.key} ${root.left!.key} ${root.right!.key}');\n}\n```",
+    "options": [
+      "2 1 3",
+      "1 2 3",
+      "3 2 1",
+      "2 3 1"
+    ],
+    "answer": [
+      "2 1 3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  int key;\n  Node? left, right;\n  Node(this.key, [this.left, this.right]);\n}\n\nNode rotateRight(Node y) {\n  final x = y.left!;\n  y.left = x.right;\n  x.right = y;\n  return x;\n}\n\nNode rotateLeft(Node x) {\n  final y = x.right!;\n  x.right = y.left;\n  y.left = x;\n  return y;\n}\n\nList<int> inOrder(Node? n) =>\n    n == null ? [] : [...inOrder(n.left), n.key, ...inOrder(n.right)];\n\nvoid main() {\n  final t = Node(4, Node(2, Node(1), Node(3)), Node(5));\n  final before = inOrder(t);\n  final after = inOrder(rotateRight(t));\n  print(before.toString() == after.toString());\n}\n```",
+    "options": [
+      "true",
+      "false",
+      "It throws an error",
+      "[1, 2, 3, 4, 5]"
+    ],
+    "answer": [
+      "true"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the left rotation:\n\n```dart\nNode rotateLeft(Node x) {\n  final y = x.%order%!;\n  x.right = y.%order%;\n  y.left = %order%;\n  return y;\n}\n```",
+    "options": [
+      "right",
+      "left",
+      "x",
+      "y",
+      "null"
+    ],
+    "answer": [
+      "right",
+      "left",
+      "x"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What is an AVL tree's balance factor?",
+    "options": [
+      "height(left) − height(right)",
+      "Number of left nodes − number of right nodes",
+      "Depth of the deepest leaf",
+      "Key of left child − key of right child"
+    ],
+    "answer": [
+      "height(left) − height(right)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which balance factors are allowed at every AVL node?",
+    "options": [
+      "-1, 0 or +1",
+      "0 only",
+      "-2 to +2",
+      "Any value"
+    ],
+    "answer": [
+      "-1, 0 or +1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "An AVL node has balance factor +2 and its left child has balance factor +1. Which case is it and what's the fix?",
+    "options": [
+      "Left-Left: rotate right at the node",
+      "Left-Right: rotate left then right",
+      "Right-Right: rotate left",
+      "Right-Left: rotate right then left"
+    ],
+    "answer": [
+      "Left-Left: rotate right at the node"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "An AVL node has balance factor −2 and its right child has balance factor −1. What's the fix?",
+    "options": [
+      "Rotate left at the node",
+      "Rotate right at the node",
+      "Rotate right then left",
+      "No rotation needed"
+    ],
+    "answer": [
+      "Rotate left at the node"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "An AVL node has balance factor +2 and its left child has balance factor −1. What's the fix?",
+    "options": [
+      "Rotate the left child left, then rotate the node right",
+      "Rotate the node right only",
+      "Rotate the node left only",
+      "Rotate the right child right"
+    ],
+    "answer": [
+      "Rotate the left child left, then rotate the node right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "An AVL node has balance factor −2 and its right child has balance factor +1. What's the fix?",
+    "options": [
+      "Rotate the right child right, then rotate the node left",
+      "Rotate the node left only",
+      "Rotate the node right only",
+      "Rotate the left child left"
+    ],
+    "answer": [
+      "Rotate the right child right, then rotate the node left"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Inserting 30, then 10, then 20 into an empty AVL tree creates which case?",
+    "options": [
+      "Left-Right",
+      "Left-Left",
+      "Right-Right",
+      "Right-Left"
+    ],
+    "answer": [
+      "Left-Right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Inserting 10, 20, 30 into an empty AVL tree creates which case, and what is the final root?",
+    "options": [
+      "Right-Right, root 20",
+      "Left-Left, root 20",
+      "Right-Left, root 30",
+      "No rotation, root 10"
+    ],
+    "answer": [
+      "Right-Right, root 20"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does an AVL node store its height?",
+    "options": [
+      "So balance factors can be computed in O(1)",
+      "To sort the keys",
+      "To count the nodes",
+      "To store colors"
+    ],
+    "answer": [
+      "So balance factors can be computed in O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After a rotation, which node's height must be updated first?",
+    "options": [
+      "The node that moved down",
+      "The node that moved up",
+      "The root of the whole tree",
+      "Every leaf"
+    ],
+    "answer": [
+      "The node that moved down"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the worst-case height of an AVL tree with n nodes, approximately?",
+    "options": [
+      "1.44 × log₂ n",
+      "2 × log₂ n",
+      "n − 1",
+      "√n"
+    ],
+    "answer": [
+      "1.44 × log₂ n"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When does AVL rebalancing happen during insertion?",
+    "options": [
+      "On the way back up the insertion path",
+      "Before descending",
+      "Only at the root",
+      "Once every 100 inserts"
+    ],
+    "answer": [
+      "On the way back up the insertion path"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass N {\n  final int key;\n  N? left, right;\n  int height = 0;\n  N(this.key);\n}\n\nint h(N? n) => n?.height ?? -1;\n\nvoid main() {\n  final n = N(10)..left = N(5);\n  n.height = 1 + (h(n.left) > h(n.right) ? h(n.left) : h(n.right));\n  print(h(n.left) - h(n.right));\n}\n```",
+    "options": [
+      "1",
+      "0",
+      "-1",
+      "2"
+    ],
+    "answer": [
+      "1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `n?.height ?? -1` return when n is null?",
+    "options": [
+      "-1",
+      "0",
+      "null",
+      "It throws an error"
+    ],
+    "answer": [
+      "-1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Inserting 1, 2, 3, ..., 1000 in order into an AVL tree gives a height of about:",
+    "options": [
+      "9 to 10",
+      "999",
+      "500",
+      "1"
+    ],
+    "answer": [
+      "9 to 10"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which is a red-black tree rule?",
+    "options": [
+      "A red node cannot have a red child",
+      "Every node must be black",
+      "Every leaf must be red",
+      "Left children are always red"
+    ],
+    "answer": [
+      "A red node cannot have a red child"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which other red-black rule, combined with \"no red-red\", bounds the height?",
+    "options": [
+      "Every root-to-null path has the same number of black nodes",
+      "Every path has the same number of red nodes",
+      "The tree is perfect",
+      "Every node has two children"
+    ],
+    "answer": [
+      "Every root-to-null path has the same number of black nodes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What color is the root of a red-black tree?",
+    "options": [
+      "Black",
+      "Red",
+      "Either",
+      "It has no color"
+    ],
+    "answer": [
+      "Black"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What color are the null (missing) children in a red-black tree considered to be?",
+    "options": [
+      "Black",
+      "Red",
+      "No color",
+      "Same as their parent"
+    ],
+    "answer": [
+      "Black"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the maximum height of a red-black tree with n nodes?",
+    "options": [
+      "About 2 × log₂(n + 1)",
+      "About 1.44 × log₂ n",
+      "n − 1",
+      "log₂ n exactly"
+    ],
+    "answer": [
+      "About 2 × log₂(n + 1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why do red-black trees allow taller trees than AVL trees?",
+    "options": [
+      "Their balance rule is more relaxed, which means fewer rotations",
+      "They don't use rotations",
+      "They store more keys per node",
+      "They're unbalanced"
+    ],
+    "answer": [
+      "Their balance rule is more relaxed, which means fewer rotations"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which tends to have faster lookups, and which faster inserts?",
+    "options": [
+      "AVL: faster lookups; red-black: fewer rotations on inserts/deletes",
+      "Red-black: faster lookups; AVL: faster inserts",
+      "They're identical",
+      "Splay trees are fastest for both always"
+    ],
+    "answer": [
+      "AVL: faster lookups; red-black: fewer rotations on inserts/deletes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which libraries commonly use red-black trees?",
+    "options": [
+      "Java's TreeMap and C++'s std::map",
+      "Dart's HashMap",
+      "Python's dict",
+      "JavaScript arrays"
+    ],
+    "answer": [
+      "Java's TreeMap and C++'s std::map"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nenum Color { red, black }\n\nclass R {\n  final Color c;\n  final R? left, right;\n  const R(this.c, [this.left, this.right]);\n}\n\nint bh(R? n) {\n  if (n == null) return 1;\n  final l = bh(n.left), r = bh(n.right);\n  if (l == -1 || r == -1 || l != r) return -1;\n  return l + (n.c == Color.black ? 1 : 0);\n}\n\nvoid main() {\n  print(bh(const R(Color.black, R(Color.red), R(Color.red))));\n  print(bh(const R(Color.black, R(Color.black), null)));\n}\n```",
+    "options": [
+      "2 then -1",
+      "3 then 2",
+      "2 then 2",
+      "1 then -1"
+    ],
+    "answer": [
+      "2 then -1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which balanced tree does Dart's `SplayTreeMap` use?",
+    "options": [
+      "A splay tree",
+      "An AVL tree",
+      "A red-black tree",
+      "A B-tree"
+    ],
+    "answer": [
+      "A splay tree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a splay tree do after accessing a key?",
+    "options": [
+      "Rotates that node all the way up to the root",
+      "Deletes it",
+      "Moves it to a leaf",
+      "Recolors it red"
+    ],
+    "answer": [
+      "Rotates that node all the way up to the root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What extra data does a splay tree node store for balancing?",
+    "options": [
+      "Nothing",
+      "Its height",
+      "A color bit",
+      "A parent count"
+    ],
+    "answer": [
+      "Nothing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What guarantee does a splay tree give?",
+    "options": [
+      "O(log n) amortized per operation",
+      "O(log n) worst case per operation",
+      "O(1) for every operation",
+      "O(n) for every operation"
+    ],
+    "answer": [
+      "O(log n) amortized per operation"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which access pattern makes splay trees especially fast?",
+    "options": [
+      "Repeatedly accessing the same few \"hot\" keys",
+      "Accessing keys in random order",
+      "Never accessing any key",
+      "Only deleting keys"
+    ],
+    "answer": [
+      "Repeatedly accessing the same few \"hot\" keys"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why do databases and file systems use B-trees?",
+    "options": [
+      "Each node holds many keys and fits a disk page, keeping the tree very shallow",
+      "They avoid comparisons",
+      "They are binary",
+      "They never need balancing"
+    ],
+    "answer": [
+      "Each node holds many keys and fits a disk page, keeping the tree very shallow"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a B-tree, where are all the leaves?",
+    "options": [
+      "At the same depth",
+      "At random depths",
+      "Only on the left",
+      "In a separate list"
+    ],
+    "answer": [
+      "At the same depth"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What problem do balanced trees solve compared to plain BSTs?",
+    "options": [
+      "Sorted or adversarial input can no longer create an O(n)-height tree",
+      "They make hashing faster",
+      "They remove the need for comparisons",
+      "They allow duplicate keys"
+    ],
+    "answer": [
+      "Sorted or adversarial input can no longer create an O(n)-height tree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After a recursive insert that may rotate, why must you write `root = _insert(root, key)`?",
+    "options": [
+      "The subtree's root may change after a rotation",
+      "To count inserts",
+      "Because Dart copies trees",
+      "It isn't necessary"
+    ],
+    "answer": [
+      "The subtree's root may change after a rotation"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if you apply a single right rotation to a Left-Right shape?",
+    "options": [
+      "The imbalance just moves to the other side",
+      "It's fixed correctly",
+      "The tree loses nodes",
+      "It becomes a B-tree"
+    ],
+    "answer": [
+      "The imbalance just moves to the other side"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For production Dart code needing a sorted map, what should you use?",
+    "options": [
+      "SplayTreeMap from dart:collection",
+      "A hand-written AVL tree",
+      "A HashMap sorted after every insert",
+      "A List with insert(0, x)"
+    ],
+    "answer": [
+      "SplayTreeMap from dart:collection"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final s = SplayTreeSet<int>();\n  for (var i = 10; i >= 1; i--) {\n    s.add(i);\n  }\n  print(s.take(3).toList());\n}\n```",
+    "options": [
+      "[1, 2, 3]",
+      "[10, 9, 8]",
+      "[1, 10, 2]",
+      "[]"
+    ],
+    "answer": [
+      "[1, 2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Roughly how tall is a perfectly balanced binary tree with 1,000,000,000 keys?",
+    "options": [
+      "About 30 levels",
+      "About 1,000 levels",
+      "About 1,000,000 levels",
+      "About 3 levels"
+    ],
+    "answer": [
+      "About 30 levels"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many rotations at most does a red-black tree need per insert?",
+    "options": [
+      "2",
+      "log n",
+      "n",
+      "0"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which statement about rotations and the BST property is true?",
+    "options": [
+      "Rotations keep the BST property intact",
+      "Rotations temporarily break it",
+      "Rotations sort the tree",
+      "Rotations only work on leaves"
+    ],
+    "answer": [
+      "Rotations keep the BST property intact"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a left rotation at x with right child y, which subtree switches parents?",
+    "options": [
+      "y's left subtree becomes x's right subtree",
+      "x's left subtree",
+      "y's right subtree",
+      "None"
+    ],
+    "answer": [
+      "y's left subtree becomes x's right subtree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Declare an enum for node colors:\n\n```dart\n%fill% Color { red, black }\n\nvoid main() {\n  print(Color.red.name); // red\n}\n```",
+    "answer": [
+      "enum"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nenum Color { red, black }\n\nvoid main() {\n  print(Color.values.length);\n  print(Color.black.index);\n}\n```",
+    "options": [
+      "2 then 1",
+      "2 then 0",
+      "1 then 1",
+      "3 then 2"
+    ],
+    "answer": [
+      "2 then 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which balanced tree is best described as \"rebalances by moving recently used keys to the top\"?",
+    "options": [
+      "Splay tree",
+      "AVL tree",
+      "Red-black tree",
+      "B-tree"
+    ],
+    "answer": [
+      "Splay tree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which balanced tree is best described as \"every node's subtrees differ in height by at most one\"?",
+    "options": [
+      "AVL tree",
+      "Red-black tree",
+      "Splay tree",
+      "B-tree"
+    ],
+    "answer": [
+      "AVL tree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  int key;\n  Node? left, right;\n  Node(this.key, [this.left, this.right]);\n}\n\nNode rotateRight(Node y) {\n  final x = y.left!;\n  y.left = x.right;\n  x.right = y;\n  return x;\n}\n\nNode rotateLeft(Node x) {\n  final y = x.right!;\n  x.right = y.left;\n  y.left = x;\n  return y;\n}\n\nint height(Node? n) {\n  if (n == null) return -1;\n  final l = height(n.left), r = height(n.right);\n  return 1 + (l > r ? l : r);\n}\n\nvoid main() {\n  final chain = Node(3, Node(2, Node(1)));\n  print(height(chain));\n  print(height(rotateRight(chain)));\n}\n```",
+    "options": [
+      "2 then 1",
+      "3 then 2",
+      "2 then 2",
+      "1 then 1"
+    ],
+    "answer": [
+      "2 then 1"
+    ],
+    "type": "mcq"
+  }
+]

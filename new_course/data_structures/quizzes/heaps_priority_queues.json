@@ -1,0 +1,722 @@
+[
+  {
+    "question": "What does a priority queue always let you remove?",
+    "options": [
+      "The item with the highest priority (e.g. the smallest value)",
+      "The oldest item",
+      "The newest item",
+      "A random item"
+    ],
+    "answer": [
+      "The item with the highest priority (e.g. the smallest value)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the min-heap property?",
+    "options": [
+      "Every parent is ≤ its children",
+      "Every left child is < its right sibling",
+      "The array is sorted",
+      "Every leaf is at the same depth"
+    ],
+    "answer": [
+      "Every parent is ≤ its children"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Where is the smallest element in a min-heap?",
+    "options": [
+      "At the root (index 0)",
+      "At the last index",
+      "In the leftmost leaf",
+      "It could be anywhere"
+    ],
+    "answer": [
+      "At the root (index 0)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is the array behind a heap sorted?",
+    "options": [
+      "No, only the root is guaranteed to be the min (or max)",
+      "Yes, always ascending",
+      "Yes, always descending",
+      "Only after every insert"
+    ],
+    "answer": [
+      "No, only the root is guaranteed to be the min (or max)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What shape is a binary heap always?",
+    "options": [
+      "A complete binary tree",
+      "A degenerate tree",
+      "A perfect tree only",
+      "A BST"
+    ],
+    "answer": [
+      "A complete binary tree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a 0-based heap array, what is the left child index of node i?",
+    "options": [
+      "2i + 1",
+      "2i",
+      "i + 1",
+      "(i - 1) ~/ 2"
+    ],
+    "answer": [
+      "2i + 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a 0-based heap array, what is the right child index of node i?",
+    "options": [
+      "2i + 2",
+      "2i + 1",
+      "2i",
+      "i + 2"
+    ],
+    "answer": [
+      "2i + 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a 0-based heap array, what is the parent index of node i?",
+    "options": [
+      "(i - 1) ~/ 2",
+      "i ~/ 2",
+      "2i + 1",
+      "i - 1"
+    ],
+    "answer": [
+      "(i - 1) ~/ 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final heap = [2, 5, 3, 9, 6, 4];\n  const i = 1;\n  print('${heap[2 * i + 1]} ${heap[2 * i + 2]} ${heap[(i - 1) ~/ 2]}');\n}\n```",
+    "options": [
+      "9 6 2",
+      "5 3 2",
+      "9 6 5",
+      "3 9 2"
+    ],
+    "answer": [
+      "9 6 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can heaps be stored in a plain array without gaps?",
+    "options": [
+      "They are complete trees, filled level by level, left to right",
+      "They are sorted",
+      "They only store ints",
+      "They have no leaves"
+    ],
+    "answer": [
+      "They are complete trees, filled level by level, left to right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of peeking at the minimum of a min-heap?",
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of inserting into a binary heap?",
+    "options": [
+      "O(log n)",
+      "O(1)",
+      "O(n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of removing the minimum from a binary heap?",
+    "options": [
+      "O(log n)",
+      "O(1)",
+      "O(n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of searching a heap for an arbitrary value?",
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(1)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does insertion work in a min-heap?",
+    "options": [
+      "Add at the end, then swap with the parent while smaller (sift up)",
+      "Add at the root, then sift down",
+      "Insert in sorted position",
+      "Add anywhere and re-sort"
+    ],
+    "answer": [
+      "Add at the end, then swap with the parent while smaller (sift up)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does removeMin work in a min-heap?",
+    "options": [
+      "Move the last element to the root, then sift down toward the smaller child",
+      "Remove index 0 and shift everything left",
+      "Remove the last element",
+      "Sort and remove the first"
+    ],
+    "answer": [
+      "Move the last element to the root, then sift down toward the smaller child"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When sifting down in a min-heap, which child do you swap with?",
+    "options": [
+      "The smaller child",
+      "The larger child",
+      "Always the left child",
+      "Always the right child"
+    ],
+    "answer": [
+      "The smaller child"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass MinHeap {\n  final d = <int>[];\n\n  void add(int v) {\n    d.add(v);\n    var i = d.length - 1;\n    while (i > 0) {\n      final p = (i - 1) ~/ 2;\n      if (d[p] <= d[i]) break;\n      final t = d[p];\n      d[p] = d[i];\n      d[i] = t;\n      i = p;\n    }\n  }\n\n  int removeMin() {\n    final top = d.first, last = d.removeLast();\n    if (d.isNotEmpty) {\n      d[0] = last;\n      var i = 0;\n      while (true) {\n        final l = 2 * i + 1, r = l + 1;\n        var m = i;\n        if (l < d.length && d[l] < d[m]) m = l;\n        if (r < d.length && d[r] < d[m]) m = r;\n        if (m == i) break;\n        final t = d[i];\n        d[i] = d[m];\n        d[m] = t;\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n\nvoid main() {\n  final h = MinHeap();\n  for (final x in [7, 3, 5, 1]) {\n    h.add(x);\n  }\n  print(h.d.first);\n}\n```",
+    "options": [
+      "1",
+      "7",
+      "3",
+      "5"
+    ],
+    "answer": [
+      "1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass MinHeap {\n  final d = <int>[];\n\n  void add(int v) {\n    d.add(v);\n    var i = d.length - 1;\n    while (i > 0) {\n      final p = (i - 1) ~/ 2;\n      if (d[p] <= d[i]) break;\n      final t = d[p];\n      d[p] = d[i];\n      d[i] = t;\n      i = p;\n    }\n  }\n\n  int removeMin() {\n    final top = d.first, last = d.removeLast();\n    if (d.isNotEmpty) {\n      d[0] = last;\n      var i = 0;\n      while (true) {\n        final l = 2 * i + 1, r = l + 1;\n        var m = i;\n        if (l < d.length && d[l] < d[m]) m = l;\n        if (r < d.length && d[r] < d[m]) m = r;\n        if (m == i) break;\n        final t = d[i];\n        d[i] = d[m];\n        d[m] = t;\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n\nvoid main() {\n  final h = MinHeap();\n  for (final x in [7, 3, 5, 1]) {\n    h.add(x);\n  }\n  print(h.d);\n}\n```",
+    "options": [
+      "[1, 3, 5, 7]",
+      "[1, 7, 5, 3]",
+      "[7, 3, 5, 1]",
+      "[1, 5, 3, 7]"
+    ],
+    "answer": [
+      "[1, 3, 5, 7]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass MinHeap {\n  final d = <int>[];\n\n  void add(int v) {\n    d.add(v);\n    var i = d.length - 1;\n    while (i > 0) {\n      final p = (i - 1) ~/ 2;\n      if (d[p] <= d[i]) break;\n      final t = d[p];\n      d[p] = d[i];\n      d[i] = t;\n      i = p;\n    }\n  }\n\n  int removeMin() {\n    final top = d.first, last = d.removeLast();\n    if (d.isNotEmpty) {\n      d[0] = last;\n      var i = 0;\n      while (true) {\n        final l = 2 * i + 1, r = l + 1;\n        var m = i;\n        if (l < d.length && d[l] < d[m]) m = l;\n        if (r < d.length && d[r] < d[m]) m = r;\n        if (m == i) break;\n        final t = d[i];\n        d[i] = d[m];\n        d[m] = t;\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n\nvoid main() {\n  final h = MinHeap();\n  for (final x in [4, 9, 2, 8, 1]) {\n    h.add(x);\n  }\n  final out = <int>[];\n  while (h.d.isNotEmpty) {\n    out.add(h.removeMin());\n  }\n  print(out);\n}\n```",
+    "options": [
+      "[1, 2, 4, 8, 9]",
+      "[4, 9, 2, 8, 1]",
+      "[9, 8, 4, 2, 1]",
+      "[1, 4, 2, 8, 9]"
+    ],
+    "answer": [
+      "[1, 2, 4, 8, 9]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass MinHeap {\n  final d = <int>[];\n\n  void add(int v) {\n    d.add(v);\n    var i = d.length - 1;\n    while (i > 0) {\n      final p = (i - 1) ~/ 2;\n      if (d[p] <= d[i]) break;\n      final t = d[p];\n      d[p] = d[i];\n      d[i] = t;\n      i = p;\n    }\n  }\n\n  int removeMin() {\n    final top = d.first, last = d.removeLast();\n    if (d.isNotEmpty) {\n      d[0] = last;\n      var i = 0;\n      while (true) {\n        final l = 2 * i + 1, r = l + 1;\n        var m = i;\n        if (l < d.length && d[l] < d[m]) m = l;\n        if (r < d.length && d[r] < d[m]) m = r;\n        if (m == i) break;\n        final t = d[i];\n        d[i] = d[m];\n        d[m] = t;\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n\nvoid main() {\n  final h = MinHeap();\n  for (final x in [5, 3, 8]) {\n    h.add(x);\n  }\n  h.removeMin();\n  print(h.d.first);\n}\n```",
+    "options": [
+      "5",
+      "3",
+      "8",
+      "It throws an error"
+    ],
+    "answer": [
+      "5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you turn a min-heap with a comparator into a max-heap?",
+    "options": [
+      "Reverse the comparator, e.g. (a, b) => b.compareTo(a)",
+      "Sort the array descending",
+      "Use removeLast instead",
+      "It's impossible"
+    ],
+    "answer": [
+      "Reverse the comparator, e.g. (a, b) => b.compareTo(a)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Where is the largest element in a max-heap?",
+    "options": [
+      "At the root",
+      "At the last index",
+      "In a leaf",
+      "Anywhere"
+    ],
+    "answer": [
+      "At the root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is \"heapify\"?",
+    "options": [
+      "Building a heap from an existing array in O(n)",
+      "Inserting one item",
+      "Sorting a heap",
+      "Converting a heap into a BST"
+    ],
+    "answer": [
+      "Building a heap from an existing array in O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Where does bottom-up heapify start sifting down?",
+    "options": [
+      "At index length ~/ 2 - 1 (the last non-leaf), moving back to 0",
+      "At index 0, moving forward",
+      "At the last index",
+      "At the middle only"
+    ],
+    "answer": [
+      "At index length ~/ 2 - 1 (the last non-leaf), moving back to 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is bottom-up heapify O(n) instead of O(n log n)?",
+    "options": [
+      "Most nodes are near the bottom and only sift down a short distance",
+      "It skips half the elements",
+      "It uses a hash map",
+      "It doesn't compare elements"
+    ],
+    "answer": [
+      "Most nodes are near the bottom and only sift down a short distance"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid siftDown(List<int> a, int i, int n) {\n  while (true) {\n    final l = 2 * i + 1, r = l + 1;\n    var m = i;\n    if (l < n && a[l] < a[m]) m = l;\n    if (r < n && a[r] < a[m]) m = r;\n    if (m == i) return;\n    final t = a[i];\n    a[i] = a[m];\n    a[m] = t;\n    i = m;\n  }\n}\n\nvoid main() {\n  final a = [5, 4, 3, 2, 1];\n  for (var i = a.length ~/ 2 - 1; i >= 0; i--) {\n    siftDown(a, i, a.length);\n  }\n  print(a[0]);\n}\n```",
+    "options": [
+      "1",
+      "5",
+      "2",
+      "3"
+    ],
+    "answer": [
+      "1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of heap sort?",
+    "options": [
+      "O(n log n)",
+      "O(n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which property does heap sort have?",
+    "options": [
+      "In place, but not stable",
+      "Stable, but uses O(n) extra space",
+      "O(n) time",
+      "Only works on strings"
+    ],
+    "answer": [
+      "In place, but not stable"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In ascending heap sort, which kind of heap is built first?",
+    "options": [
+      "A max-heap",
+      "A min-heap",
+      "A BST",
+      "No heap"
+    ],
+    "answer": [
+      "A max-heap"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "To find the k LARGEST elements in a stream, which heap do you keep?",
+    "options": [
+      "A min-heap of size k",
+      "A max-heap of all elements",
+      "A max-heap of size k",
+      "A min-heap of all elements"
+    ],
+    "answer": [
+      "A min-heap of size k"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why use a min-heap (not a max-heap) of size k to track the k largest?",
+    "options": [
+      "Its root is the smallest of the current top k, which is the one to evict",
+      "Min-heaps are faster",
+      "Max-heaps can't hold k items",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "Its root is the smallest of the current top k, which is the one to evict"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the complexity of top-k with a size-k heap over n items?",
+    "options": [
+      "O(n log k)",
+      "O(n log n)",
+      "O(k log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n log k)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass MinHeap {\n  final d = <int>[];\n\n  void add(int v) {\n    d.add(v);\n    var i = d.length - 1;\n    while (i > 0) {\n      final p = (i - 1) ~/ 2;\n      if (d[p] <= d[i]) break;\n      final t = d[p];\n      d[p] = d[i];\n      d[i] = t;\n      i = p;\n    }\n  }\n\n  int removeMin() {\n    final top = d.first, last = d.removeLast();\n    if (d.isNotEmpty) {\n      d[0] = last;\n      var i = 0;\n      while (true) {\n        final l = 2 * i + 1, r = l + 1;\n        var m = i;\n        if (l < d.length && d[l] < d[m]) m = l;\n        if (r < d.length && d[r] < d[m]) m = r;\n        if (m == i) break;\n        final t = d[i];\n        d[i] = d[m];\n        d[m] = t;\n        i = m;\n      }\n    }\n    return top;\n  }\n}\n\nList<int> topK(List<int> xs, int k) {\n  final h = MinHeap();\n  for (final x in xs) {\n    if (h.d.length < k) {\n      h.add(x);\n    } else if (x > h.d.first) {\n      h.removeMin();\n      h.add(x);\n    }\n  }\n  return h.d..sort();\n}\n\nvoid main() {\n  print(topK([4, 1, 7, 3, 9, 2], 2));\n}\n```",
+    "options": [
+      "[7, 9]",
+      "[1, 2]",
+      "[9, 7]",
+      "[4, 7]"
+    ],
+    "answer": [
+      "[7, 9]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the k-th largest element, using a size-k min-heap after processing all items?",
+    "options": [
+      "The heap's root",
+      "The heap's last element",
+      "The maximum in the heap",
+      "It can't be found"
+    ],
+    "answer": [
+      "The heap's root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many items are in the heap at a time when merging k sorted lists?",
+    "options": [
+      "At most k (one candidate per list)",
+      "All N items",
+      "Exactly 1",
+      "2k"
+    ],
+    "answer": [
+      "At most k (one candidate per list)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the complexity of merging k sorted lists with N total items using a heap?",
+    "options": [
+      "O(N log k)",
+      "O(N log N)",
+      "O(N k)",
+      "O(k log N)"
+    ],
+    "answer": [
+      "O(N log k)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which Dart package provides a ready-made `PriorityQueue`?",
+    "options": [
+      "package:collection",
+      "dart:collection",
+      "dart:core",
+      "package:path"
+    ],
+    "answer": [
+      "package:collection"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which famous algorithm relies on a min-heap of distances?",
+    "options": [
+      "Dijkstra's shortest path",
+      "Binary search",
+      "Bubble sort",
+      "Kadane's algorithm"
+    ],
+    "answer": [
+      "Dijkstra's shortest path"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How can you maintain the median of a stream efficiently?",
+    "options": [
+      "Two heaps: a max-heap for the lower half and a min-heap for the upper half",
+      "One sorted list",
+      "A hash map of counts",
+      "A stack"
+    ],
+    "answer": [
+      "Two heaps: a max-heap for the lower half and a min-heap for the upper half"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In an emergency room priority queue, what does a two-level comparator (urgency, then arrival) achieve?",
+    "options": [
+      "Equally urgent patients are served in arrival order",
+      "Faster inserts",
+      "Patients are sorted alphabetically",
+      "It removes duplicates"
+    ],
+    "answer": [
+      "Equally urgent patients are served in arrival order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  int cmp((int, int) a, (int, int) b) {\n    final c = a.$1.compareTo(b.$1);\n    return c != 0 ? c : a.$2.compareTo(b.$2);\n  }\n\n  final items = [(2, 1), (1, 5), (1, 2)]..sort(cmp);\n  print(items.first);\n}\n```",
+    "options": [
+      "(1, 2)",
+      "(1, 5)",
+      "(2, 1)",
+      "It throws an error"
+    ],
+    "answer": [
+      "(1, 2)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if you change an item's priority while it's inside a heap?",
+    "options": [
+      "The heap property can break; remove and re-add it instead",
+      "The heap re-sorts itself",
+      "Nothing; heaps track changes",
+      "It throws immediately"
+    ],
+    "answer": [
+      "The heap property can break; remove and re-add it instead"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is \"lazy deletion\" in priority queues?",
+    "options": [
+      "Pushing a new entry and skipping stale ones when they're popped later",
+      "Never removing anything",
+      "Deleting the root only",
+      "Deleting in a background isolate"
+    ],
+    "answer": [
+      "Pushing a new entry and skipping stale ones when they're popped later"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which structure gives O(1) min AND O(log n) arbitrary lookup by key?",
+    "options": [
+      "None of these alone: a heap gives O(1) min but O(n) lookup",
+      "A min-heap",
+      "A FIFO queue",
+      "A stack"
+    ],
+    "answer": [
+      "None of these alone: a heap gives O(1) min but O(n) lookup"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a 1-based heap array, what are the children of i?",
+    "options": [
+      "2i and 2i + 1",
+      "2i + 1 and 2i + 2",
+      "i + 1 and i + 2",
+      "i ~/ 2"
+    ],
+    "answer": [
+      "2i and 2i + 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many levels does a binary heap with 1,000,000 elements have, roughly?",
+    "options": [
+      "About 20",
+      "About 1,000",
+      "About 500,000",
+      "About 2"
+    ],
+    "answer": [
+      "About 20"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete sift-up for a min-heap:\n\n```dart\nvoid siftUp(List<int> d, int i) {\n  while (i > 0) {\n    final p = (i %order% 1) %order% 2;\n    if (d[p] <= d[i]) break;\n    final t = d[p];\n    d[p] = d[i];\n    d[i] = t;\n    i = %order%;\n  }\n}\n```",
+    "options": [
+      "-",
+      "~/",
+      "p",
+      "+",
+      "%",
+      "i"
+    ],
+    "answer": [
+      "-",
+      "~/",
+      "p"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Complete the child index computation in sift-down:\n\n```dart\nfinal left = %order% * i + 1;\nfinal right = %order% + 1;\n```",
+    "options": [
+      "2",
+      "left",
+      "i",
+      "right"
+    ],
+    "answer": [
+      "2",
+      "left"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final pq = SplayTreeSet<(int, String)>((a, b) {\n    final c = a.$1.compareTo(b.$1);\n    return c != 0 ? c : a.$2.compareTo(b.$2);\n  });\n  pq\n    ..add((3, 'c'))\n    ..add((1, 'a'))\n    ..add((2, 'b'));\n  final first = pq.first;\n  pq.remove(first);\n  print('${first.$2} ${pq.first.$2}');\n}\n```",
+    "options": [
+      "a b",
+      "c b",
+      "a c",
+      "b a"
+    ],
+    "answer": [
+      "a b"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why include tie-breakers in a SplayTreeSet comparator used as a priority queue?",
+    "options": [
+      "Otherwise items with equal priority are treated as duplicates and dropped",
+      "For faster sorting",
+      "To make it a max-heap",
+      "It's not needed"
+    ],
+    "answer": [
+      "Otherwise items with equal priority are treated as duplicates and dropped"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which use case is NOT a good fit for a heap?",
+    "options": [
+      "Iterating all items in sorted order repeatedly",
+      "Getting the next scheduled event",
+      "Finding the top 10 scores",
+      "Dijkstra's algorithm"
+    ],
+    "answer": [
+      "Iterating all items in sorted order repeatedly"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final heap = [1, 3, 2, 7, 4];\n  var ok = true;\n  for (var i = 1; i < heap.length; i++) {\n    if (heap[(i - 1) ~/ 2] > heap[i]) ok = false;\n  }\n  print(ok);\n}\n```",
+    "options": [
+      "true",
+      "false",
+      "1",
+      "It throws an error"
+    ],
+    "answer": [
+      "true"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which typedef line gives a record type a readable name?",
+    "options": [
+      "typedef Patient = ({String name, int urgency});",
+      "class Patient = (String, int);",
+      "record Patient(String name, int urgency);",
+      "alias Patient = (String, int);"
+    ],
+    "answer": [
+      "typedef Patient = ({String name, int urgency});"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Adding n items to a heap one at a time costs O(n log n). What does heapify cost to build a heap from n items already in an array?",
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  }
+]

@@ -1,5 +1,6 @@
 import 'package:dartcoder/main.dart';
 import 'package:dartcoder/shared/theme.dart';
+import 'package:dartcoder/shared/widgets/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -361,16 +362,27 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final isPrimary = backgroundColor == null;
+    return Pressable(
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: 40.h,
+        height: 46.h,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.r),
-            border:
-                borderColor != null ? Border.all(color: borderColor!) : null,
-            color: backgroundColor ?? AppColors.appBlue),
+          borderRadius: BorderRadius.circular(14.r),
+          border: borderColor != null ? Border.all(color: borderColor!) : null,
+          color: backgroundColor,
+          gradient: isPrimary ? AppColors.primaryGradient : null,
+          boxShadow: isPrimary
+              ? [
+                  BoxShadow(
+                    color: AppColors.appBlue.withValues(alpha: .3),
+                    blurRadius: 14,
+                    offset: const Offset(0, 6),
+                  ),
+                ]
+              : null,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -380,8 +392,8 @@ class AppButton extends StatelessWidget {
               text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: textColor),
+                  fontWeight: FontWeight.w700,
+                  color: textColor ?? (isPrimary ? AppColors.white : null)),
             )
           ],
         ),
@@ -491,90 +503,71 @@ class ShadowContainer extends StatelessWidget {
   final VoidCallback? onTap;
   final bool? completed;
 
-  Color _getDifficultyColor(String difficulty) {
-    switch (difficulty.toLowerCase()) {
-      case 'easy':
-        return Colors.green;
-      case 'medium':
-        return Colors.orange;
-      case 'hard':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 20.h, left: 5.w, right: 5.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.r),
-          color: Theme.of(context).scaffoldBackgroundColor,
-          border: Border.all(
-              color: completed == true
-                  ? AppColors.green
-                  : AppColors.grey.withValues(alpha: .1)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.grey.withValues(alpha: .05),
-              blurRadius: 8,
-              spreadRadius: 2,
-              offset: const Offset(0, 4),
-            ),
-            BoxShadow(
-              color: AppColors.grey.withValues(alpha: .01),
-              blurRadius: 4,
-              spreadRadius: 1,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(
-              title ?? 'Default',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            subtitle: Column(
+    final palette = context.palette;
+    final isDone = completed == true;
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12.h),
+      child: AppCard(
+        onTap: onTap,
+        padding: EdgeInsets.fromLTRB(16.w, 14.h, 12.w, 14.h),
+        borderColor: isDone ? AppColors.success.withValues(alpha: .45) : null,
+        child: Row(children: [
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (desc != null)
+                Text(
+                  title ?? 'Default',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.text.titleMedium
+                      ?.copyWith(fontSize: 15.sp, letterSpacing: -.15),
+                ),
+                if (desc != null) ...[
+                  SizedBox(height: 4.h),
                   Text(
                     desc!,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 12,
-                        ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.text.bodyMedium?.copyWith(
+                        fontSize: 12.5.sp,
+                        height: 1.4,
+                        color: palette.textMuted),
                   ),
-                if (difficulty != null)
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: _getDifficultyColor(difficulty ?? ""),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      difficulty ?? "",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                ],
+                if (difficulty != null || isDone) ...[
+                  SizedBox(height: 10.h),
+                  Row(children: [
+                    if (difficulty != null)
+                      Tag(difficulty!, color: AppColors.difficulty(difficulty)),
+                    if (difficulty != null && isDone) SizedBox(width: 6.w),
+                    if (isDone)
+                      Tag('Solved',
+                          color: AppColors.success, icon: Icons.check_rounded),
+                  ]),
+                ],
               ],
             ),
           ),
-        ),
+          SizedBox(width: 8.w),
+          Container(
+            width: 30.r,
+            height: 30.r,
+            decoration: BoxDecoration(
+              color: isDone
+                  ? AppColors.success.withValues(alpha: .14)
+                  : palette.surfaceAlt,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              isDone ? Icons.check_rounded : Icons.arrow_forward_rounded,
+              size: 16.sp,
+              color: isDone ? AppColors.success : palette.textMuted,
+            ),
+          ),
+        ]),
       ),
     );
   }

@@ -1,0 +1,13 @@
+{
+  "name": "upload-dsa-course",
+  "private": true,
+  "type": "module",
+  "description": "Uploads new_course/data_structures to the DSA_course Firestore collection.",
+  "scripts": {
+    "dry-run": "node upload.mjs",
+    "upload": "node upload.mjs --commit"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

@@ -65,11 +65,14 @@ class _CourseDetailsState extends State<CourseDetails> {
     super.dispose();
   }
 
- 
-
   final showNav = ValueNotifier(false);
 
   final courses = AppData.courses;
+
+  late final _lastCourseId = courses.values
+      .expand((e) => e)
+      .map((e) => e.id ?? 0)
+      .reduce((a, b) => a > b ? a : b);
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +83,26 @@ class _CourseDetailsState extends State<CourseDetails> {
             appBar: AppBar(
               centerTitle: true,
               title: Text(value.title ?? ""),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(3),
+                child: AnimatedBuilder(
+                  animation: scrollController,
+                  builder: (_, __) {
+                    final position = scrollController.hasClients
+                        ? scrollController.position
+                        : null;
+                    final max = position?.hasContentDimensions == true
+                        ? position!.maxScrollExtent
+                        : 0.0;
+                    final read = max <= 0 ? 0.0 : position!.pixels / max;
+                    return LinearProgressIndicator(
+                      value: read.clamp(0.0, 1.0),
+                      minHeight: 3,
+                      backgroundColor: Colors.transparent,
+                    );
+                  },
+                ),
+              ),
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -184,7 +207,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                                   arg: EditorScreenArg(isPractice: true));
                             },
                             onNext: () {
-                              if (courseNotifier.value.id != 33) {
+                              if (courseNotifier.value.id != _lastCourseId) {
                                 final item = courses.values
                                     .toList()
                                     .reduce((value, element) => value + element)

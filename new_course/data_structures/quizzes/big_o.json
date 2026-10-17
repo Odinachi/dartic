@@ -1,0 +1,774 @@
+[
+  {
+    "question": "What does Big O notation describe?",
+    "options": [
+      "How work or memory grows as the input size grows",
+      "The exact running time in milliseconds",
+      "The number of lines of code",
+      "How many bugs a function has"
+    ],
+    "answer": [
+      "How work or memory grows as the input size grows"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of this function?\n\n```dart\nint first(List<int> items) => items[0];\n```",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of this function?\n\n```dart\nint total(List<int> items) {\n  var sum = 0;\n  for (final x in items) {\n    sum += x;\n  }\n  return sum;\n}\n```",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of this function?\n\n```dart\nvoid pairs(List<int> items) {\n  for (final a in items) {\n    for (final b in items) {\n      print('$a$b');\n    }\n  }\n}\n```",
+    "options": [
+      "O(n²)",
+      "O(n)",
+      "O(2n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Simplify `O(3n + 10)`:",
+    "options": [
+      "O(n)",
+      "O(3n)",
+      "O(n + 10)",
+      "O(1)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Simplify `O(n² + 5n + 100)`:",
+    "options": [
+      "O(n²)",
+      "O(n² + n)",
+      "O(n)",
+      "O(100)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Simplify `O(n log n + n)`:",
+    "options": [
+      "O(n log n)",
+      "O(n)",
+      "O(log n)",
+      "O(n² log n)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Order these complexities from fastest (best) to slowest (worst):\n\n```dart\n// %order% < %order% < %order% < %order% < %order%\n```",
+    "options": [
+      "O(n log n)",
+      "O(1)",
+      "O(n²)",
+      "O(log n)",
+      "O(n)"
+    ],
+    "answer": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n log n)",
+      "O(n²)"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "A loop that halves `n` every iteration runs about how many times?",
+    "options": [
+      "log₂ n",
+      "n",
+      "n / 2",
+      "n²"
+    ],
+    "answer": [
+      "log₂ n"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var n = 16;\n  var count = 0;\n  while (n > 1) {\n    n ~/= 2;\n    count++;\n  }\n  print(count);\n}\n```",
+    "options": [
+      "4",
+      "8",
+      "16",
+      "5"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Fill in the operator for integer division:\n\n```dart\nvoid main() {\n  final mid = (0 + 9) %fill% 2;\n  print(mid); // 4\n}\n```",
+    "answer": [
+      "~/"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "About how many steps does binary search need for 1,000,000 sorted items?",
+    "options": [
+      "About 20",
+      "About 1,000",
+      "About 500,000",
+      "About 1,000,000"
+    ],
+    "answer": [
+      "About 20"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What must be true about a list before you can binary search it?",
+    "options": [
+      "It must be sorted",
+      "It must have an even length",
+      "It must contain no zeros",
+      "It must be a Set"
+    ],
+    "answer": [
+      "It must be sorted"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of Dart's `List.sort()`?",
+    "options": [
+      "O(n log n)",
+      "O(n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of this function?\n\n```dart\nvoid printBoth(List<int> a, List<int> b) {\n  for (final x in a) print(x);\n  for (final y in b) print(y);\n}\n```",
+    "options": [
+      "O(a + b)",
+      "O(a × b)",
+      "O(n²)",
+      "O(1)"
+    ],
+    "answer": [
+      "O(a + b)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of this function?\n\n```dart\nvoid grid(List<int> rows, List<int> cols) {\n  for (final r in rows) {\n    for (final c in cols) {\n      print('$r,$c');\n    }\n  }\n}\n```",
+    "options": [
+      "O(r × c)",
+      "O(r + c)",
+      "O(n)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(r × c)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is this function O(n²) even though it has only one visible loop?\n\n```dart\nList<int> common(List<int> a, List<int> b) =>\n    a.where((x) => b.contains(x)).toList();\n```",
+    "options": [
+      "b.contains is O(n) and runs once per element of a",
+      "where() always sorts the list first",
+      "toList() is O(n²)",
+      "It isn't O(n²); it's O(n)"
+    ],
+    "answer": [
+      "b.contains is O(n) and runs once per element of a"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Make the lookup O(1) average by converting `b` first:\n\n```dart\nList<int> common(List<int> a, List<int> b) {\n  final bSet = b.%fill%();\n  return a.where(bSet.contains).toList();\n}\n\nvoid main() {\n  print(common([1, 2, 3], [2, 3, 4]));\n}\n```",
+    "answer": [
+      "toSet"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [1, 2, 3, 4];\n  final bSet = {3, 4, 5};\n  print(a.where(bSet.contains).toList());\n}\n```",
+    "options": [
+      "[3, 4]",
+      "[1, 2]",
+      "[3, 4, 5]",
+      "[]"
+    ],
+    "answer": [
+      "[3, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of `list.insert(0, x)` on a Dart List with n items?",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of `list.removeLast()`?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the overall complexity of this loop?\n\n```dart\nvoid main() {\n  final out = <int>[];\n  for (final x in [1, 2, 3, 4]) {\n    out.insert(0, x);\n  }\n  print(out);\n}\n```",
+    "options": [
+      "O(n²)",
+      "O(n)",
+      "O(log n)",
+      "O(1)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final out = <int>[];\n  for (final x in [1, 2, 3, 4]) {\n    out.insert(0, x);\n  }\n  print(out);\n}\n```",
+    "options": [
+      "[4, 3, 2, 1]",
+      "[1, 2, 3, 4]",
+      "[1, 4, 3, 2]",
+      "[4]"
+    ],
+    "answer": [
+      "[4, 3, 2, 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of `map.containsValue(v)`?",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the average cost of `map.containsKey(k)` on a Dart `Map`?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the space complexity of this function (extra memory)?\n\n```dart\nint sum(List<int> nums) {\n  var total = 0;\n  for (final n in nums) total += n;\n  return total;\n}\n```",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the space complexity of this function?\n\n```dart\nList<int> doubled(List<int> nums) => [for (final n in nums) n * 2];\n```",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does this recursive function use O(n) extra space?\n\n```dart\nint sumRec(List<int> nums, [int i = 0]) {\n  if (i == nums.length) return 0;\n  return nums[i] + sumRec(nums, i + 1);\n}\n```",
+    "options": [
+      "Each recursive call adds a stack frame, and there are n calls",
+      "It copies the list on every call",
+      "It creates a Set of visited indexes",
+      "Recursion always uses O(n²) space"
+    ],
+    "answer": [
+      "Each recursive call adds a stack frame, and there are n calls"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint sumRec(List<int> nums, [int i = 0]) {\n  if (i == nums.length) return 0;\n  return nums[i] + sumRec(nums, i + 1);\n}\n\nvoid main() {\n  print(sumRec([2, 4, 6]));\n}\n```",
+    "options": [
+      "12",
+      "6",
+      "0",
+      "246"
+    ],
+    "answer": [
+      "12"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of the naive recursive Fibonacci?\n\n```dart\nint fib(int n) => n <= 1 ? n : fib(n - 1) + fib(n - 2);\n```",
+    "options": [
+      "Exponential (about O(2ⁿ))",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "Exponential (about O(2ⁿ))"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint fib(int n) => n <= 1 ? n : fib(n - 1) + fib(n - 2);\n\nvoid main() {\n  print(fib(10));\n}\n```",
+    "options": [
+      "55",
+      "89",
+      "34",
+      "10"
+    ],
+    "answer": [
+      "55"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which technique turns the naive exponential Fibonacci into O(n)?",
+    "options": [
+      "Memoization (remembering computed results)",
+      "Using a Set instead of recursion",
+      "Calling sort() first",
+      "Using double instead of int"
+    ],
+    "answer": [
+      "Memoization (remembering computed results)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For linear search, what is the best case?",
+    "options": [
+      "O(1): the target is the first item",
+      "O(n): the target is missing",
+      "O(log n): the list is halved",
+      "O(n²): every pair is checked"
+    ],
+    "answer": [
+      "O(1): the target is the first item"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For linear search, what is the worst case?",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Hash map lookups are usually quoted as O(1). Which case is that?",
+    "options": [
+      "Average case",
+      "Worst case",
+      "Best case only",
+      "Amortized worst case"
+    ],
+    "answer": [
+      "Average case"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the worst case of a hash map lookup when everything collides?",
+    "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sorting algorithm has a worst case of O(n²)?",
+    "options": [
+      "Quick sort",
+      "Merge sort",
+      "Heap sort",
+      "None of them"
+    ],
+    "answer": [
+      "Quick sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the overall complexity?\n\n```dart\nvoid mystery(List<int> items) {\n  items.sort();\n  for (final x in items) {\n    print(x);\n  }\n}\n```",
+    "options": [
+      "O(n log n)",
+      "O(n)",
+      "O(n²)",
+      "O(n² log n)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the overall complexity of a loop over n items where each iteration does an O(log n) halving loop?",
+    "options": [
+      "O(n log n)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete binary search:\n\n```dart\nint search(List<int> a, int t) {\n  var lo = 0, hi = a.length - 1;\n  while (lo %order% hi) {\n    final mid = (lo + hi) %order% 2;\n    if (a[mid] == t) return mid;\n    if (a[mid] < t) {\n      lo = mid %order% 1;\n    } else {\n      hi = mid %order% 1;\n    }\n  }\n  return -1;\n}\n```",
+    "options": [
+      "<=",
+      "~/",
+      "+",
+      "-",
+      "/",
+      "*",
+      ">="
+    ],
+    "answer": [
+      "<=",
+      "~/",
+      "+",
+      "-"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint search(List<int> a, int t) {\n  var lo = 0, hi = a.length - 1;\n  while (lo <= hi) {\n    final mid = (lo + hi) ~/ 2;\n    if (a[mid] == t) return mid;\n    if (a[mid] < t) {\n      lo = mid + 1;\n    } else {\n      hi = mid - 1;\n    }\n  }\n  return -1;\n}\n\nvoid main() {\n  print(search([1, 3, 5, 7, 9, 11], 9));\n}\n```",
+    "options": [
+      "4",
+      "3",
+      "5",
+      "-1"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nint search(List<int> a, int t) {\n  var lo = 0, hi = a.length - 1;\n  while (lo <= hi) {\n    final mid = (lo + hi) ~/ 2;\n    if (a[mid] == t) return mid;\n    if (a[mid] < t) {\n      lo = mid + 1;\n    } else {\n      hi = mid - 1;\n    }\n  }\n  return -1;\n}\n\nvoid main() {\n  print(search([1, 3, 5, 7], 4));\n}\n```",
+    "options": [
+      "-1",
+      "2",
+      "null",
+      "It throws an error"
+    ],
+    "answer": [
+      "-1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which change makes duplicate detection O(n) instead of O(n²)?",
+    "options": [
+      "Track seen items in a Set",
+      "Use two nested for loops",
+      "Sort the list after every check",
+      "Use list.indexOf for every item"
+    ],
+    "answer": [
+      "Track seen items in a Set"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the O(n) duplicate check:\n\n```dart\nbool hasDup(List<int> items) {\n  final seen = <int>{};\n  for (final x in items) {\n    if (!seen.%fill%(x)) return true;\n  }\n  return false;\n}\n```",
+    "answer": [
+      "add"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nbool hasDup(List<int> items) {\n  final seen = <int>{};\n  for (final x in items) {\n    if (!seen.add(x)) return true;\n  }\n  return false;\n}\n\nvoid main() {\n  print(hasDup([1, 2, 3]));\n  print(hasDup([1, 2, 1]));\n}\n```",
+    "options": [
+      "false then true",
+      "true then false",
+      "false then false",
+      "true then true"
+    ],
+    "answer": [
+      "false then true"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If an algorithm is O(n²) and takes 1 second for 1,000 items, roughly how long for 10,000 items?",
+    "options": [
+      "About 100 seconds",
+      "About 10 seconds",
+      "About 1 second",
+      "About 1,000 seconds"
+    ],
+    "answer": [
+      "About 100 seconds"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If an algorithm is O(n) and takes 2 seconds for 1 million items, roughly how long for 2 million?",
+    "options": [
+      "About 4 seconds",
+      "About 2 seconds",
+      "About 8 seconds",
+      "About 3 seconds"
+    ],
+    "answer": [
+      "About 4 seconds"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Going from 1 million to 1 billion items adds roughly how many steps to binary search?",
+    "options": [
+      "About 10",
+      "About 1,000",
+      "About 1 million",
+      "It doubles"
+    ],
+    "answer": [
+      "About 10"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of a function that always prints only the first 10 items of a list (or fewer if shorter)?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(10n)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the import that provides `log`, `ln2` and `pow`:\n\n```dart\nimport 'dart:%fill%';\n\nvoid main() {\n  print(pow(2, 10)); // 1024\n}\n```",
+    "answer": [
+      "math"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nvoid main() {\n  print((log(1024) / ln2).round());\n}\n```",
+    "options": [
+      "10",
+      "1024",
+      "2",
+      "512"
+    ],
+    "answer": [
+      "10"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of `list.length` on a Dart List?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "It depends on the item type"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the Big O of `queue.removeFirst()` on a Dart `Queue`?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of looking up a key in a `SplayTreeMap`?",
+    "options": [
+      "O(log n) amortized",
+      "O(1)",
+      "O(n²)",
+      "O(n) always"
+    ],
+    "answer": [
+      "O(log n) amortized"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the reverse email index (map comprehension):\n\n```dart\nvoid main() {\n  final users = {'u1': 'ada@x.com', 'u2': 'bob@x.com'};\n  final byEmail = {%order% (final e in users.%order%) e.%order%: e.%order%};\n  print(byEmail['bob@x.com']); // u2\n}\n```",
+    "options": [
+      "for",
+      "entries",
+      "value",
+      "key",
+      "keys",
+      "while"
+    ],
+    "answer": [
+      "for",
+      "entries",
+      "value",
+      "key"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Which statement about dropping constants is correct?",
+    "options": [
+      "O(2n) and O(n) describe the same growth rate",
+      "O(2n) is twice as slow so it's a different class",
+      "Constants matter more than the highest term",
+      "O(n/2) is the same as O(log n)"
+    ],
+    "answer": [
+      "O(2n) and O(n) describe the same growth rate"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which of these is exponential?",
+    "options": [
+      "O(2ⁿ)",
+      "O(n²)",
+      "O(n log n)",
+      "O(n¹⁰⁰)"
+    ],
+    "answer": [
+      "O(2ⁿ)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var steps = 0;\n  for (var i = 0; i < 4; i++) {\n    for (var j = 0; j < 4; j++) {\n      steps++;\n    }\n  }\n  print(steps);\n}\n```",
+    "options": [
+      "16",
+      "8",
+      "4",
+      "256"
+    ],
+    "answer": [
+      "16"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var steps = 0;\n  final n = 5;\n  for (var i = 0; i < n; i++) {\n    for (var j = i + 1; j < n; j++) {\n      steps++;\n    }\n  }\n  print(steps);\n}\n```",
+    "options": [
+      "10",
+      "25",
+      "5",
+      "20"
+    ],
+    "answer": [
+      "10"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A nested loop where the inner loop starts at `i + 1` does n(n−1)/2 steps. What is its Big O?\n\n```dart\nfor (var i = 0; i < n; i++) {\n  for (var j = i + 1; j < n; j++) {\n    steps++;\n  }\n}\n```",
+    "options": [
+      "O(n²)",
+      "O(n)",
+      "O(n/2)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n²)"
+    ],
+    "type": "mcq"
+  }
+]

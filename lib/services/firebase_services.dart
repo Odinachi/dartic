@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartcoder/features/authetication/models/user_model.dart';
 import 'package:dartcoder/features/authetication/models/user_progress.dart';
+import 'package:dartcoder/features/courses/models/dsa_course_model.dart';
 import 'package:dartcoder/features/editor/models/dsa_list_model.dart';
 import 'package:dartcoder/features/editor/models/test_case.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -300,6 +301,89 @@ class FirebaseServices {
       );
     } catch (e) {
       return (documents: null, lastDocument: null, error: e.toString());
+    }
+  }
+
+  Future<({List<DsaModule>? modules, String? error})> fetchDsaModules() async {
+    try {
+      final snapshot = await _firestore
+          .collection('DSA_course_modules')
+          .orderBy('module')
+          .get();
+      final modules =
+          snapshot.docs.map((doc) => DsaModule.fromJson(doc.data())).toList();
+      return (modules: modules, error: null);
+    } catch (e) {
+      return (modules: null, error: e.toString());
+    }
+  }
+
+  /// One page of lesson summaries ordered by `order`. Filtering by [module]
+  /// uses a range on `order` (module * 100 .. module * 100 + 99), so no
+  /// composite index is needed.
+  Future<
+      ({
+        List<DsaCourseModel>? lessons,
+        DocumentSnapshot? lastDocument,
+        String? error
+      })> fetchDsaCoursePage({
+    int? module,
+    int limit = 10,
+    DocumentSnapshot? startAfterDocument,
+  }) async {
+    try {
+      Query<Map<String, dynamic>> query = _firestore.collection('DSA_course');
+      if (module != null) {
+        query = query
+            .where('order', isGreaterThanOrEqualTo: module * 100)
+            .where('order', isLessThan: (module + 1) * 100);
+      }
+      query = query.orderBy('order').limit(limit);
+      if (startAfterDocument != null) {
+        query = query.startAfterDocument(startAfterDocument);
+      }
+      final snapshot = await query.get();
+      final lessons = snapshot.docs
+          .map((doc) => DsaCourseModel.fromJson(doc.data(), id: doc.id))
+          .toList();
+      return (
+        lessons: lessons,
+        lastDocument: snapshot.docs.isEmpty ? null : snapshot.docs.last,
+        error: null
+      );
+    } catch (e) {
+      return (lessons: null, lastDocument: null, error: e.toString());
+    }
+  }
+
+  final _dsaLessonCache = <String, DsaLessonContent>{};
+
+  /// Loads a lesson's markdown and quiz in parallel. Results are cached for
+  /// the session so moving back and forth between lessons is instant.
+  Future<({DsaLessonContent? content, String? error})> fetchDsaLessonContent(
+      String lessonId) async {
+    final cached = _dsaLessonCache[lessonId];
+    if (cached != null) return (content: cached, error: null);
+    try {
+      final lessonRef = _firestore.collection('DSA_course').doc(lessonId);
+      final [contentDoc, quizDoc] = await Future.wait([
+        lessonRef.collection('content').doc('main').get(),
+        lessonRef.collection('quiz').doc('main').get(),
+      ]);
+      final rawQuestions = quizDoc.data()?['questions'];
+      final content = DsaLessonContent(
+        markdown: contentDoc.data()?['markdown'] as String? ?? '',
+        questions: rawQuestions is List
+            ? rawQuestions
+                .whereType<Map>()
+                .map((e) => Map<String, dynamic>.from(e))
+                .toList()
+            : const [],
+      );
+      _dsaLessonCache[lessonId] = content;
+      return (content: content, error: null);
+    } catch (e) {
+      return (content: null, error: e.toString());
     }
   }
 

@@ -1,0 +1,693 @@
+[
+  {
+    "question": "What makes counting, radix and bucket sort \"non-comparison\" sorts?",
+    "options": [
+      "They place elements using their key values instead of comparing pairs",
+      "They never move elements",
+      "They only sort strings",
+      "They use recursion"
+    ],
+    "answer": [
+      "They place elements using their key values instead of comparing pairs"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How can non-comparison sorts beat the O(n log n) lower bound?",
+    "options": [
+      "That bound only applies to algorithms that learn order solely by comparisons",
+      "They cheat by skipping elements",
+      "They are actually O(n log n)",
+      "They only work on sorted data"
+    ],
+    "answer": [
+      "That bound only applies to algorithms that learn order solely by comparisons"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of counting sort with n items and key range k?",
+    "options": [
+      "O(n + k)",
+      "O(n log n)",
+      "O(n × k)",
+      "O(k log n)"
+    ],
+    "answer": [
+      "O(n + k)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When is counting sort a good choice?",
+    "options": [
+      "When keys are integers in a small range",
+      "When keys are arbitrary strings",
+      "When the key range is huge",
+      "When data is already sorted"
+    ],
+    "answer": [
+      "When keys are integers in a small range"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [3, 1, 2, 3, 0];\n  final counts = List<int>.filled(4, 0);\n  for (final x in a) {\n    counts[x]++;\n  }\n  print(counts);\n}\n```",
+    "options": [
+      "[1, 1, 1, 2]",
+      "[0, 1, 2, 3]",
+      "[3, 1, 2, 3]",
+      "[1, 2, 1, 1]"
+    ],
+    "answer": [
+      "[1, 1, 1, 2]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [4, 2, 2, 0, 4];\n  final counts = List<int>.filled(5, 0);\n  for (final x in a) {\n    counts[x]++;\n  }\n  final out = [\n    for (var v = 0; v < 5; v++)\n      for (var c = 0; c < counts[v]; c++) v,\n  ];\n  print(out);\n}\n```",
+    "options": [
+      "[0, 2, 2, 4, 4]",
+      "[4, 4, 2, 2, 0]",
+      "[0, 2, 4]",
+      "[4, 2, 2, 0, 4]"
+    ],
+    "answer": [
+      "[0, 2, 2, 4, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does a stable counting sort compute prefix sums of the counts?",
+    "options": [
+      "To find the starting output position for each key",
+      "To count inversions",
+      "To find the maximum key",
+      "To remove duplicates"
+    ],
+    "answer": [
+      "To find the starting output position for each key"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final counts = [2, 1, 2];\n  var total = 0;\n  for (var k = 0; k < counts.length; k++) {\n    final c = counts[k];\n    counts[k] = total;\n    total += c;\n  }\n  print(counts);\n}\n```",
+    "options": [
+      "[0, 2, 3]",
+      "[2, 3, 5]",
+      "[0, 1, 2]",
+      "[2, 1, 2]"
+    ],
+    "answer": [
+      "[0, 2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What makes the record-based counting sort stable?",
+    "options": [
+      "Items are placed by walking the input in order, so equal keys keep their order",
+      "It compares names on ties",
+      "It sorts twice",
+      "It uses a Set"
+    ],
+    "answer": [
+      "Items are placed by walking the input in order, so equal keys keep their order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final items = [(3, 'Zoe'), (1, 'Ali'), (3, 'Mia'), (1, 'Kai')];\n  final counts = List<int>.filled(4, 0);\n  for (final (k, _) in items) {\n    counts[k]++;\n  }\n  var total = 0;\n  for (var k = 0; k < 4; k++) {\n    final c = counts[k];\n    counts[k] = total;\n    total += c;\n  }\n  final out = List<String>.filled(items.length, '');\n  for (final (k, name) in items) {\n    out[counts[k]++] = name;\n  }\n  print(out.join(' '));\n}\n```",
+    "options": [
+      "Ali Kai Zoe Mia",
+      "Kai Ali Mia Zoe",
+      "Ali Kai Mia Zoe",
+      "Zoe Mia Ali Kai"
+    ],
+    "answer": [
+      "Ali Kai Zoe Mia"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does counting sort handle negative numbers?",
+    "options": [
+      "Offset every key by the minimum so the smallest maps to index 0",
+      "It can't, ever",
+      "It takes absolute values",
+      "It sorts them separately with bubble sort"
+    ],
+    "answer": [
+      "Offset every key by the minimum so the smallest maps to index 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [3, -2, 0, -2];\n  final lo = a.reduce((x, y) => x < y ? x : y);\n  print([for (final x in a) x - lo]);\n}\n```",
+    "options": [
+      "[5, 0, 2, 0]",
+      "[3, -2, 0, -2]",
+      "[1, 0, 0, 0]",
+      "[5, 2, 0, 2]"
+    ],
+    "answer": [
+      "[5, 0, 2, 0]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is counting sort a bad choice for `[1, 1000000000]`?",
+    "options": [
+      "The count array would need a billion slots for two numbers",
+      "It can't sort two numbers",
+      "The numbers are too small",
+      "It isn't stable"
+    ],
+    "answer": [
+      "The count array would need a billion slots for two numbers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does radix sort do?",
+    "options": [
+      "Sorts keys one digit at a time with a stable sort per digit",
+      "Picks a radix pivot and partitions",
+      "Hashes keys into buckets randomly",
+      "Compares the first digits only"
+    ],
+    "answer": [
+      "Sorts keys one digit at a time with a stable sort per digit"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In LSD radix sort, which digit is processed first?",
+    "options": [
+      "The least significant digit (ones)",
+      "The most significant digit",
+      "The middle digit",
+      "A random digit"
+    ],
+    "answer": [
+      "The least significant digit (ones)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why must each radix sort pass be stable?",
+    "options": [
+      "So the order established by less significant digits is kept for ties",
+      "To make it faster",
+      "Because digits are unique",
+      "It doesn't need to be"
+    ],
+    "answer": [
+      "So the order established by less significant digits is kept for ties"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `(x ~/ exp) % 10` extract when x = 802 and exp = 10?",
+    "options": [
+      "0",
+      "2",
+      "8",
+      "80"
+    ],
+    "answer": [
+      "0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const x = 4729;\n  print([for (var exp = 1; exp <= 1000; exp *= 10) (x ~/ exp) % 10]);\n}\n```",
+    "options": [
+      "[9, 2, 7, 4]",
+      "[4, 7, 2, 9]",
+      "[4729, 472, 47, 4]",
+      "[9, 29, 729, 4729]"
+    ],
+    "answer": [
+      "[9, 2, 7, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of radix sort with d digits in base b?",
+    "options": [
+      "O(d × (n + b))",
+      "O(n log n)",
+      "O(n × b × d²)",
+      "O(b^d)"
+    ],
+    "answer": [
+      "O(d × (n + b))"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many passes does base-10 radix sort need for numbers up to 802?",
+    "options": [
+      "3",
+      "2",
+      "10",
+      "802"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many passes does base-256 radix sort need for 32-bit integers?",
+    "options": [
+      "4",
+      "32",
+      "256",
+      "8"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<int> passByDigit(List<int> a, int exp) {\n  final buckets = List.generate(10, (_) => <int>[]);\n  for (final x in a) {\n    buckets[(x ~/ exp) % 10].add(x);\n  }\n  return [for (final b in buckets) ...b];\n}\n\nvoid main() {\n  print(passByDigit([170, 45, 75, 90, 802, 24, 2, 66], 1));\n}\n```",
+    "options": [
+      "[170, 90, 802, 2, 24, 45, 75, 66]",
+      "[2, 24, 45, 66, 75, 90, 170, 802]",
+      "[802, 2, 24, 45, 66, 170, 75, 90]",
+      "[170, 45, 75, 90, 802, 24, 2, 66]"
+    ],
+    "answer": [
+      "[170, 90, 802, 2, 24, 45, 75, 66]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<int> radix(List<int> a) {\n  var cur = [...a];\n  final mx = cur.reduce((x, y) => x > y ? x : y);\n  for (var exp = 1; mx ~/ exp > 0; exp *= 10) {\n    final b = List.generate(10, (_) => <int>[]);\n    for (final x in cur) {\n      b[(x ~/ exp) % 10].add(x);\n    }\n    cur = [for (final bucket in b) ...bucket];\n  }\n  return cur;\n}\n\nvoid main() {\n  print(radix([329, 457, 657, 839, 436, 720, 355]));\n}\n```",
+    "options": [
+      "[329, 355, 436, 457, 657, 720, 839]",
+      "[720, 355, 436, 457, 657, 329, 839]",
+      "[839, 720, 657, 457, 436, 355, 329]",
+      "[329, 457, 657, 839, 436, 720, 355]"
+    ],
+    "answer": [
+      "[329, 355, 436, 457, 657, 720, 839]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does LSD radix sort handle fixed-length strings?",
+    "options": [
+      "Bucket by character from the last position to the first",
+      "Sort by length first only",
+      "Hash each string",
+      "It can't"
+    ],
+    "answer": [
+      "Bucket by character from the last position to the first"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can LSD radix sort struggle with variable-length strings?",
+    "options": [
+      "It assumes all keys have the same number of positions; shorter strings need padding",
+      "It's unstable on strings",
+      "Strings can't be bucketed",
+      "It only works on digits"
+    ],
+    "answer": [
+      "It assumes all keys have the same number of positions; shorter strings need padding"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var words = ['ba', 'ab', 'aa', 'bb'];\n  for (var pos = 1; pos >= 0; pos--) {\n    final b = List.generate(128, (_) => <String>[]);\n    for (final w in words) {\n      b[w.codeUnitAt(pos)].add(w);\n    }\n    words = [for (final x in b) ...x];\n  }\n  print(words);\n}\n```",
+    "options": [
+      "[aa, ab, ba, bb]",
+      "[ba, ab, aa, bb]",
+      "[bb, ba, ab, aa]",
+      "[aa, ba, ab, bb]"
+    ],
+    "answer": [
+      "[aa, ab, ba, bb]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does bucket sort assume about the data?",
+    "options": [
+      "Values are spread fairly evenly over a known range",
+      "Values are all integers",
+      "Values are already sorted",
+      "Values are strings"
+    ],
+    "answer": [
+      "Values are spread fairly evenly over a known range"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is bucket sort's average time complexity with evenly spread data?",
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens to bucket sort if all values land in one bucket?",
+    "options": [
+      "It degrades to the cost of sorting that one bucket",
+      "It becomes O(1)",
+      "It throws an error",
+      "Nothing changes"
+    ],
+    "answer": [
+      "It degrades to the cost of sorting that one bucket"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For n values in [0, 1), which bucket does value x go into?",
+    "options": [
+      "floor(x × n)",
+      "x % n",
+      "round(x)",
+      "n − x"
+    ],
+    "answer": [
+      "floor(x × n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const n = 10;\n  print([0.78, 0.17, 0.05].map((x) => (x * n).floor()).toList());\n}\n```",
+    "options": [
+      "[7, 1, 0]",
+      "[8, 2, 1]",
+      "[78, 17, 5]",
+      "[0, 1, 7]"
+    ],
+    "answer": [
+      "[7, 1, 0]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort is best for 1,000,000 ages between 0 and 120?",
+    "options": [
+      "Counting sort",
+      "Bubble sort",
+      "Bucket sort with 1 bucket",
+      "Radix sort in base 1,000,000"
+    ],
+    "answer": [
+      "Counting sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort is best for 1,000,000 random 9-digit IDs?",
+    "options": [
+      "Radix sort (or List.sort)",
+      "Counting sort with a billion slots",
+      "Bubble sort",
+      "Selection sort"
+    ],
+    "answer": [
+      "Radix sort (or List.sort)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort is best for general objects with a custom comparator and unknown key range?",
+    "options": [
+      "List.sort (a comparison sort)",
+      "Counting sort",
+      "Radix sort",
+      "Bucket sort"
+    ],
+    "answer": [
+      "List.sort (a comparison sort)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does the \"Dutch national flag\" algorithm sort?",
+    "options": [
+      "A list containing only three distinct values (e.g. 0, 1, 2) in one pass",
+      "Strings by color",
+      "Any integers",
+      "Floating-point numbers"
+    ],
+    "answer": [
+      "A list containing only three distinct values (e.g. 0, 1, 2) in one pass"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [2, 0, 1, 2, 0];\n  var lo = 0, mid = 0, hi = a.length - 1;\n  while (mid <= hi) {\n    if (a[mid] == 0) {\n      final t = a[lo];\n      a[lo++] = a[mid];\n      a[mid++] = t;\n    } else if (a[mid] == 2) {\n      final t = a[hi];\n      a[hi--] = a[mid];\n      a[mid] = t;\n    } else {\n      mid++;\n    }\n  }\n  print(a);\n}\n```",
+    "options": [
+      "[0, 0, 1, 2, 2]",
+      "[2, 2, 1, 0, 0]",
+      "[0, 1, 2, 0, 2]",
+      "[2, 0, 1, 2, 0]"
+    ],
+    "answer": [
+      "[0, 0, 1, 2, 2]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the Dutch flag algorithm, why isn't `mid` advanced after swapping a 2 to the end?",
+    "options": [
+      "The value swapped in from the end hasn't been examined yet",
+      "It's a bug",
+      "2s must be checked twice",
+      "To keep it stable"
+    ],
+    "answer": [
+      "The value swapped in from the end hasn't been examined yet"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final ratings = [5, 3, 5, 4, 5];\n  final counts = List<int>.filled(6, 0);\n  for (final r in ratings) {\n    counts[r]++;\n  }\n  print('${counts[5]} ${'*' * counts[4]}');\n}\n```",
+    "options": [
+      "3 *",
+      "3 ***",
+      "1 *",
+      "5 *"
+    ],
+    "answer": [
+      "3 *"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which non-comparison sort uses about 10 buckets per pass in base 10?",
+    "options": [
+      "Radix sort",
+      "Counting sort with k = 10⁹",
+      "Bucket sort with n buckets",
+      "Quick sort"
+    ],
+    "answer": [
+      "Radix sort"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is counting sort (the stable, prefix-sum version) stable?",
+    "options": [
+      "Yes",
+      "No",
+      "Only for negative numbers",
+      "Only when k < n"
+    ],
+    "answer": [
+      "Yes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What extra space does counting sort use?",
+    "options": [
+      "O(n + k)",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n + k)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which statement is true about counting sort vs merge sort for scores 0–100?",
+    "options": [
+      "Counting sort is O(n + 101), merge sort is O(n log n)",
+      "Merge sort is always faster",
+      "Both are O(n²)",
+      "Counting sort can't handle duplicates"
+    ],
+    "answer": [
+      "Counting sort is O(n + 101), merge sort is O(n log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `List<Student?>.filled(n, null)` followed by `.cast<Student>()` achieve?",
+    "options": [
+      "Pre-sizes an output list, then exposes it as non-nullable after it's fully filled",
+      "Sorts the students",
+      "Removes null students",
+      "Copies the list twice"
+    ],
+    "answer": [
+      "Pre-sizes an output list, then exposes it as non-nullable after it's fully filled"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Extract the digit at position `exp` (1, 10, 100, ...):\n\n```dart\nvoid main() {\n  const x = 4729, exp = 100;\n  print((x ~/ exp) %fill% 10); // 7\n}\n```",
+    "answer": [
+      "%"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "Complete the counting step of counting sort:\n\n```dart\nfinal counts = List<int>.%order%(maxValue %order% 1, 0);\nfor (final x in a) {\n  counts[x]%order%;\n}\n```",
+    "options": [
+      "filled",
+      "+",
+      "++",
+      "generate",
+      "-",
+      "--"
+    ],
+    "answer": [
+      "filled",
+      "+",
+      "++"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Complete the stable placement step:\n\n```dart\nfor (final item in items) {\n  out[counts[item.%order%]%order%] = %order%;\n}\n```",
+    "options": [
+      "key",
+      "++",
+      "item",
+      "value",
+      "--",
+      "counts"
+    ],
+    "answer": [
+      "key",
+      "++",
+      "item"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final grades = ['B', 'A', 'C', 'A'];\n  final buckets = {'A': <String>[], 'B': <String>[], 'C': <String>[]};\n  for (final g in grades) {\n    buckets[g]!.add(g);\n  }\n  print(buckets.values.expand((b) => b).join());\n}\n```",
+    "options": [
+      "AABC",
+      "BACA",
+      "CBAA",
+      "ABC"
+    ],
+    "answer": [
+      "AABC"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does the h-index measure, and how can counting help compute it?",
+    "options": [
+      "Largest h with h papers having ≥ h citations; count papers per citation level",
+      "Average citations; sort descending",
+      "Total papers; use a set",
+      "Maximum citations; use a heap"
+    ],
+    "answer": [
+      "Largest h with h papers having ≥ h citations; count papers per citation level"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which sort would you NOT use for a list of 50 small integers in an app?",
+    "options": [
+      "A custom radix sort in base 256 (overkill; List.sort is fine)",
+      "List.sort",
+      "Insertion sort",
+      "Counting sort if values are tiny"
+    ],
+    "answer": [
+      "A custom radix sort in base 256 (overkill; List.sort is fine)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does MSD radix sort do differently from LSD?",
+    "options": [
+      "Processes the most significant digit first, recursing into buckets",
+      "Uses comparisons",
+      "Only works on negative numbers",
+      "Isn't a radix sort"
+    ],
+    "answer": [
+      "Processes the most significant digit first, recursing into buckets"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final a = [3, 1, 3, 2];\n  final maxV = a.reduce((x, y) => x > y ? x : y);\n  print(maxV + 1);\n}\n```",
+    "options": [
+      "4",
+      "3",
+      "2",
+      "10"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which key property is needed for counting sort keys?",
+    "options": [
+      "They must map to small non-negative integer indexes (possibly after offsetting)",
+      "They must be strings",
+      "They must be unique",
+      "They must be sorted already"
+    ],
+    "answer": [
+      "They must map to small non-negative integer indexes (possibly after offsetting)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the space cost of base-10 radix sort's buckets per pass?",
+    "options": [
+      "O(n + 10)",
+      "O(10ⁿ)",
+      "O(1)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n + 10)"
+    ],
+    "type": "mcq"
+  }
+]

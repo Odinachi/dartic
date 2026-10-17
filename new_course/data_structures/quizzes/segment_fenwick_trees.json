@@ -1,0 +1,717 @@
+[
+  {
+    "question": "What problem do segment trees and Fenwick trees solve?",
+    "options": [
+      "Fast range queries AND fast point updates on an array",
+      "Sorting arrays",
+      "Finding shortest paths",
+      "Hashing strings"
+    ],
+    "answer": [
+      "Fast range queries AND fast point updates on an array"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "With plain prefix sums, what is the cost of updating one element?",
+    "options": [
+      "O(n), because later prefixes must be rebuilt",
+      "O(1)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n), because later prefixes must be rebuilt"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of a range query and a point update in a segment tree?",
+    "options": [
+      "O(log n) each",
+      "O(1) each",
+      "O(n) each",
+      "O(n log n) each"
+    ],
+    "answer": [
+      "O(log n) each"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the cost of building a segment tree from n elements?",
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does each node of a sum segment tree store?",
+    "options": [
+      "The sum of the array range it covers",
+      "A single array element",
+      "The index of its parent",
+      "The number of leaves"
+    ],
+    "answer": [
+      "The sum of the array range it covers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a segment tree query, what happens when a node's range is completely inside the query range?",
+    "options": [
+      "Its stored value is used directly",
+      "Both children are queried",
+      "It contributes the identity value",
+      "The query stops with an error"
+    ],
+    "answer": [
+      "Its stored value is used directly"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a segment tree query, what happens when a node's range doesn't overlap the query at all?",
+    "options": [
+      "It contributes the identity value (e.g. 0 for sums)",
+      "Its value is used",
+      "Both children are queried",
+      "The query restarts"
+    ],
+    "answer": [
+      "It contributes the identity value (e.g. 0 for sums)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a segment tree query, what happens on partial overlap?",
+    "options": [
+      "Query both children and combine the results",
+      "Use the node's value",
+      "Return the identity",
+      "Skip the node"
+    ],
+    "answer": [
+      "Query both children and combine the results"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many array slots does a recursive (1-based) segment tree safely need for n elements?",
+    "options": [
+      "4n",
+      "n",
+      "n + 1",
+      "log n"
+    ],
+    "answer": [
+      "4n"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the iterative segment tree layout of size 2n, where are the leaves stored?",
+    "options": [
+      "tree[n .. 2n − 1]",
+      "tree[0 .. n − 1]",
+      "tree[1 .. n]",
+      "At random positions"
+    ],
+    "answer": [
+      "tree[n .. 2n − 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a 1-based array tree, what are the children of node i?",
+    "options": [
+      "2i and 2i + 1",
+      "2i + 1 and 2i + 2",
+      "i − 1 and i + 1",
+      "i ~/ 2"
+    ],
+    "answer": [
+      "2i and 2i + 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Seg {\n  final int n;\n  final List<int> tree;\n  Seg(List<int> data)\n      : n = data.length,\n        tree = List.filled(2 * data.length, 0) {\n    for (var i = 0; i < n; i++) {\n      tree[n + i] = data[i];\n    }\n    for (var i = n - 1; i > 0; i--) {\n      tree[i] = tree[2 * i] + tree[2 * i + 1];\n    }\n  }\n\n  void set(int i, int v) {\n    var p = i + n;\n    tree[p] = v;\n    for (p ~/= 2; p >= 1; p ~/= 2) {\n      tree[p] = tree[2 * p] + tree[2 * p + 1];\n    }\n  }\n\n  int sum(int l, int r) { // [l, r)\n    var s = 0;\n    for (var lo = l + n, hi = r + n; lo < hi; lo ~/= 2, hi ~/= 2) {\n      if (lo.isOdd) s += tree[lo++];\n      if (hi.isOdd) s += tree[--hi];\n    }\n    return s;\n  }\n}\n\nvoid main() {\n  final s = Seg([5, 8, 6, 3, 2, 7, 2, 6]);\n  print(s.sum(0, 8));\n  print(s.sum(2, 6));\n}\n```",
+    "options": [
+      "39 then 18",
+      "39 then 16",
+      "38 then 18",
+      "39 then 11"
+    ],
+    "answer": [
+      "39 then 18"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Seg {\n  final int n;\n  final List<int> tree;\n  Seg(List<int> data)\n      : n = data.length,\n        tree = List.filled(2 * data.length, 0) {\n    for (var i = 0; i < n; i++) {\n      tree[n + i] = data[i];\n    }\n    for (var i = n - 1; i > 0; i--) {\n      tree[i] = tree[2 * i] + tree[2 * i + 1];\n    }\n  }\n\n  void set(int i, int v) {\n    var p = i + n;\n    tree[p] = v;\n    for (p ~/= 2; p >= 1; p ~/= 2) {\n      tree[p] = tree[2 * p] + tree[2 * p + 1];\n    }\n  }\n\n  int sum(int l, int r) { // [l, r)\n    var s = 0;\n    for (var lo = l + n, hi = r + n; lo < hi; lo ~/= 2, hi ~/= 2) {\n      if (lo.isOdd) s += tree[lo++];\n      if (hi.isOdd) s += tree[--hi];\n    }\n    return s;\n  }\n}\n\nvoid main() {\n  final s = Seg([1, 2, 3, 4]);\n  s.set(0, 10);\n  print(s.sum(0, 2));\n  print(s.tree[1]);\n}\n```",
+    "options": [
+      "12 then 19",
+      "3 then 10",
+      "12 then 10",
+      "11 then 19"
+    ],
+    "answer": [
+      "12 then 19"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `tree[1]` hold in an iterative sum segment tree?",
+    "options": [
+      "The sum of the whole array",
+      "The first element",
+      "The last element",
+      "Nothing"
+    ],
+    "answer": [
+      "The sum of the whole array"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "After a point update, which nodes must be recomputed?",
+    "options": [
+      "The leaf and all its ancestors up to the root",
+      "Every node",
+      "Only the leaf",
+      "Only the root"
+    ],
+    "answer": [
+      "The leaf and all its ancestors up to the root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which operation can a segment tree aggregate?",
+    "options": [
+      "Any associative operation like sum, min, max or gcd",
+      "Only sums",
+      "Only operations with an inverse",
+      "Only string concatenation"
+    ],
+    "answer": [
+      "Any associative operation like sum, min, max or gcd"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What identity value should a range-MIN segment tree use?",
+    "options": [
+      "A very large number (like +∞)",
+      "0",
+      "1",
+      "-1"
+    ],
+    "answer": [
+      "A very large number (like +∞)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What identity value should a range-MAX segment tree use?",
+    "options": [
+      "A very small number (like −∞)",
+      "0 always",
+      "1",
+      "A very large number"
+    ],
+    "answer": [
+      "A very small number (like −∞)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What identity value should a range-PRODUCT segment tree use?",
+    "options": [
+      "1",
+      "0",
+      "-1",
+      "∞"
+    ],
+    "answer": [
+      "1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What goes wrong with identity 0 in a min segment tree of positive values?",
+    "options": [
+      "Queries that touch empty ranges return 0, which is smaller than every real value",
+      "It throws",
+      "Nothing",
+      "It becomes a sum tree"
+    ],
+    "answer": [
+      "Queries that touch empty ranges return 0, which is smaller than every real value"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nvoid main() {\n  final temps = [21, 25, 19, 30];\n  final n = temps.length;\n  final t = List<int>.filled(2 * n, 0);\n  for (var i = 0; i < n; i++) {\n    t[n + i] = temps[i];\n  }\n  for (var i = n - 1; i > 0; i--) {\n    t[i] = max(t[2 * i], t[2 * i + 1]);\n  }\n  print(t[1]);\n}\n```",
+    "options": [
+      "30",
+      "95",
+      "21",
+      "25"
+    ],
+    "answer": [
+      "30"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a Fenwick tree also called?",
+    "options": [
+      "Binary Indexed Tree (BIT)",
+      "Binary Search Tree",
+      "B-tree",
+      "Splay tree"
+    ],
+    "answer": [
+      "Binary Indexed Tree (BIT)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `i & -i` compute?",
+    "options": [
+      "The lowest set bit of i",
+      "The highest set bit of i",
+      "i squared",
+      "−i"
+    ],
+    "answer": [
+      "The lowest set bit of i"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  print(12 & -12);\n  print(7 & -7);\n  print(16 & -16);\n}\n```",
+    "options": [
+      "4 then 1 then 16",
+      "12 then 7 then 16",
+      "8 then 1 then 16",
+      "4 then 7 then 1"
+    ],
+    "answer": [
+      "4 then 1 then 16"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does a Fenwick tree use 1-based indexing internally?",
+    "options": [
+      "Index 0 has no lowest set bit, so the jumps wouldn't work",
+      "Dart lists start at 1",
+      "To save memory",
+      "It doesn't; it's 0-based"
+    ],
+    "answer": [
+      "Index 0 has no lowest set bit, so the jumps wouldn't work"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a Fenwick update, how does the index move?",
+    "options": [
+      "i += i & -i (up to larger ranges)",
+      "i -= i & -i",
+      "i ~/= 2",
+      "i *= 2"
+    ],
+    "answer": [
+      "i += i & -i (up to larger ranges)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a Fenwick prefix-sum query, how does the index move?",
+    "options": [
+      "i -= i & -i (down to smaller ranges)",
+      "i += i & -i",
+      "i++",
+      "i *= 2"
+    ],
+    "answer": [
+      "i -= i & -i (down to smaller ranges)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Fenwick {\n  final List<int> t;\n  Fenwick(int n) : t = List.filled(n + 1, 0);\n\n  void add(int i, int d) {\n    for (i++; i < t.length; i += i & -i) {\n      t[i] += d;\n    }\n  }\n\n  int prefix(int i) {\n    var s = 0;\n    for (i++; i > 0; i -= i & -i) {\n      s += t[i];\n    }\n    return s;\n  }\n\n  int range(int l, int r) => prefix(r) - (l > 0 ? prefix(l - 1) : 0);\n}\n\nvoid main() {\n  final f = Fenwick(5);\n  for (final (i, v) in [5, 2, 7, 1, 3].indexed) {\n    f.add(i, v);\n  }\n  print(f.prefix(2));\n  print(f.range(1, 3));\n}\n```",
+    "options": [
+      "14 then 10",
+      "7 then 10",
+      "14 then 9",
+      "18 then 10"
+    ],
+    "answer": [
+      "14 then 10"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Fenwick {\n  final List<int> t;\n  Fenwick(int n) : t = List.filled(n + 1, 0);\n\n  void add(int i, int d) {\n    for (i++; i < t.length; i += i & -i) {\n      t[i] += d;\n    }\n  }\n\n  int prefix(int i) {\n    var s = 0;\n    for (i++; i > 0; i -= i & -i) {\n      s += t[i];\n    }\n    return s;\n  }\n\n  int range(int l, int r) => prefix(r) - (l > 0 ? prefix(l - 1) : 0);\n}\n\nvoid main() {\n  final f = Fenwick(3);\n  f.add(1, 5);\n  f.add(1, 5);\n  print(f.range(1, 1));\n}\n```",
+    "options": [
+      "10",
+      "5",
+      "0",
+      "15"
+    ],
+    "answer": [
+      "10"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "A Fenwick tree's `add(i, d)` is called twice with the same i and d. What does position i now hold?",
+    "options": [
+      "The original value plus 2d, because add applies a delta",
+      "Exactly d",
+      "The original value",
+      "2 times the original value"
+    ],
+    "answer": [
+      "The original value plus 2d, because add applies a delta"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you SET position i to a new value in a Fenwick tree?",
+    "options": [
+      "add(i, newValue − oldValue)",
+      "add(i, newValue)",
+      "Rebuild the tree",
+      "It's impossible"
+    ],
+    "answer": [
+      "add(i, newValue − oldValue)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How is a range sum [l, r] computed with a Fenwick tree?",
+    "options": [
+      "prefix(r) − prefix(l − 1)",
+      "prefix(l) + prefix(r)",
+      "prefix(r) only",
+      "Scan from l to r"
+    ],
+    "answer": [
+      "prefix(r) − prefix(l − 1)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What memory does a Fenwick tree use for n elements?",
+    "options": [
+      "n + 1 integers",
+      "4n integers",
+      "n² integers",
+      "log n integers"
+    ],
+    "answer": [
+      "n + 1 integers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which can a simple Fenwick tree NOT answer directly with point updates?",
+    "options": [
+      "Range minimum queries",
+      "Range sums",
+      "Prefix sums",
+      "Point updates"
+    ],
+    "answer": [
+      "Range minimum queries"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can Fenwick trees answer range sums but not range mins via prefixes?",
+    "options": [
+      "Sums can be subtracted (prefix(r) − prefix(l−1)); mins have no inverse",
+      "Mins are slower to compute",
+      "Fenwick trees can't store negative numbers",
+      "They can answer both"
+    ],
+    "answer": [
+      "Sums can be subtracted (prefix(r) − prefix(l−1)); mins have no inverse"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When should you prefer a Fenwick tree over a segment tree?",
+    "options": [
+      "When you only need sums with updates and want tiny, fast code",
+      "When you need range max",
+      "When the array never changes",
+      "Never"
+    ],
+    "answer": [
+      "When you only need sums with updates and want tiny, fast code"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When should you prefer a segment tree over a Fenwick tree?",
+    "options": [
+      "When you need min, max or other non-invertible operations",
+      "Only for sums",
+      "When memory must be n + 1",
+      "Never"
+    ],
+    "answer": [
+      "When you need min, max or other non-invertible operations"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you count \"smaller elements to the right\" with a Fenwick tree?",
+    "options": [
+      "Scan right to left, query how many recorded values are smaller, then record the current value",
+      "Sort the array first",
+      "Use two pointers",
+      "Compare every pair"
+    ],
+    "answer": [
+      "Scan right to left, query how many recorded values are smaller, then record the current value"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Fenwick {\n  final List<int> t;\n  Fenwick(int n) : t = List.filled(n + 1, 0);\n\n  void add(int i, int d) {\n    for (i++; i < t.length; i += i & -i) {\n      t[i] += d;\n    }\n  }\n\n  int prefix(int i) {\n    var s = 0;\n    for (i++; i > 0; i -= i & -i) {\n      s += t[i];\n    }\n    return s;\n  }\n\n  int range(int l, int r) => prefix(r) - (l > 0 ? prefix(l - 1) : 0);\n}\n\nList<int> smallerRight(List<int> a) {\n  final mx = a.reduce((x, y) => x > y ? x : y);\n  final f = Fenwick(mx + 1);\n  final res = List<int>.filled(a.length, 0);\n  for (var i = a.length - 1; i >= 0; i--) {\n    res[i] = a[i] > 0 ? f.prefix(a[i] - 1) : 0;\n    f.add(a[i], 1);\n  }\n  return res;\n}\n\nvoid main() {\n  print(smallerRight([3, 1, 2, 0]));\n}\n```",
+    "options": [
+      "[3, 1, 1, 0]",
+      "[0, 1, 1, 3]",
+      "[2, 0, 1, 0]",
+      "[3, 2, 1, 0]"
+    ],
+    "answer": [
+      "[3, 1, 1, 0]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is coordinate compression?",
+    "options": [
+      "Mapping large or sparse values to small ranks 0..n−1 before using them as indexes",
+      "Compressing a file",
+      "Removing duplicates",
+      "Sorting coordinates by distance"
+    ],
+    "answer": [
+      "Mapping large or sparse values to small ranks 0..n−1 before using them as indexes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final values = [500, 10, 999999, 10];\n  final sorted = values.toSet().toList()..sort();\n  final rank = {for (final (i, v) in sorted.indexed) v: i};\n  print(values.map((v) => rank[v]).toList());\n}\n```",
+    "options": [
+      "[1, 0, 2, 0]",
+      "[2, 0, 1, 0]",
+      "[500, 10, 999999, 10]",
+      "[0, 1, 2, 3]"
+    ],
+    "answer": [
+      "[1, 0, 2, 0]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is lazy propagation in segment trees used for?",
+    "options": [
+      "Applying range UPDATES (e.g. add v to [l, r]) in O(log n)",
+      "Making queries slower",
+      "Deleting nodes",
+      "Sorting the leaves"
+    ],
+    "answer": [
+      "Applying range UPDATES (e.g. add v to [l, r]) in O(log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which real-world feature fits a segment tree with range max?",
+    "options": [
+      "\"Highest score among players #10 to #9,000\" with live score updates",
+      "Undo history",
+      "Spell checking",
+      "Finding a word by prefix"
+    ],
+    "answer": [
+      "\"Highest score among players #10 to #9,000\" with live score updates"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If the array NEVER changes and you only need range sums, what's simplest?",
+    "options": [
+      "Plain prefix sums (O(1) queries)",
+      "A segment tree",
+      "A Fenwick tree",
+      "A heap"
+    ],
+    "answer": [
+      "Plain prefix sums (O(1) queries)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the iterative segment tree query over [l, r), why check `lo.isOdd`?",
+    "options": [
+      "An odd left index is a right child, so it must be included before moving up",
+      "To skip even numbers",
+      "To detect negative indexes",
+      "It's a style choice"
+    ],
+    "answer": [
+      "An odd left index is a right child, so it must be included before moving up"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the Fenwick prefix sum:\n\n```dart\nint prefix(int i) {\n  var s = 0;\n  for (i++; i %order% 0; i %order% i & -i) {\n    s %order% t[i];\n  }\n  return s;\n}\n```",
+    "options": [
+      ">",
+      "-=",
+      "+=",
+      "<",
+      "*="
+    ],
+    "answer": [
+      ">",
+      "-=",
+      "+="
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Complete the iterative segment tree build:\n\n```dart\nfor (var i = n %order% 1; i > 0; i--) {\n  tree[i] = tree[%order% * i] + tree[2 * i %order% 1];\n}\n```",
+    "options": [
+      "-",
+      "2",
+      "+",
+      "*",
+      "4"
+    ],
+    "answer": [
+      "-",
+      "2",
+      "+"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var i = 6;\n  final visited = <int>[];\n  while (i > 0) {\n    visited.add(i);\n    i -= i & -i;\n  }\n  print(visited);\n}\n```",
+    "options": [
+      "[6, 4]",
+      "[6, 5, 4]",
+      "[6, 3]",
+      "[6, 2]"
+    ],
+    "answer": [
+      "[6, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  var i = 3;\n  final visited = <int>[];\n  while (i <= 8) {\n    visited.add(i);\n    i += i & -i;\n  }\n  print(visited);\n}\n```",
+    "options": [
+      "[3, 4, 8]",
+      "[3, 5, 7]",
+      "[3, 6, 8]",
+      "[3, 4, 6, 8]"
+    ],
+    "answer": [
+      "[3, 4, 8]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a Fenwick tree of size 8, which range does tree[6] (binary 110) cover?",
+    "options": [
+      "Elements 5..6 (length 2)",
+      "Elements 1..6",
+      "Element 6 only",
+      "Elements 1..8"
+    ],
+    "answer": [
+      "Elements 5..6 (length 2)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which property makes an operation usable in a segment tree?",
+    "options": [
+      "Associativity: (a ⊕ b) ⊕ c == a ⊕ (b ⊕ c)",
+      "Commutativity only",
+      "Having an inverse",
+      "Being O(1) to undo"
+    ],
+    "answer": [
+      "Associativity: (a ⊕ b) ⊕ c == a ⊕ (b ⊕ c)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many nodes does a segment tree query touch per level, at most?",
+    "options": [
+      "About 4 (a small constant)",
+      "All of them",
+      "Exactly 1",
+      "log n"
+    ],
+    "answer": [
+      "About 4 (a small constant)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a 2D Fenwick tree used for?",
+    "options": [
+      "Rectangle sums with point updates on a grid",
+      "Sorting 2D points",
+      "Finding shortest paths on grids",
+      "Rotating matrices"
+    ],
+    "answer": [
+      "Rectangle sums with point updates on a grid"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Isolate the lowest set bit of i:\n\n```dart\nvoid main() {\n  const i = 10; // 0b1010\n  print(i %fill% -i); // 2\n}\n```",
+    "answer": [
+      "&"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:math';\n\nvoid main() {\n  final f = max;\n  print(f(3, 9));\n}\n```",
+    "options": [
+      "9",
+      "3",
+      "12",
+      "It doesn't compile"
+    ],
+    "answer": [
+      "9"
+    ],
+    "type": "mcq"
+  }
+]

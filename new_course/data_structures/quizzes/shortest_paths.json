@@ -1,0 +1,702 @@
+[
+  {
+    "question": "Which algorithm finds shortest paths in an UNWEIGHTED graph most efficiently?",
+    "options": [
+      "BFS",
+      "Dijkstra",
+      "Bellman-Ford",
+      "Floyd-Warshall"
+    ],
+    "answer": [
+      "BFS"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which algorithm is the standard choice for shortest paths with NON-NEGATIVE edge weights?",
+    "options": [
+      "Dijkstra's algorithm",
+      "BFS",
+      "DFS",
+      "Topological sort"
+    ],
+    "answer": [
+      "Dijkstra's algorithm"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which algorithm handles NEGATIVE edge weights (with no negative cycles)?",
+    "options": [
+      "Bellman-Ford",
+      "Dijkstra",
+      "BFS",
+      "Prim's algorithm"
+    ],
+    "answer": [
+      "Bellman-Ford"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is \"relaxation\" in shortest-path algorithms?",
+    "options": [
+      "Updating dist[v] if dist[u] + weight(u, v) is smaller",
+      "Removing an edge",
+      "Resetting all distances to 0",
+      "Sorting the edges"
+    ],
+    "answer": [
+      "Updating dist[v] if dist[u] + weight(u, v) is smaller"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the relaxation step:\n\n```dart\nif (dist[u]! %order% w %order% dist[v]!) {\n  dist[v] = dist[u]! + w;\n  prev[v] = %order%;\n}\n```",
+    "options": [
+      "+",
+      "<",
+      "u",
+      "-",
+      ">",
+      "v"
+    ],
+    "answer": [
+      "+",
+      "<",
+      "u"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "In Dijkstra's algorithm, which vertex is finalized next?",
+    "options": [
+      "The unfinished vertex with the smallest known distance",
+      "The vertex with the most edges",
+      "A random unfinished vertex",
+      "The most recently discovered vertex"
+    ],
+    "answer": [
+      "The unfinished vertex with the smallest known distance"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which data structure makes Dijkstra efficient?",
+    "options": [
+      "A priority queue (min-heap)",
+      "A FIFO queue",
+      "A stack",
+      "A linked list"
+    ],
+    "answer": [
+      "A priority queue (min-heap)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of Dijkstra with a binary heap?",
+    "options": [
+      "O((V + E) log V)",
+      "O(V + E)",
+      "O(V × E)",
+      "O(V³)"
+    ],
+    "answer": [
+      "O((V + E) log V)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can Dijkstra give wrong answers with negative edge weights?",
+    "options": [
+      "It finalizes a vertex assuming no later path can be cheaper, which a negative edge breaks",
+      "It can't handle numbers below zero",
+      "It loops forever",
+      "It ignores weights"
+    ],
+    "answer": [
+      "It finalizes a vertex assuming no later path can be cheaper, which a negative edge breaks"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nMap<String, int> dijkstra(Map<String, Map<String, int>> g, String s) {\n  final dist = <String, int>{s: 0};\n  final done = <String>{};\n  final pq = SplayTreeSet<(int, String)>((a, b) {\n    final c = a.$1.compareTo(b.$1);\n    return c != 0 ? c : a.$2.compareTo(b.$2);\n  })\n    ..add((0, s));\n  while (pq.isNotEmpty) {\n    final (d, u) = pq.first;\n    pq.remove(pq.first);\n    if (!done.add(u)) continue;\n    for (final MapEntry(key: v, value: w) in g[u]!.entries) {\n      if (d + w < (dist[v] ?? 1 << 62)) {\n        dist[v] = d + w;\n        pq.add((d + w, v));\n      }\n    }\n  }\n  return dist;\n}\n\nvoid main() {\n  final g = {\n    'A': {'B': 4, 'C': 1},\n    'B': {'D': 1},\n    'C': {'B': 2, 'D': 5},\n    'D': <String, int>{},\n  };\n  print(dijkstra(g, 'A'));\n}\n```",
+    "options": [
+      "{A: 0, B: 3, C: 1, D: 4}",
+      "{A: 0, B: 4, C: 1, D: 5}",
+      "{A: 0, B: 3, C: 1, D: 6}",
+      "{A: 0, C: 1, B: 3, D: 4}"
+    ],
+    "answer": [
+      "{A: 0, B: 3, C: 1, D: 4}"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nMap<String, int> dijkstra(Map<String, Map<String, int>> g, String s) {\n  final dist = <String, int>{s: 0};\n  final done = <String>{};\n  final pq = SplayTreeSet<(int, String)>((a, b) {\n    final c = a.$1.compareTo(b.$1);\n    return c != 0 ? c : a.$2.compareTo(b.$2);\n  })\n    ..add((0, s));\n  while (pq.isNotEmpty) {\n    final (d, u) = pq.first;\n    pq.remove(pq.first);\n    if (!done.add(u)) continue;\n    for (final MapEntry(key: v, value: w) in g[u]!.entries) {\n      if (d + w < (dist[v] ?? 1 << 62)) {\n        dist[v] = d + w;\n        pq.add((d + w, v));\n      }\n    }\n  }\n  return dist;\n}\n\nvoid main() {\n  final g = {\n    'S': {'A': 10, 'B': 1},\n    'A': <String, int>{},\n    'B': {'A': 1},\n  };\n  print(dijkstra(g, 'S')['A']);\n}\n```",
+    "options": [
+      "2",
+      "10",
+      "11",
+      "1"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does Dijkstra report for a vertex that isn't reachable from the start (in the lesson's map version)?",
+    "options": [
+      "It has no entry in the distance map",
+      "Distance 0",
+      "Distance -1",
+      "It throws"
+    ],
+    "answer": [
+      "It has no entry in the distance map"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does the Dijkstra priority queue comparator include the vertex name as a tie-breaker?",
+    "options": [
+      "Without it, two vertices at the same distance would be treated as duplicates by the set",
+      "To sort vertices alphabetically in the output",
+      "For speed only",
+      "It isn't necessary"
+    ],
+    "answer": [
+      "Without it, two vertices at the same distance would be treated as duplicates by the set"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a \"stale\" priority queue entry in Dijkstra?",
+    "options": [
+      "An older entry for a vertex that was later pushed again with a smaller distance",
+      "An entry for the start vertex",
+      "An entry with weight 0",
+      "A deleted vertex"
+    ],
+    "answer": [
+      "An older entry for a vertex that was later pushed again with a smaller distance"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How are stale entries usually handled?",
+    "options": [
+      "Skip them when popped if the vertex is already finalized (lazy deletion)",
+      "Search the queue and delete them",
+      "Ignore the problem",
+      "Restart the algorithm"
+    ],
+    "answer": [
+      "Skip them when popped if the vertex is already finalized (lazy deletion)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you rebuild the actual shortest path after Dijkstra?",
+    "options": [
+      "Store prev[v] = u on each successful relaxation, then walk back from the target",
+      "Sort vertices by distance",
+      "Run BFS afterwards",
+      "Store only distances"
+    ],
+    "answer": [
+      "Store prev[v] = u on each successful relaxation, then walk back from the target"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final prev = {'B': 'C', 'C': 'A', 'D': 'B'};\n  final path = ['D'];\n  while (path.last != 'A') {\n    path.add(prev[path.last]!);\n  }\n  print(path.reversed.join(' → '));\n}\n```",
+    "options": [
+      "A → C → B → D",
+      "D → B → C → A",
+      "A → B → C → D",
+      "A → D"
+    ],
+    "answer": [
+      "A → C → B → D"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many rounds of relaxing all edges does Bellman-Ford perform?",
+    "options": [
+      "V − 1",
+      "E",
+      "log V",
+      "1"
+    ],
+    "answer": [
+      "V − 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why are V − 1 rounds enough in Bellman-Ford?",
+    "options": [
+      "A shortest path without cycles uses at most V − 1 edges",
+      "Each round finalizes half the vertices",
+      "Because the graph has V − 1 edges",
+      "It's an arbitrary choice"
+    ],
+    "answer": [
+      "A shortest path without cycles uses at most V − 1 edges"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does Bellman-Ford detect a negative cycle?",
+    "options": [
+      "If any edge can still be relaxed after V − 1 rounds",
+      "If a distance becomes 0",
+      "If the graph has more edges than vertices",
+      "It can't"
+    ],
+    "answer": [
+      "If any edge can still be relaxed after V − 1 rounds"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is \"shortest path\" undefined when a reachable negative cycle exists?",
+    "options": [
+      "You could loop around it forever to make the cost arbitrarily small",
+      "Negative numbers can't be added",
+      "The graph becomes disconnected",
+      "It's still defined"
+    ],
+    "answer": [
+      "You could loop around it forever to make the cost arbitrarily small"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of Bellman-Ford?",
+    "options": [
+      "O(V × E)",
+      "O((V + E) log V)",
+      "O(V + E)",
+      "O(V³)"
+    ],
+    "answer": [
+      "O(V × E)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const inf = 1 << 62;\n  final dist = {'A': 0, 'B': inf, 'C': inf};\n  final edges = [('A', 'B', 4), ('A', 'C', 1), ('C', 'B', -2)];\n  for (var round = 0; round < 2; round++) {\n    for (final (u, v, w) in edges) {\n      if (dist[u]! != inf && dist[u]! + w < dist[v]!) dist[v] = dist[u]! + w;\n    }\n  }\n  print(dist);\n}\n```",
+    "options": [
+      "{A: 0, B: -1, C: 1}",
+      "{A: 0, B: 4, C: 1}",
+      "{A: 0, B: 2, C: 1}",
+      "{A: 0, B: -2, C: 1}"
+    ],
+    "answer": [
+      "{A: 0, B: -1, C: 1}"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does Bellman-Ford check `dist[u] != inf` before relaxing?",
+    "options": [
+      "To avoid treating an unreachable vertex as a real starting point",
+      "To detect cycles",
+      "To speed up sorting",
+      "It isn't necessary"
+    ],
+    "answer": [
+      "To avoid treating an unreachable vertex as a real starting point"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is Bellman-Ford's early-exit optimization?",
+    "options": [
+      "Stop when a full round changes nothing",
+      "Stop after the first round",
+      "Stop when the target is reached",
+      "Skip negative edges"
+    ],
+    "answer": [
+      "Stop when a full round changes nothing"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which input format suits Bellman-Ford best?",
+    "options": [
+      "An edge list",
+      "An adjacency matrix only",
+      "A tree",
+      "A priority queue"
+    ],
+    "answer": [
+      "An edge list"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What can a negative cycle in a currency-exchange graph (using −log(rate) weights) reveal?",
+    "options": [
+      "An arbitrage opportunity",
+      "A broken exchange",
+      "The cheapest currency",
+      "Nothing useful"
+    ],
+    "answer": [
+      "An arbitrage opportunity"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is 0-1 BFS?",
+    "options": [
+      "A shortest-path method for edges weighted 0 or 1 using a deque",
+      "BFS that visits only vertices 0 and 1",
+      "A binary search variant",
+      "DFS with two colors"
+    ],
+    "answer": [
+      "A shortest-path method for edges weighted 0 or 1 using a deque"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In 0-1 BFS, where do you push a neighbor reached by a weight-0 edge?",
+    "options": [
+      "To the front of the deque",
+      "To the back of the deque",
+      "Nowhere",
+      "Into a heap"
+    ],
+    "answer": [
+      "To the front of the deque"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of 0-1 BFS?",
+    "options": [
+      "O(V + E)",
+      "O((V + E) log V)",
+      "O(V × E)",
+      "O(V²)"
+    ],
+    "answer": [
+      "O(V + E)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does Floyd-Warshall compute?",
+    "options": [
+      "Shortest paths between every pair of vertices",
+      "A minimum spanning tree",
+      "A topological order",
+      "Connected components only"
+    ],
+    "answer": [
+      "Shortest paths between every pair of vertices"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of Floyd-Warshall?",
+    "options": [
+      "O(V³)",
+      "O(V²)",
+      "O(V + E)",
+      "O(E log V)"
+    ],
+    "answer": [
+      "O(V³)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Floyd-Warshall, which loop variable must be outermost?",
+    "options": [
+      "k, the intermediate (stopover) vertex",
+      "i, the source",
+      "j, the destination",
+      "Any order works"
+    ],
+    "answer": [
+      "k, the intermediate (stopover) vertex"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const inf = 1 << 40;\n  final d = [\n    [0, 1, inf],\n    [inf, 0, 2],\n    [inf, inf, 0],\n  ];\n  for (var k = 0; k < 3; k++) {\n    for (var i = 0; i < 3; i++) {\n      for (var j = 0; j < 3; j++) {\n        if (d[i][k] + d[k][j] < d[i][j]) d[i][j] = d[i][k] + d[k][j];\n      }\n    }\n  }\n  print(d[0][2]);\n}\n```",
+    "options": [
+      "3",
+      "1",
+      "2",
+      "inf"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When is Floyd-Warshall a good choice?",
+    "options": [
+      "Small graphs where you need distances between all pairs",
+      "Huge sparse graphs",
+      "Single-source shortest paths on a road network of millions",
+      "Unweighted graphs only"
+    ],
+    "answer": [
+      "Small graphs where you need distances between all pairs"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For a DAG with arbitrary (even negative) weights, what's the fastest single-source method?",
+    "options": [
+      "Relax edges in topological order: O(V + E)",
+      "Dijkstra",
+      "Floyd-Warshall",
+      "BFS"
+    ],
+    "answer": [
+      "Relax edges in topological order: O(V + E)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does BFS minimize?",
+    "options": [
+      "The number of edges in the path",
+      "The total weight of the path",
+      "The number of vertices in the graph",
+      "The maximum edge weight"
+    ],
+    "answer": [
+      "The number of edges in the path"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final g = {1: [2, 3], 2: [4], 3: [4], 4: <int>[]};\n  final dist = {1: 0};\n  final q = Queue<int>()..add(1);\n  while (q.isNotEmpty) {\n    final v = q.removeFirst();\n    for (final w in g[v]!) {\n      if (!dist.containsKey(w)) {\n        dist[w] = dist[v]! + 1;\n        q.add(w);\n      }\n    }\n  }\n  print(dist[4]);\n}\n```",
+    "options": [
+      "2",
+      "3",
+      "1",
+      "4"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Dijkstra, once a vertex is popped from the priority queue for the first time, its distance is:",
+    "options": [
+      "Final (with non-negative weights)",
+      "Still likely to change",
+      "Always 0",
+      "Unknown"
+    ],
+    "answer": [
+      "Final (with non-negative weights)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is it safe to finalize the closest unfinished vertex in Dijkstra?",
+    "options": [
+      "Any other route must pass through a farther vertex, and non-negative weights can't make it shorter",
+      "Because the graph is sorted",
+      "Because BFS proved it",
+      "It isn't safe"
+    ],
+    "answer": [
+      "Any other route must pass through a farther vertex, and non-negative weights can't make it shorter"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Edges: A → B costs 4, A → C costs 1, C → B costs 2. Why does Dijkstra from A pick A → C → B (cost 3) over A → B (cost 4)?",
+    "options": [
+      "Dijkstra finalizes C (distance 1) first and relaxes B to 1 + 2 = 3",
+      "B is alphabetically after C",
+      "Direct edges are ignored",
+      "Random tie-breaking"
+    ],
+    "answer": [
+      "Dijkstra finalizes C (distance 1) first and relaxes B to 1 + 2 = 3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nMap<String, int> dijkstra(Map<String, Map<String, int>> g, String s) {\n  final dist = <String, int>{s: 0};\n  final done = <String>{};\n  final pq = SplayTreeSet<(int, String)>((a, b) {\n    final c = a.$1.compareTo(b.$1);\n    return c != 0 ? c : a.$2.compareTo(b.$2);\n  })\n    ..add((0, s));\n  while (pq.isNotEmpty) {\n    final (d, u) = pq.first;\n    pq.remove(pq.first);\n    if (!done.add(u)) continue;\n    for (final MapEntry(key: v, value: w) in g[u]!.entries) {\n      if (d + w < (dist[v] ?? 1 << 62)) {\n        dist[v] = d + w;\n        pq.add((d + w, v));\n      }\n    }\n  }\n  return dist;\n}\n\nvoid main() {\n  final g = {\n    'a': {'b': 1},\n    'b': {'c': 1},\n    'c': {'a': 1},\n    'd': <String, int>{},\n  };\n  final d = dijkstra(g, 'a');\n  print('${d['c']} ${d.containsKey('d')}');\n}\n```",
+    "options": [
+      "2 false",
+      "3 false",
+      "2 true",
+      "1 false"
+    ],
+    "answer": [
+      "2 false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What problem can a very large \"infinity\" constant cause in shortest-path code?",
+    "options": [
+      "Adding a weight to it can overflow or create a fake path",
+      "It slows down sorting",
+      "It makes graphs directed",
+      "Nothing"
+    ],
+    "answer": [
+      "Adding a weight to it can overflow or create a fake path"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a weighted grid where entering a cell costs its value, what replaces edge weights?",
+    "options": [
+      "The cost of the cell being entered",
+      "The number of neighbors",
+      "The distance from the start cell",
+      "Always 1"
+    ],
+    "answer": [
+      "The cost of the cell being entered"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In grid Dijkstra, why check `if (d > best[r][c]) continue;` after popping?",
+    "options": [
+      "To skip stale entries that have since been improved",
+      "To find the goal",
+      "To avoid walls",
+      "To sort the queue"
+    ],
+    "answer": [
+      "To skip stale entries that have since been improved"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final (int d, String v) = (5, 'X');\n  print('$v at $d');\n}\n```",
+    "options": [
+      "X at 5",
+      "5 at X",
+      "(5, X)",
+      "It doesn't compile"
+    ],
+    "answer": [
+      "X at 5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which algorithm would a maps app use to route around traffic with travel-time weights?",
+    "options": [
+      "Dijkstra (or A*, an extension of it)",
+      "BFS",
+      "DFS",
+      "Bubble sort"
+    ],
+    "answer": [
+      "Dijkstra (or A*, an extension of it)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does A* add on top of Dijkstra?",
+    "options": [
+      "A heuristic estimate of remaining distance to guide the search toward the goal",
+      "Support for negative cycles",
+      "All-pairs distances",
+      "Random exploration"
+    ],
+    "answer": [
+      "A heuristic estimate of remaining distance to guide the search toward the goal"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For \"cheapest flight with at most k stops\", which algorithm adapts naturally?",
+    "options": [
+      "Bellman-Ford limited to k + 1 rounds",
+      "Plain Dijkstra",
+      "Floyd-Warshall only",
+      "DFS without a visited set"
+    ],
+    "answer": [
+      "Bellman-Ford limited to k + 1 rounds"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const direct = 2;\n  const viaC = 5 + -4;\n  print(viaC < direct);\n}\n```",
+    "options": [
+      "true",
+      "false",
+      "1",
+      "-1"
+    ],
+    "answer": [
+      "true"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Return two named results from a function:\n\n```dart\n({int dist, bool found}) search() => (dist: 3, found: true);\n\nvoid main() {\n  final r = search();\n  print(r.%fill%); // 3\n}\n```",
+    "answer": [
+      "dist"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "Which is the right algorithm for an unweighted social network \"degrees of separation\" question?",
+    "options": [
+      "BFS",
+      "Dijkstra with weights of 1 (works, but slower)",
+      "Bellman-Ford",
+      "Floyd-Warshall"
+    ],
+    "answer": [
+      "BFS"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In network routing, what does \"network delay time\" from a source usually mean?",
+    "options": [
+      "The largest shortest-path distance from the source to any node",
+      "The sum of all edge weights",
+      "The number of nodes",
+      "The smallest edge weight"
+    ],
+    "answer": [
+      "The largest shortest-path distance from the source to any node"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nMap<String, int> dijkstra(Map<String, Map<String, int>> g, String s) {\n  final dist = <String, int>{s: 0};\n  final done = <String>{};\n  final pq = SplayTreeSet<(int, String)>((a, b) {\n    final c = a.$1.compareTo(b.$1);\n    return c != 0 ? c : a.$2.compareTo(b.$2);\n  })\n    ..add((0, s));\n  while (pq.isNotEmpty) {\n    final (d, u) = pq.first;\n    pq.remove(pq.first);\n    if (!done.add(u)) continue;\n    for (final MapEntry(key: v, value: w) in g[u]!.entries) {\n      if (d + w < (dist[v] ?? 1 << 62)) {\n        dist[v] = d + w;\n        pq.add((d + w, v));\n      }\n    }\n  }\n  return dist;\n}\n\nvoid main() {\n  final g = {\n    'k': {'a': 1, 'b': 4},\n    'a': {'b': 2},\n    'b': <String, int>{},\n  };\n  final d = dijkstra(g, 'k');\n  print(d.values.reduce((x, y) => x > y ? x : y));\n}\n```",
+    "options": [
+      "3",
+      "4",
+      "1",
+      "7"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  }
+]

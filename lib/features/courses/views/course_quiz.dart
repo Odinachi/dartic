@@ -46,7 +46,11 @@ class _CourseQuizState extends State<CourseQuiz> {
 
   @override
   void initState() {
-    if (widget.arg?.course != null) loadData(widget.arg!.course!);
+    if (widget.arg?.questions != null) {
+      quizzes = (List.of(widget.arg!.questions!)..shuffle()).take(10).toList();
+    } else if (widget.arg?.course != null) {
+      loadData(widget.arg!.course!);
+    }
     super.initState();
   }
 
@@ -104,6 +108,7 @@ class _CourseQuizState extends State<CourseQuiz> {
                                 .where((e) => e.isCorrect == true)
                                 .length,
                             courseId: widget.arg?.course?.id,
+                            trackProgress: widget.arg?.questions == null,
                           ));
                     } else {
                       pageController.nextPage(
@@ -120,7 +125,7 @@ class _CourseQuizState extends State<CourseQuiz> {
         ),
       ),
       appBar: AppBar(
-        title: Text(widget.arg?.course?.title ?? "Quiz"),
+        title: Text(widget.arg?.title ?? widget.arg?.course?.title ?? "Quiz"),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
@@ -348,5 +353,11 @@ class _CourseQuizState extends State<CourseQuiz> {
 
 class CourseQuizArg {
   final CourseModel? course;
-  CourseQuizArg({this.course});
+
+  /// Inline questions (e.g. from a Firestore lesson) used instead of
+  /// loading [course]'s quiz asset. Scores for these don't update course
+  /// progress.
+  final List<QuizModel>? questions;
+  final String? title;
+  CourseQuizArg({this.course, this.questions, this.title});
 }

@@ -1,0 +1,704 @@
+[
+  {
+    "question": "What is the order of a pre-order traversal?",
+    "options": [
+      "node → left → right",
+      "left → node → right",
+      "left → right → node",
+      "level by level"
+    ],
+    "answer": [
+      "node → left → right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the order of an in-order traversal?",
+    "options": [
+      "left → node → right",
+      "node → left → right",
+      "left → right → node",
+      "right → node → left"
+    ],
+    "answer": [
+      "left → node → right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the order of a post-order traversal?",
+    "options": [
+      "left → right → node",
+      "node → left → right",
+      "left → node → right",
+      "node → right → left"
+    ],
+    "answer": [
+      "left → right → node"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the pre-order traversal of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n```",
+    "options": [
+      "1 2 4 5 3 6",
+      "4 2 5 1 3 6",
+      "4 5 2 6 3 1",
+      "1 2 3 4 5 6"
+    ],
+    "answer": [
+      "1 2 4 5 3 6"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the in-order traversal of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n```",
+    "options": [
+      "4 2 5 1 3 6",
+      "1 2 4 5 3 6",
+      "4 5 2 6 3 1",
+      "1 2 3 4 5 6"
+    ],
+    "answer": [
+      "4 2 5 1 3 6"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the post-order traversal of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n```",
+    "options": [
+      "4 5 2 6 3 1",
+      "4 2 5 1 3 6",
+      "1 2 4 5 3 6",
+      "6 5 4 3 2 1"
+    ],
+    "answer": [
+      "4 5 2 6 3 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which traversal of a binary search tree produces values in sorted order?",
+    "options": [
+      "In-order",
+      "Pre-order",
+      "Post-order",
+      "None of them"
+    ],
+    "answer": [
+      "In-order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which traversal is best for evaluating an expression tree?",
+    "options": [
+      "Post-order (children before the operator)",
+      "Pre-order",
+      "In-order",
+      "Level-order"
+    ],
+    "answer": [
+      "Post-order (children before the operator)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which traversal is natural for copying or serializing a tree?",
+    "options": [
+      "Pre-order",
+      "Post-order",
+      "In-order",
+      "Random order"
+    ],
+    "answer": [
+      "Pre-order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which traversal is natural for deleting/freeing every node safely?",
+    "options": [
+      "Post-order (children before parent)",
+      "Pre-order",
+      "In-order",
+      "Level-order"
+    ],
+    "answer": [
+      "Post-order (children before parent)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of any of the three depth-first traversals?",
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(n log n)",
+      "O(n²)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the extra space used by a recursive traversal?",
+    "options": [
+      "O(h), where h is the tree height",
+      "O(1)",
+      "O(n²)",
+      "O(log n) always"
+    ],
+    "answer": [
+      "O(h), where h is the tree height"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid pre(Node? n, List<int> out) {\n  if (n == null) return;\n  out.add(n.v);\n  pre(n.left, out);\n  pre(n.right, out);\n}\n\nvoid main() {\n  final out = <int>[];\n  pre(const Node(1, Node(2, Node(4)), Node(3)), out);\n  print(out);\n}\n```",
+    "options": [
+      "[1, 2, 4, 3]",
+      "[4, 2, 1, 3]",
+      "[4, 2, 3, 1]",
+      "[1, 2, 3, 4]"
+    ],
+    "answer": [
+      "[1, 2, 4, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid inOrder(Node? n, List<int> out) {\n  if (n == null) return;\n  inOrder(n.left, out);\n  out.add(n.v);\n  inOrder(n.right, out);\n}\n\nvoid main() {\n  final out = <int>[];\n  inOrder(const Node(8, Node(3, Node(1), Node(6)), Node(10)), out);\n  print(out);\n}\n```",
+    "options": [
+      "[1, 3, 6, 8, 10]",
+      "[8, 3, 1, 6, 10]",
+      "[1, 6, 3, 10, 8]",
+      "[10, 8, 6, 3, 1]"
+    ],
+    "answer": [
+      "[1, 3, 6, 8, 10]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid post(Node? n, List<int> out) {\n  if (n == null) return;\n  post(n.left, out);\n  post(n.right, out);\n  out.add(n.v);\n}\n\nvoid main() {\n  final out = <int>[];\n  post(const Node(1, Node(2), Node(3, Node(4))), out);\n  print(out);\n}\n```",
+    "options": [
+      "[2, 4, 3, 1]",
+      "[1, 2, 3, 4]",
+      "[2, 1, 4, 3]",
+      "[4, 3, 2, 1]"
+    ],
+    "answer": [
+      "[2, 4, 3, 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the in-order traversal:\n\n```dart\nvoid inOrder(Node? n, List<int> out) {\n  if (n == null) return;\n  inOrder(n.%order%, out);\n  out.add(n.%order%);\n  inOrder(n.%order%, out);\n}\n```",
+    "options": [
+      "left",
+      "v",
+      "right",
+      "next",
+      "value"
+    ],
+    "answer": [
+      "left",
+      "v",
+      "right"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "In iterative pre-order with a stack, which child do you push first?",
+    "options": [
+      "Right, so that left is popped first",
+      "Left, so that it's popped first",
+      "Either; order doesn't matter",
+      "Neither; use a queue"
+    ],
+    "answer": [
+      "Right, so that left is popped first"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<int> preIter(Node? root) {\n  final out = <int>[];\n  if (root == null) return out;\n  final st = <Node>[root];\n  while (st.isNotEmpty) {\n    final n = st.removeLast();\n    out.add(n.v);\n    if (n.right != null) st.add(n.right!);\n    if (n.left != null) st.add(n.left!);\n  }\n  return out;\n}\n\nvoid main() {\n  print(preIter(const Node(1, Node(2, Node(4), Node(5)), Node(3))));\n}\n```",
+    "options": [
+      "[1, 2, 4, 5, 3]",
+      "[1, 3, 2, 5, 4]",
+      "[4, 5, 2, 3, 1]",
+      "[1, 2, 3, 4, 5]"
+    ],
+    "answer": [
+      "[1, 2, 4, 5, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens in iterative pre-order if you push left BEFORE right?",
+    "options": [
+      "You get node → right → left order",
+      "It's still correct pre-order",
+      "It becomes in-order",
+      "It crashes"
+    ],
+    "answer": [
+      "You get node → right → left order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In iterative in-order traversal, what is the first step at each node?",
+    "options": [
+      "Push nodes while going as far left as possible",
+      "Visit the node immediately",
+      "Push the right child",
+      "Pop everything from the stack"
+    ],
+    "answer": [
+      "Push nodes while going as far left as possible"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<int> inIter(Node? root) {\n  final out = <int>[], st = <Node>[];\n  var cur = root;\n  while (cur != null || st.isNotEmpty) {\n    while (cur != null) {\n      st.add(cur);\n      cur = cur.left;\n    }\n    final n = st.removeLast();\n    out.add(n.v);\n    cur = n.right;\n  }\n  return out;\n}\n\nvoid main() {\n  print(inIter(const Node(4, Node(2, Node(1), Node(3)), Node(5))));\n}\n```",
+    "options": [
+      "[1, 2, 3, 4, 5]",
+      "[4, 2, 1, 3, 5]",
+      "[1, 3, 2, 5, 4]",
+      "[5, 4, 3, 2, 1]"
+    ],
+    "answer": [
+      "[1, 2, 3, 4, 5]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does the two-stack trick produce post-order iteratively?",
+    "options": [
+      "Traverse node → right → left, then reverse the result",
+      "Traverse in-order and reverse",
+      "Traverse pre-order twice",
+      "Use a queue instead of a stack"
+    ],
+    "answer": [
+      "Traverse node → right → left, then reverse the result"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the reverse of \"node → right → left\" order?",
+    "options": [
+      "left → right → node (post-order)",
+      "left → node → right (in-order)",
+      "node → left → right (pre-order)",
+      "right → left → node"
+    ],
+    "answer": [
+      "left → right → node (post-order)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why might you prefer an iterative traversal over a recursive one?",
+    "options": [
+      "To avoid stack overflow on very deep trees",
+      "It's always shorter code",
+      "It visits fewer nodes",
+      "Recursion doesn't work on trees"
+    ],
+    "answer": [
+      "To avoid stack overflow on very deep trees"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nString ser(Node? n) => n == null ? '#' : '${n.v},${ser(n.left)},${ser(n.right)}';\n\nvoid main() {\n  print(ser(const Node(1, Node(2), null)));\n}\n```",
+    "options": [
+      "1,2,#,#,#",
+      "1,2,#",
+      "2,1,#",
+      "1,#,2,#,#"
+    ],
+    "answer": [
+      "1,2,#,#,#"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does tree serialization include `#` markers for null children?",
+    "options": [
+      "So the exact shape can be rebuilt unambiguously",
+      "To save space",
+      "Because Dart can't print null",
+      "To sort the values"
+    ],
+    "answer": [
+      "So the exact shape can be rebuilt unambiguously"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nsealed class E {}\n\nclass Num extends E {\n  final int v;\n  Num(this.v);\n}\n\nclass Add extends E {\n  final E l, r;\n  Add(this.l, this.r);\n}\n\nclass Mul extends E {\n  final E l, r;\n  Mul(this.l, this.r);\n}\n\nint eval(E e) => switch (e) {\n      Num(:final v) => v,\n      Add(:final l, :final r) => eval(l) + eval(r),\n      Mul(:final l, :final r) => eval(l) * eval(r),\n    };\n\nvoid main() {\n  print(eval(Mul(Add(Num(2), Num(3)), Num(4))));\n}\n```",
+    "options": [
+      "20",
+      "14",
+      "24",
+      "9"
+    ],
+    "answer": [
+      "20"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the expression evaluator with a `sealed` class, what does `sealed` give you?",
+    "options": [
+      "Exhaustiveness checking in switch: every subtype must be handled",
+      "Faster evaluation",
+      "Immutability",
+      "Automatic toString"
+    ],
+    "answer": [
+      "Exhaustiveness checking in switch: every subtype must be handled"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the pattern `Op(:final symbol, :final left)` called?",
+    "options": [
+      "An object pattern that destructures fields by name",
+      "A record literal",
+      "A constructor call",
+      "A type cast"
+    ],
+    "answer": [
+      "An object pattern that destructures fields by name"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nint maxDepth(Node? n) {\n  if (n == null) return 0;\n  final l = maxDepth(n.left), r = maxDepth(n.right);\n  return 1 + (l > r ? l : r);\n}\n\nvoid main() {\n  print(maxDepth(const Node(1, Node(2, Node(3, Node(4))), Node(5))));\n}\n```",
+    "options": [
+      "4",
+      "3",
+      "5",
+      "2"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid sums(Node? n, int so, List<int> out) {\n  if (n == null) return;\n  final t = so + n.v;\n  if (n.left == null && n.right == null) {\n    out.add(t);\n    return;\n  }\n  sums(n.left, t, out);\n  sums(n.right, t, out);\n}\n\nvoid main() {\n  final out = <int>[];\n  sums(const Node(1, Node(2, Node(4)), Node(3)), 0, out);\n  print(out);\n}\n```",
+    "options": [
+      "[7, 4]",
+      "[3, 4]",
+      "[1, 3, 7]",
+      "[10]"
+    ],
+    "answer": [
+      "[7, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In path-sum problems, how does the running total move?",
+    "options": [
+      "Down from parent to children as a parameter",
+      "Up from leaves as a return value",
+      "Through a global stack only",
+      "It's recomputed at each leaf from scratch"
+    ],
+    "answer": [
+      "Down from parent to children as a parameter"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nbool same(Node? a, Node? b) {\n  if (a == null || b == null) return a == b;\n  return a.v == b.v && same(a.left, b.left) && same(a.right, b.right);\n}\n\nvoid main() {\n  print(same(const Node(1, Node(2)), const Node(1, Node(2))));\n  print(same(const Node(1, Node(2)), const Node(1, null, Node(2))));\n}\n```",
+    "options": [
+      "true then false",
+      "true then true",
+      "false then false",
+      "false then true"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In `same(a, b)`, what does `if (a == null || b == null) return a == b;` handle?",
+    "options": [
+      "Both null → true; exactly one null → false",
+      "Both null → false",
+      "It compares values",
+      "It throws on null"
+    ],
+    "answer": [
+      "Both null → true; exactly one null → false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid leaves(Node? n, List<int> out) {\n  if (n == null) return;\n  if (n.left == null && n.right == null) out.add(n.v);\n  leaves(n.left, out);\n  leaves(n.right, out);\n}\n\nvoid main() {\n  final out = <int>[];\n  leaves(const Node(1, Node(2, Node(4), Node(5)), Node(3, null, Node(6))), out);\n  print(out);\n}\n```",
+    "options": [
+      "[4, 5, 6]",
+      "[4, 5, 3, 6]",
+      "[1, 2, 3]",
+      "[6, 5, 4]"
+    ],
+    "answer": [
+      "[4, 5, 6]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid inOrder(Node? n, void Function(int) visit) {\n  if (n == null) return;\n  inOrder(n.left, visit);\n  visit(n.v);\n  inOrder(n.right, visit);\n}\n\nvoid main() {\n  final sb = StringBuffer();\n  inOrder(const Node(2, Node(1), Node(3)), sb.write);\n  print(sb);\n}\n```",
+    "options": [
+      "123",
+      "213",
+      "132",
+      "321"
+    ],
+    "answer": [
+      "123"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is a \"tear-off\" like `sb.write` passed as a callback?",
+    "options": [
+      "A method reference used as a function value",
+      "A copy of the StringBuffer",
+      "A call that runs immediately",
+      "A deprecated syntax"
+    ],
+    "answer": [
+      "A method reference used as a function value"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does Morris traversal achieve?",
+    "options": [
+      "In-order traversal in O(1) extra space by temporarily threading pointers",
+      "O(log n) traversal time",
+      "Traversal without visiting leaves",
+      "Sorting a tree"
+    ],
+    "answer": [
+      "In-order traversal in O(1) extra space by temporarily threading pointers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Morris traversal, what is the \"predecessor\" of a node?",
+    "options": [
+      "The rightmost node of its left subtree",
+      "Its parent",
+      "Its left child",
+      "The root"
+    ],
+    "answer": [
+      "The rightmost node of its left subtree"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Does Morris traversal leave the tree modified when it finishes?",
+    "options": [
+      "No, it removes the temporary threads",
+      "Yes, all right pointers change",
+      "Yes, the tree becomes a linked list",
+      "It deletes the leaves"
+    ],
+    "answer": [
+      "No, it removes the temporary threads"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Given pre-order `A B D E C` and in-order `D B E A C`, what is the root?",
+    "options": [
+      "A",
+      "D",
+      "B",
+      "C"
+    ],
+    "answer": [
+      "A"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Given pre-order `A B D E C` and in-order `D B E A C`, which nodes are in A's left subtree?",
+    "options": [
+      "D, B, E",
+      "C",
+      "B only",
+      "D and C"
+    ],
+    "answer": [
+      "D, B, E"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which pair of traversals uniquely identifies a binary tree with unique values?",
+    "options": [
+      "Pre-order and in-order",
+      "Pre-order and post-order (always)",
+      "Only in-order",
+      "Only post-order"
+    ],
+    "answer": [
+      "Pre-order and in-order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Advance an iterator to the next token:\n\n```dart\nvoid main() {\n  final it = 'a,b'.split(',').iterator;\n  it.%fill%();\n  print(it.current); // a\n}\n```",
+    "answer": [
+      "moveNext"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nint countNodes(Node? n) => n == null ? 0 : 1 + countNodes(n.left) + countNodes(n.right);\n\nvoid main() {\n  print(countNodes(const Node(1, Node(2, Node(3)), Node(4, null, Node(5)))));\n}\n```",
+    "options": [
+      "5",
+      "4",
+      "3",
+      "6"
+    ],
+    "answer": [
+      "5"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which traversal visits a node BEFORE any of its descendants?",
+    "options": [
+      "Pre-order",
+      "Post-order",
+      "In-order",
+      "Reverse in-order"
+    ],
+    "answer": [
+      "Pre-order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which traversal visits a node AFTER all of its descendants?",
+    "options": [
+      "Post-order",
+      "Pre-order",
+      "In-order",
+      "Level-order"
+    ],
+    "answer": [
+      "Post-order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is \"reverse in-order\" (right → node → left) on a BST useful for?",
+    "options": [
+      "Getting values in descending order",
+      "Getting values in ascending order",
+      "Serializing the tree",
+      "Deleting the tree"
+    ],
+    "answer": [
+      "Getting values in descending order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid rev(Node? n, List<int> out) {\n  if (n == null) return;\n  rev(n.right, out);\n  out.add(n.v);\n  rev(n.left, out);\n}\n\nvoid main() {\n  final out = <int>[];\n  rev(const Node(5, Node(3, Node(1)), Node(8)), out);\n  print(out);\n}\n```",
+    "options": [
+      "[8, 5, 3, 1]",
+      "[1, 3, 5, 8]",
+      "[5, 3, 1, 8]",
+      "[8, 1, 3, 5]"
+    ],
+    "answer": [
+      "[8, 5, 3, 1]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "To find the k-th smallest value in a BST, which traversal do you use?",
+    "options": [
+      "In-order, stopping after k visits",
+      "Pre-order",
+      "Post-order",
+      "Level-order"
+    ],
+    "answer": [
+      "In-order, stopping after k visits"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nint? kth(Node? root, int k) {\n  final st = <Node>[];\n  var cur = root;\n  while (cur != null || st.isNotEmpty) {\n    while (cur != null) {\n      st.add(cur);\n      cur = cur.left;\n    }\n    final n = st.removeLast();\n    if (--k == 0) return n.v;\n    cur = n.right;\n  }\n  return null;\n}\n\nvoid main() {\n  print(kth(const Node(5, Node(3, Node(2), Node(4)), Node(7)), 3));\n}\n```",
+    "options": [
+      "4",
+      "3",
+      "5",
+      "2"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the iterative pre-order loop:\n\n```dart\nwhile (stack.isNotEmpty) {\n  final n = stack.%order%();\n  out.add(n.v);\n  if (n.%order% != null) stack.add(n.right!);\n  if (n.%order% != null) stack.add(n.left!);\n}\n```",
+    "options": [
+      "removeLast",
+      "right",
+      "left",
+      "removeFirst",
+      "first"
+    ],
+    "answer": [
+      "removeLast",
+      "right",
+      "left"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does `const Node(1, Node(2))` require of the Node class?",
+    "options": [
+      "A const constructor and only final fields",
+      "A factory constructor",
+      "Mutable fields",
+      "A static method"
+    ],
+    "answer": [
+      "A const constructor and only final fields"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the maximum number of nodes on the explicit stack during iterative in-order traversal?",
+    "options": [
+      "About the height of the tree",
+      "Always n",
+      "Always 1",
+      "n²"
+    ],
+    "answer": [
+      "About the height of the tree"
+    ],
+    "type": "mcq"
+  }
+]

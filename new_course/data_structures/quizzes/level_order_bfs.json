@@ -1,0 +1,691 @@
+[
+  {
+    "question": "What order does level-order traversal visit nodes in?",
+    "options": [
+      "Level by level, left to right within each level",
+      "Left subtree, node, right subtree",
+      "Deepest nodes first",
+      "Random order"
+    ],
+    "answer": [
+      "Level by level, left to right within each level"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which data structure drives level-order traversal?",
+    "options": [
+      "A queue",
+      "A stack",
+      "A hash set",
+      "A sorted list"
+    ],
+    "answer": [
+      "A queue"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is another name for level-order traversal of a tree?",
+    "options": [
+      "Breadth-first search (BFS)",
+      "Depth-first search (DFS)",
+      "In-order traversal",
+      "Binary search"
+    ],
+    "answer": [
+      "Breadth-first search (BFS)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the level-order traversal of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n//       /\n//      7\n```",
+    "options": [
+      "1 2 3 4 5 6 7",
+      "1 2 4 5 7 3 6",
+      "4 2 7 5 1 3 6",
+      "7 4 5 6 2 3 1"
+    ],
+    "answer": [
+      "1 2 3 4 5 6 7"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the pre-order traversal of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n//       /\n//      7\n```",
+    "options": [
+      "1 2 4 5 7 3 6",
+      "1 2 3 4 5 6 7",
+      "4 2 7 5 1 3 6",
+      "1 3 6 2 5 7 4"
+    ],
+    "answer": [
+      "1 2 4 5 7 3 6"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Grouped by level, what are this tree's levels?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n//       /\n//      7\n```",
+    "options": [
+      "[[1], [2, 3], [4, 5, 6], [7]]",
+      "[[1], [2, 3, 4], [5, 6, 7]]",
+      "[[1, 2], [3, 4], [5, 6], [7]]",
+      "[[1], [2], [3], [4], [5], [6], [7]]"
+    ],
+    "answer": [
+      "[[1], [2, 3], [4, 5, 6], [7]]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the right side view of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n//       /\n//      7\n```",
+    "options": [
+      "[1, 3, 6, 7]",
+      "[1, 3, 6]",
+      "[1, 2, 4, 7]",
+      "[1, 3, 5, 7]"
+    ],
+    "answer": [
+      "[1, 3, 6, 7]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the minimum depth (counting nodes) of this tree?\n\n```dart\n//        1\n//       / \\\n//      2   3\n//     / \\   \\\n//    4   5   6\n//       /\n//      7\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "1"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does level-order visit all of level d before any of level d + 1?",
+    "options": [
+      "Children are added to the back of the queue, behind the rest of the current level",
+      "Nodes are sorted by depth first",
+      "The queue is a stack",
+      "Recursion forces it"
+    ],
+    "answer": [
+      "Children are added to the back of the queue, behind the rest of the current level"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<int> bfs(Node? root) {\n  final out = <int>[];\n  if (root == null) return out;\n  final q = Queue<Node>()..add(root);\n  while (q.isNotEmpty) {\n    final n = q.removeFirst();\n    out.add(n.v);\n    if (n.left != null) q.add(n.left!);\n    if (n.right != null) q.add(n.right!);\n  }\n  return out;\n}\n\nvoid main() {\n  print(bfs(const Node(1, Node(2, Node(4)), Node(3, Node(5)))));\n}\n```",
+    "options": [
+      "[1, 2, 3, 4, 5]",
+      "[1, 2, 4, 3, 5]",
+      "[4, 2, 1, 5, 3]",
+      "[1, 3, 2, 5, 4]"
+    ],
+    "answer": [
+      "[1, 2, 3, 4, 5]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if you replace the queue in level-order traversal with a stack (and push right before left)?",
+    "options": [
+      "It becomes a depth-first pre-order traversal",
+      "It stays level-order",
+      "It becomes in-order",
+      "It visits only leaves"
+    ],
+    "answer": [
+      "It becomes a depth-first pre-order traversal"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you know where one level ends during BFS?",
+    "options": [
+      "Record the queue's length at the start of the level and process that many nodes",
+      "Check whether a node is a leaf",
+      "Wait until the queue is empty",
+      "Use recursion"
+    ],
+    "answer": [
+      "Record the queue's length at the start of the level and process that many nodes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why must the level size be saved BEFORE the inner loop?",
+    "options": [
+      "Children added during the loop would otherwise change queue.length",
+      "Queue.length is O(n)",
+      "Dart can't read length in a loop",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "Children added during the loop would otherwise change queue.length"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the level grouping:\n\n```dart\nwhile (q.isNotEmpty) {\n  final size = q.%order%;\n  final level = <int>[];\n  for (var i = 0; i < %order%; i++) {\n    final n = q.%order%();\n    level.add(n.v);\n  }\n}\n```",
+    "options": [
+      "length",
+      "size",
+      "removeFirst",
+      "removeLast",
+      "first"
+    ],
+    "answer": [
+      "length",
+      "size",
+      "removeFirst"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<List<int>> levels(Node? root) {\n  final res = <List<int>>[];\n  if (root == null) return res;\n  final q = Queue<Node>()..add(root);\n  while (q.isNotEmpty) {\n    final size = q.length;\n    final lvl = <int>[];\n    for (var i = 0; i < size; i++) {\n      final n = q.removeFirst();\n      lvl.add(n.v);\n      if (n.left != null) q.add(n.left!);\n      if (n.right != null) q.add(n.right!);\n    }\n    res.add(lvl);\n  }\n  return res;\n}\n\nvoid main() {\n  print(levels(const Node(3, Node(9), Node(20, Node(15), Node(7)))));\n}\n```",
+    "options": [
+      "[[3], [9, 20], [15, 7]]",
+      "[[3, 9, 20], [15, 7]]",
+      "[[3], [9], [20], [15, 7]]",
+      "[3, 9, 20, 15, 7]"
+    ],
+    "answer": [
+      "[[3], [9, 20], [15, 7]]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which node of each level forms the right side view?",
+    "options": [
+      "The last node of the level",
+      "The first node of the level",
+      "The node with the largest value",
+      "Only right children"
+    ],
+    "answer": [
+      "The last node of the level"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<int> rightView(Node? root) {\n  final view = <int>[];\n  if (root == null) return view;\n  final q = Queue<Node>()..add(root);\n  while (q.isNotEmpty) {\n    final size = q.length;\n    for (var i = 0; i < size; i++) {\n      final n = q.removeFirst();\n      if (i == size - 1) view.add(n.v);\n      if (n.left != null) q.add(n.left!);\n      if (n.right != null) q.add(n.right!);\n    }\n  }\n  return view;\n}\n\nvoid main() {\n  print(rightView(const Node(1, Node(2, Node(4)), Node(3))));\n}\n```",
+    "options": [
+      "[1, 3, 4]",
+      "[1, 3]",
+      "[1, 2, 4]",
+      "[3, 4]"
+    ],
+    "answer": [
+      "[1, 3, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is node 4 visible in the right side view of `1(2(4), 3)` even though it's a left child?",
+    "options": [
+      "It's the only node on its level",
+      "Left children are always visible",
+      "It has the largest value",
+      "It's a leaf"
+    ],
+    "answer": [
+      "It's the only node on its level"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<double> averages(Node root) {\n  final out = <double>[];\n  final q = Queue<Node>()..add(root);\n  while (q.isNotEmpty) {\n    final size = q.length;\n    var sum = 0;\n    for (var i = 0; i < size; i++) {\n      final n = q.removeFirst();\n      sum += n.v;\n      if (n.left != null) q.add(n.left!);\n      if (n.right != null) q.add(n.right!);\n    }\n    out.add(sum / size);\n  }\n  return out;\n}\n\nvoid main() {\n  print(averages(const Node(4, Node(2), Node(6, Node(5), Node(9)))));\n}\n```",
+    "options": [
+      "[4.0, 4.0, 7.0]",
+      "[4.0, 8.0, 14.0]",
+      "[4, 4, 7]",
+      "[4.0, 2.0, 6.0]"
+    ],
+    "answer": [
+      "[4.0, 4.0, 7.0]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can BFS find the minimum depth faster than DFS?",
+    "options": [
+      "It reaches shallow nodes first and can stop at the first leaf",
+      "It visits fewer nodes in every tree",
+      "It uses less memory always",
+      "It sorts the nodes"
+    ],
+    "answer": [
+      "It reaches shallow nodes first and can stop at the first leaf"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nint minDepth(Node? root) {\n  if (root == null) return 0;\n  final q = Queue<(Node, int)>()..add((root, 1));\n  while (q.isNotEmpty) {\n    final (n, d) = q.removeFirst();\n    if (n.left == null && n.right == null) return d;\n    if (n.left != null) q.add((n.left!, d + 1));\n    if (n.right != null) q.add((n.right!, d + 1));\n  }\n  return 0;\n}\n\nvoid main() {\n  print(minDepth(const Node(1, Node(2, Node(3, Node(4))), Node(5, Node(6)))));\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "1"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the minimum-depth BFS, what does each queue entry store?",
+    "options": [
+      "A record of (node, depth)",
+      "Only the node",
+      "Only the depth",
+      "A list of ancestors"
+    ],
+    "answer": [
+      "A record of (node, depth)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final (name, level) = ('Ada', 2);\n  print('${'-' * level}$name');\n}\n```",
+    "options": [
+      "--Ada",
+      "Ada--",
+      "2Ada",
+      "-Ada"
+    ],
+    "answer": [
+      "--Ada"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In zigzag level order, how is the right-to-left order produced efficiently?",
+    "options": [
+      "Insert values at the front of a deque on alternate levels",
+      "Sort each level descending",
+      "Run DFS instead",
+      "Reverse the whole result at the end"
+    ],
+    "answer": [
+      "Insert values at the front of a deque on alternate levels"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the zigzag level order of `1(2(4, 5), 3(6, 7))`?",
+    "options": [
+      "[[1], [3, 2], [4, 5, 6, 7]]",
+      "[[1], [2, 3], [7, 6, 5, 4]]",
+      "[[1], [3, 2], [7, 6, 5, 4]]",
+      "[[1], [2, 3], [4, 5, 6, 7]]"
+    ],
+    "answer": [
+      "[[1], [3, 2], [4, 5, 6, 7]]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final level = ListQueue<int>();\n  for (final v in [4, 5, 6]) {\n    level.addFirst(v);\n  }\n  print(level.toList());\n}\n```",
+    "options": [
+      "[6, 5, 4]",
+      "[4, 5, 6]",
+      "[4, 6, 5]",
+      "[5, 4, 6]"
+    ],
+    "answer": [
+      "[6, 5, 4]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does level-order traversal work on a general (n-ary) tree?",
+    "options": [
+      "Enqueue every child in order instead of just left and right",
+      "It doesn't work on general trees",
+      "Only enqueue the first child",
+      "Use a stack instead"
+    ],
+    "answer": [
+      "Enqueue every child in order instead of just left and right"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass E {\n  final String n;\n  final List<E> reports;\n  const E(this.n, [this.reports = const []]);\n}\n\nvoid main() {\n  const ceo = E('A', [E('B', [E('D')]), E('C', [E('E'), E('F')])]);\n  final q = Queue<E>()..add(ceo);\n  final out = <String>[];\n  while (q.isNotEmpty) {\n    final e = q.removeFirst();\n    out.add(e.n);\n    q.addAll(e.reports);\n  }\n  print(out.join());\n}\n```",
+    "options": [
+      "ABCDEF",
+      "ABDCEF",
+      "ADBECF",
+      "FEDCBA"
+    ],
+    "answer": [
+      "ABCDEF"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `prev?.next = n;` do when `prev` is null?",
+    "options": [
+      "Nothing; the assignment is skipped",
+      "Throws a null error",
+      "Sets prev to n",
+      "Sets n.next to null"
+    ],
+    "answer": [
+      "Nothing; the assignment is skipped"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When connecting nodes on the same level with `next` pointers, what is the last node's `next`?",
+    "options": [
+      "null",
+      "The first node of the level",
+      "The first node of the next level",
+      "Its parent"
+    ],
+    "answer": [
+      "null"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the extra space used by BFS on a tree?",
+    "options": [
+      "O(w), where w is the maximum width of a level",
+      "O(h), the height",
+      "O(1)",
+      "O(log n) always"
+    ],
+    "answer": [
+      "O(w), where w is the maximum width of a level"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a perfect binary tree with n nodes, roughly how many nodes are on the last level?",
+    "options": [
+      "About n / 2",
+      "About log n",
+      "1",
+      "About √n"
+    ],
+    "answer": [
+      "About n / 2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For a perfect binary tree, which traversal uses less memory?",
+    "options": [
+      "DFS (O(log n)) vs BFS (O(n))",
+      "BFS (O(log n)) vs DFS (O(n))",
+      "Both O(1)",
+      "They are always equal"
+    ],
+    "answer": [
+      "DFS (O(log n)) vs BFS (O(n))"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For a very deep, narrow tree (like a linked list), which traversal uses less memory?",
+    "options": [
+      "BFS: the queue stays tiny while DFS's stack grows with the height",
+      "DFS: the stack stays tiny",
+      "They're the same",
+      "Neither works"
+    ],
+    "answer": [
+      "BFS: the queue stays tiny while DFS's stack grows with the height"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is `List.removeAt(0)` a bad choice for the BFS queue?",
+    "options": [
+      "It's O(n), making BFS O(n²)",
+      "It removes the wrong element",
+      "It doesn't exist on List",
+      "It sorts the list"
+    ],
+    "answer": [
+      "It's O(n), making BFS O(n²)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if you add a null root to the queue without checking?",
+    "options": [
+      "Accessing its children causes a null error",
+      "Nothing; BFS ignores it",
+      "It prints null and stops",
+      "Dart refuses to compile"
+    ],
+    "answer": [
+      "Accessing its children causes a null error"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nint maxWidth(Node? root) {\n  if (root == null) return 0;\n  final q = Queue<Node>()..add(root);\n  var best = 0;\n  while (q.isNotEmpty) {\n    final size = q.length;\n    if (size > best) best = size;\n    for (var i = 0; i < size; i++) {\n      final n = q.removeFirst();\n      if (n.left != null) q.add(n.left!);\n      if (n.right != null) q.add(n.right!);\n    }\n  }\n  return best;\n}\n\nvoid main() {\n  print(maxWidth(const Node(1, Node(2, Node(4), Node(5)), Node(3, null, Node(6)))));\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "6",
+      "4"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nList<int> levelMax(Node root) {\n  final out = <int>[];\n  final q = Queue<Node>()..add(root);\n  while (q.isNotEmpty) {\n    final size = q.length;\n    var best = q.first.v;\n    for (var i = 0; i < size; i++) {\n      final n = q.removeFirst();\n      if (n.v > best) best = n.v;\n      if (n.left != null) q.add(n.left!);\n      if (n.right != null) q.add(n.right!);\n    }\n    out.add(best);\n  }\n  return out;\n}\n\nvoid main() {\n  print(levelMax(const Node(1, Node(3, Node(5), Node(3)), Node(2, null, Node(9)))));\n}\n```",
+    "options": [
+      "[1, 3, 9]",
+      "[1, 2, 3]",
+      "[9, 3, 1]",
+      "[1, 3, 5]"
+    ],
+    "answer": [
+      "[1, 3, 9]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you produce bottom-up level order (deepest level first)?",
+    "options": [
+      "Compute normal level order, then reverse the list of levels",
+      "Use a stack instead of a queue",
+      "Traverse right children first",
+      "Use in-order"
+    ],
+    "answer": [
+      "Compute normal level order, then reverse the list of levels"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a complete binary tree, what's true about level order?",
+    "options": [
+      "Once a missing child (gap) appears, no real node may follow",
+      "Every node has two children",
+      "The last level is always full",
+      "All leaves are at the same depth"
+    ],
+    "answer": [
+      "Once a missing child (gap) appears, no real node may follow"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nbool isComplete(Node? root) {\n  final q = Queue<Node?>()..add(root);\n  var gap = false;\n  while (q.isNotEmpty) {\n    final n = q.removeFirst();\n    if (n == null) {\n      gap = true;\n    } else {\n      if (gap) return false;\n      q\n        ..add(n.left)\n        ..add(n.right);\n    }\n  }\n  return true;\n}\n\nvoid main() {\n  print(isComplete(const Node(1, Node(2), Node(3))));\n  print(isComplete(const Node(1, null, Node(3))));\n}\n```",
+    "options": [
+      "true then false",
+      "false then true",
+      "true then true",
+      "false then false"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which question is a better fit for BFS than DFS?",
+    "options": [
+      "\"What is the shallowest leaf?\"",
+      "\"List every root-to-leaf path\"",
+      "\"Print a BST in sorted order\"",
+      "\"Compute every subtree's size\""
+    ],
+    "answer": [
+      "\"What is the shallowest leaf?\""
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which question is a better fit for DFS than BFS?",
+    "options": [
+      "\"Print a BST in sorted order\"",
+      "\"Average of each level\"",
+      "\"Right side view\"",
+      "\"Minimum depth\""
+    ],
+    "answer": [
+      "\"Print a BST in sorted order\""
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of level-order traversal?",
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": [
+      "O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Create a queue and add the root in one expression:\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final q = Queue<int>()%fill%add(1);\n  print(q);\n}\n```",
+    "answer": [
+      ".."
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final q = Queue<int>()..add(1);\n  var count = 0;\n  while (q.isNotEmpty) {\n    final x = q.removeFirst();\n    count++;\n    if (x < 4) {\n      q.add(x * 2);\n      q.add(x * 2 + 1);\n    }\n  }\n  print(count);\n}\n```",
+    "options": [
+      "7",
+      "4",
+      "8",
+      "15"
+    ],
+    "answer": [
+      "7"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final levels = [[1], [2, 3], [4]];\n  for (final (i, lvl) in levels.indexed) {\n    if (i == 1) print(lvl);\n  }\n}\n```",
+    "options": [
+      "[2, 3]",
+      "[1]",
+      "1",
+      "[4]"
+    ],
+    "answer": [
+      "[2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete the BFS enqueue step for a binary tree:\n\n```dart\nfinal n = q.%order%();\nout.add(n.v);\nif (n.%order% != null) q.add(n.left!);\nif (n.%order% != null) q.add(n.right!);\n```",
+    "options": [
+      "removeFirst",
+      "left",
+      "right",
+      "removeLast",
+      "next"
+    ],
+    "answer": [
+      "removeFirst",
+      "left",
+      "right"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Which real-world spread is most like BFS?",
+    "options": [
+      "Ripples spreading outward in a pond",
+      "Exploring one cave tunnel to its end first",
+      "Reading a book page by page",
+      "Stacking plates"
+    ],
+    "answer": [
+      "Ripples spreading outward in a pond"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nvoid main() {\n  const t = Node(1, Node(2), Node(3));\n  final q = Queue<Node>()..add(t);\n  final first = q.removeFirst();\n  q\n    ..add(first.left!)\n    ..add(first.right!);\n  print(q.map((n) => n.v).toList());\n}\n```",
+    "options": [
+      "[2, 3]",
+      "[3, 2]",
+      "[1, 2, 3]",
+      "[2]"
+    ],
+    "answer": [
+      "[2, 3]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In BFS, when is a node \"discovered\" vs \"visited\"?",
+    "options": [
+      "Discovered when enqueued; visited when dequeued",
+      "Both happen at the same time",
+      "Visited first, discovered later",
+      "Only leaves are discovered"
+    ],
+    "answer": [
+      "Discovered when enqueued; visited when dequeued"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Do you need a `seen` set for BFS on a TREE (not a general graph)?",
+    "options": [
+      "No, trees have no cycles and each node has one parent",
+      "Yes, always",
+      "Only for binary trees",
+      "Only if values repeat"
+    ],
+    "answer": [
+      "No, trees have no cycles and each node has one parent"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nclass Node {\n  final int v;\n  final Node? left, right;\n  const Node(this.v, [this.left, this.right]);\n}\n\nint countLeaves(Node? root) {\n  if (root == null) return 0;\n  final q = Queue<Node>()..add(root);\n  var leaves = 0;\n  while (q.isNotEmpty) {\n    final n = q.removeFirst();\n    if (n.left == null && n.right == null) leaves++;\n    if (n.left != null) q.add(n.left!);\n    if (n.right != null) q.add(n.right!);\n  }\n  return leaves;\n}\n\nvoid main() {\n  print(countLeaves(const Node(1, Node(2, Node(4), Node(5)), Node(3))));\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "5",
+      "4"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  }
+]

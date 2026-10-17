@@ -1,0 +1,702 @@
+[
+  {
+    "question": "What problem does Union-Find (Disjoint Set Union) solve?",
+    "options": [
+      "Tracking which elements belong to the same group as groups merge",
+      "Finding shortest paths",
+      "Sorting elements",
+      "Detecting palindromes"
+    ],
+    "answer": [
+      "Tracking which elements belong to the same group as groups merge"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `find(x)` return?",
+    "options": [
+      "The representative (root) of x's set",
+      "x's index",
+      "The size of the set",
+      "x's parent only"
+    ],
+    "answer": [
+      "The representative (root) of x's set"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `union(a, b)` do?",
+    "options": [
+      "Merges the sets containing a and b",
+      "Adds an edge to a list",
+      "Removes a and b",
+      "Swaps a and b"
+    ],
+    "answer": [
+      "Merges the sets containing a and b"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you check whether a and b are in the same set?",
+    "options": [
+      "find(a) == find(b)",
+      "parent[a] == parent[b]",
+      "a == b",
+      "rank[a] == rank[b]"
+    ],
+    "answer": [
+      "find(a) == find(b)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How is Union-Find initialized for n elements?",
+    "options": [
+      "parent[i] = i: every element is its own set",
+      "parent[i] = 0 for all i",
+      "parent[i] = i + 1",
+      "parent is empty"
+    ],
+    "answer": [
+      "parent[i] = i: every element is its own set"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you recognize a root in the parent array?",
+    "options": [
+      "parent[x] == x",
+      "parent[x] == 0",
+      "parent[x] == -1 always",
+      "rank[x] == 0"
+    ],
+    "answer": [
+      "parent[x] == x"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\nvoid main() {\n  final uf = UF(5);\n  uf.union(0, 1);\n  uf.union(3, 4);\n  print(uf.find(0) == uf.find(1));\n  print(uf.find(1) == uf.find(3));\n}\n```",
+    "options": [
+      "true then false",
+      "true then true",
+      "false then false",
+      "false then true"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\nvoid main() {\n  final uf = UF(6);\n  uf.union(0, 1);\n  uf.union(2, 3);\n  uf.union(1, 3);\n  print(uf.count);\n}\n```",
+    "options": [
+      "3",
+      "4",
+      "2",
+      "6"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\nvoid main() {\n  final uf = UF(3);\n  print(uf.union(0, 1));\n  print(uf.union(1, 0));\n}\n```",
+    "options": [
+      "true then false",
+      "true then true",
+      "false then false",
+      "false then true"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can naive Union-Find become slow?",
+    "options": [
+      "Trees can become long chains, making find O(n)",
+      "Hashing collisions",
+      "It sorts on every union",
+      "It uses recursion"
+    ],
+    "answer": [
+      "Trees can become long chains, making find O(n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is \"union by rank\"?",
+    "options": [
+      "Attaching the shorter tree under the taller one",
+      "Merging sets in sorted order",
+      "Ranking elements by value",
+      "Always attaching under element 0"
+    ],
+    "answer": [
+      "Attaching the shorter tree under the taller one"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When does a root's rank increase under union by rank?",
+    "options": [
+      "When two trees of equal rank are merged",
+      "On every union",
+      "On every find",
+      "Never"
+    ],
+    "answer": [
+      "When two trees of equal rank are merged"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What height bound does union by rank alone guarantee?",
+    "options": [
+      "O(log n)",
+      "O(1)",
+      "O(n)",
+      "O(√n)"
+    ],
+    "answer": [
+      "O(log n)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is path compression?",
+    "options": [
+      "During find, making every node on the path point directly to the root",
+      "Removing nodes from the tree",
+      "Compressing the parent array with gzip",
+      "Merging two roots"
+    ],
+    "answer": [
+      "During find, making every node on the path point directly to the root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "With both union by rank and path compression, what is the amortized cost per operation?",
+    "options": [
+      "O(α(n)), effectively constant",
+      "O(log n)",
+      "O(n)",
+      "O(n log n)"
+    ],
+    "answer": [
+      "O(α(n)), effectively constant"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is α(n) in Union-Find's complexity?",
+    "options": [
+      "The inverse Ackermann function, at most about 4 for practical n",
+      "The number of sets",
+      "The tree height",
+      "log₂ n"
+    ],
+    "answer": [
+      "The inverse Ackermann function, at most about 4 for practical n"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final p = [0, 0, 1, 2]; // chain 3 → 2 → 1 → 0\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n  find(3);\n  print(p);\n}\n```",
+    "options": [
+      "[0, 0, 0, 0]",
+      "[0, 0, 1, 2]",
+      "[0, 1, 2, 3]",
+      "[3, 3, 3, 3]"
+    ],
+    "answer": [
+      "[0, 0, 0, 0]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In `int find(int x) => p[x] == x ? x : p[x] = find(p[x]);`, what does the assignment achieve?",
+    "options": [
+      "It compresses the path by pointing x straight to the root",
+      "It resets x to its own set",
+      "It merges two sets",
+      "Nothing; it's just a lookup"
+    ],
+    "answer": [
+      "It compresses the path by pointing x straight to the root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete union with root linking:\n\n```dart\nbool union(int a, int b) {\n  final ra = %order%(a), rb = find(b);\n  if (ra %order% rb) return false;\n  parent[%order%] = rb;\n  return true;\n}\n```",
+    "options": [
+      "find",
+      "==",
+      "ra",
+      "!=",
+      "a",
+      "parent"
+    ],
+    "answer": [
+      "find",
+      "==",
+      "ra"
+    ],
+    "type": "order"
+  },
+  {
+    "question": "Why must union link ROOTS rather than the elements themselves?",
+    "options": [
+      "Changing a non-root's parent can detach it from its own set or half-merge sets",
+      "Roots are faster to access",
+      "Elements can't have parents",
+      "It doesn't matter"
+    ],
+    "answer": [
+      "Changing a non-root's parent can detach it from its own set or half-merge sets"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is `parent[a] == parent[b]` NOT a valid connectivity check?",
+    "options": [
+      "Two elements in the same set can have different direct parents",
+      "Parents are always equal",
+      "It's too slow",
+      "It works fine"
+    ],
+    "answer": [
+      "Two elements in the same set can have different direct parents"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does Union-Find detect a cycle when adding undirected edges?",
+    "options": [
+      "If an edge's endpoints already have the same root, adding it creates a cycle",
+      "If a vertex has degree 3",
+      "If find returns -1",
+      "It can't"
+    ],
+    "answer": [
+      "If an edge's endpoints already have the same root, adding it creates a cycle"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\n(int, int)? cycleEdge(int n, List<(int, int)> edges) {\n  final uf = UF(n);\n  for (final (u, v) in edges) {\n    if (!uf.union(u, v)) return (u, v);\n  }\n  return null;\n}\n\nvoid main() {\n  print(cycleEdge(3, [(0, 1), (1, 2), (0, 2)]));\n}\n```",
+    "options": [
+      "(0, 2)",
+      "(1, 2)",
+      "null",
+      "(0, 1)"
+    ],
+    "answer": [
+      "(0, 2)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you count connected components with Union-Find?",
+    "options": [
+      "Start the count at n and decrement on every successful union",
+      "Count the edges",
+      "Count the roots at the start",
+      "Run BFS afterwards"
+    ],
+    "answer": [
+      "Start the count at n and decrement on every successful union"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\nvoid main() {\n  final uf = UF(7);\n  for (final (a, b) in [(0, 1), (1, 2), (3, 4), (5, 6), (6, 5)]) {\n    uf.union(a, b);\n  }\n  print(uf.count);\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "7"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How can Union-Find work with String elements instead of integers?",
+    "options": [
+      "Use a Map<String, String> for parents",
+      "Convert strings to their length",
+      "It can't",
+      "Use a List<String> indexed by character"
+    ],
+    "answer": [
+      "Use a Map<String, String> for parents"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final parent = <String, String>{};\n  String find(String x) {\n    parent.putIfAbsent(x, () => x);\n    final p = parent[x]!;\n    return p == x ? x : parent[x] = find(p);\n  }\n\n  void union(String a, String b) => parent[find(a)] = find(b);\n\n  union('ada@a.com', 'ada@b.com');\n  union('ada@b.com', 'ada@c.com');\n  print(find('ada@a.com') == find('ada@c.com'));\n}\n```",
+    "options": [
+      "true",
+      "false",
+      "null",
+      "It throws an error"
+    ],
+    "answer": [
+      "true"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which operation can Union-Find NOT do efficiently?",
+    "options": [
+      "Split a set (remove an element or edge)",
+      "Merge two sets",
+      "Check if two elements share a set",
+      "Count the sets"
+    ],
+    "answer": [
+      "Split a set (remove an element or edge)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which famous MST algorithm relies on Union-Find?",
+    "options": [
+      "Kruskal's algorithm",
+      "Dijkstra's algorithm",
+      "Bellman-Ford",
+      "Floyd-Warshall"
+    ],
+    "answer": [
+      "Kruskal's algorithm"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which problem is NOT a good fit for Union-Find?",
+    "options": [
+      "Finding the shortest path between two vertices",
+      "Counting connected components",
+      "Detecting cycles in an undirected graph",
+      "Grouping accounts that share emails"
+    ],
+    "answer": [
+      "Finding the shortest path between two vertices"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Is Union-Find suitable for reachability in DIRECTED graphs?",
+    "options": [
+      "No, it models undirected (symmetric) connectivity",
+      "Yes, always",
+      "Only for DAGs",
+      "Only with path compression"
+    ],
+    "answer": [
+      "No, it models undirected (symmetric) connectivity"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a grid, how can a cell (r, c) be mapped to a single Union-Find index?",
+    "options": [
+      "r * cols + c",
+      "r + c",
+      "r * c",
+      "c * rows + r * cols"
+    ],
+    "answer": [
+      "r * cols + c"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  const cols = 4;\n  print(2 * cols + 3);\n}\n```",
+    "options": [
+      "11",
+      "9",
+      "14",
+      "5"
+    ],
+    "answer": [
+      "11"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "When a new land cell joins two existing islands in \"islands after each addition\", how does the count change?",
+    "options": [
+      "+1 for the new cell, then −1 for each distinct island it merges with",
+      "It always increases by 1",
+      "It always stays the same",
+      "It resets to 1"
+    ],
+    "answer": [
+      "+1 for the new cell, then −1 for each distinct island it merges with"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does union by SIZE do?",
+    "options": [
+      "Attaches the smaller set's root under the larger set's root",
+      "Merges sets in size order",
+      "Limits sets to a maximum size",
+      "Sorts elements by size"
+    ],
+    "answer": [
+      "Attaches the smaller set's root under the larger set's root"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final p = List.generate(4, (i) => i);\n  final size = List.filled(4, 1);\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n  void union(int a, int b) {\n    var ra = find(a), rb = find(b);\n    if (ra == rb) return;\n    if (size[ra] < size[rb]) {\n      final t = ra;\n      ra = rb;\n      rb = t;\n    }\n    p[rb] = ra;\n    size[ra] += size[rb];\n  }\n\n  union(0, 1);\n  union(2, 0);\n  print(size[find(2)]);\n}\n```",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "4"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Given equations a==b, b==c and a!=c, what does Union-Find reveal?",
+    "options": [
+      "They're contradictory: a and c end up in the same set but must differ",
+      "They're all satisfiable",
+      "Only a==b is valid",
+      "Nothing"
+    ],
+    "answer": [
+      "They're contradictory: a and c end up in the same set but must differ"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In what order should equality and inequality constraints be processed?",
+    "options": [
+      "Union all equalities first, then check each inequality",
+      "Inequalities first",
+      "Alternate them",
+      "Order doesn't matter at all"
+    ],
+    "answer": [
+      "Union all equalities first, then check each inequality"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\nvoid main() {\n  final uf = UF(3);\n  uf.union(0, 1);\n  uf.union(1, 2);\n  print(uf.find(0) == uf.find(2));\n  print(uf.count);\n}\n```",
+    "options": [
+      "true then 1",
+      "false then 2",
+      "true then 2",
+      "true then 3"
+    ],
+    "answer": [
+      "true then 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if you union the same pair many times?",
+    "options": [
+      "After the first time, nothing changes",
+      "The count keeps decreasing",
+      "It throws an error",
+      "The sets split"
+    ],
+    "answer": [
+      "After the first time, nothing changes"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which structure represents the sets in Union-Find?",
+    "options": [
+      "A forest of trees built from parent pointers",
+      "A hash table of lists",
+      "A single sorted array",
+      "A heap"
+    ],
+    "answer": [
+      "A forest of trees built from parent pointers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final p = [1, 3, 3, 3, 4, 5];\n  int find(int x) {\n    while (p[x] != x) {\n      x = p[x];\n    }\n    return x;\n  }\n\n  print([for (var i = 0; i < 6; i++) find(i)]);\n}\n```",
+    "options": [
+      "[3, 3, 3, 3, 4, 5]",
+      "[1, 3, 3, 3, 4, 5]",
+      "[0, 1, 2, 3, 4, 5]",
+      "[3, 3, 3, 3, 3, 3]"
+    ],
+    "answer": [
+      "[3, 3, 3, 3, 4, 5]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the parent array `[1, 3, 3, 3, 4, 5]`, how many sets are there?",
+    "options": [
+      "3",
+      "6",
+      "1",
+      "2"
+    ],
+    "answer": [
+      "3"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the \"redundant connection\" problem?",
+    "options": [
+      "Finding an edge whose removal leaves the graph a tree (it closes a cycle)",
+      "Finding duplicate vertices",
+      "Finding the heaviest edge",
+      "Finding isolated vertices"
+    ],
+    "answer": [
+      "Finding an edge whose removal leaves the graph a tree (it closes a cycle)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why is Union-Find better than re-running BFS each time an edge is added?",
+    "options": [
+      "Each union/find is nearly O(1), while BFS costs O(V + E) every time",
+      "BFS can't find components",
+      "Union-Find uses less code only",
+      "It isn't better"
+    ],
+    "answer": [
+      "Each union/find is nearly O(1), while BFS costs O(V + E) every time"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does iterative path compression do in two passes?",
+    "options": [
+      "First find the root, then re-point every node on the path to it",
+      "First merge, then split",
+      "First sort, then search",
+      "First count, then delete"
+    ],
+    "answer": [
+      "First find the root, then re-point every node on the path to it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Initialize every element as its own parent:\n\n```dart\nvoid main() {\n  final parent = List.%fill%(5, (i) => i);\n  print(parent); // [0, 1, 2, 3, 4]\n}\n```",
+    "answer": [
+      "generate"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nclass UF {\n  final List<int> p;\n  int count;\n  UF(int n)\n      : p = List.generate(n, (i) => i),\n        count = n;\n\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n\n  bool union(int a, int b) {\n    final ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    p[ra] = rb;\n    count--;\n    return true;\n  }\n}\n\nvoid main() {\n  final uf = UF(4);\n  final edges = [(0, 1), (2, 3), (1, 2), (0, 3)];\n  var extra = 0;\n  for (final (a, b) in edges) {\n    if (!uf.union(a, b)) extra++;\n  }\n  print('$extra ${uf.count}');\n}\n```",
+    "options": [
+      "1 1",
+      "0 1",
+      "1 2",
+      "2 1"
+    ],
+    "answer": [
+      "1 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "To connect n computers with cables, at least how many cables are needed?",
+    "options": [
+      "n − 1",
+      "n",
+      "n / 2",
+      "2n"
+    ],
+    "answer": [
+      "n − 1"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Stones sharing a row or column can be \"connected\". The maximum stones removable is:",
+    "options": [
+      "Number of stones − number of connected groups",
+      "Number of groups",
+      "Number of rows",
+      "Always 0"
+    ],
+    "answer": [
+      "Number of stones − number of connected groups"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which of these is a key property of Union-Find's sets?",
+    "options": [
+      "They are disjoint: no element belongs to two sets",
+      "They are always sorted",
+      "They can overlap",
+      "They have fixed sizes"
+    ],
+    "answer": [
+      "They are disjoint: no element belongs to two sets"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `union` returning false tell you?",
+    "options": [
+      "The two elements were already in the same set",
+      "The union failed due to an error",
+      "One element doesn't exist",
+      "The sets were empty"
+    ],
+    "answer": [
+      "The two elements were already in the same set"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final p = List.generate(5, (i) => i);\n  int find(int x) => p[x] == x ? x : p[x] = find(p[x]);\n  for (var i = 0; i < 4; i++) {\n    p[find(i)] = find(i + 1);\n  }\n  print(find(0));\n}\n```",
+    "options": [
+      "4",
+      "0",
+      "1",
+      "3"
+    ],
+    "answer": [
+      "4"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Finding the earliest moment everyone in a network becomes friends uses Union-Find by:",
+    "options": [
+      "Processing friendships in time order until the component count reaches 1",
+      "Sorting people by name",
+      "Running Dijkstra",
+      "Counting edges only"
+    ],
+    "answer": [
+      "Processing friendships in time order until the component count reaches 1"
+    ],
+    "type": "mcq"
+  }
+]

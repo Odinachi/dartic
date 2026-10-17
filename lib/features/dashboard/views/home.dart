@@ -1,7 +1,11 @@
 import 'package:dartcoder/features/authetication/view_model/app_cubit.dart';
+import 'package:dartcoder/features/courses/models/course_model.dart';
+import 'package:dartcoder/features/courses/views/course_details.dart';
 import 'package:dartcoder/shared/assets.dart';
+import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/theme.dart';
+import 'package:dartcoder/shared/widgets/ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,146 +15,384 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, this.onCourseTap});
   final VoidCallback? onCourseTap;
 
+  static String _greeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surface = isDark ? Colors.white.withValues(alpha: .05) : Colors.white;
-    final border =
-        isDark ? Colors.white.withValues(alpha: .07) : const Color(0xffEAECEF);
+    final allCourses = AppData.courses.values.expand((e) => e).toList();
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        title: Text('Dartic',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -.3)),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.notifications_none_rounded,
-                size: 22.sp,
-                color: isDark ? Colors.white60 : AppColors.blackText),
-          ),
-          SizedBox(width: 4.w),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // ── Streak bar ──
-          BlocBuilder<AppCubit, AppState>(builder: (context, _) {
-            final progress = context.read<AppCubit>().userProgress;
-            final passedCount = progress?.passedCourses?.length ?? 0;
-            final dsaSolved = progress?.passedDsa?.length ?? 0;
-            return GestureDetector(
-              onTap: () => AppRouter.push(AppRouter.activity),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: surface,
-                  border: Border.all(color: border),
-                  borderRadius: BorderRadius.circular(12.r),
+      body: SafeArea(
+        bottom: false,
+        child: BlocBuilder<AppCubit, AppState>(builder: (context, _) {
+          final cubit = context.read<AppCubit>();
+          final profile = cubit.profile;
+          final progress = cubit.userProgress;
+          final passed = progress?.passedCourses?.toSet() ?? const {};
+          final passedCount =
+              allCourses.where((c) => passed.contains(c.id)).length;
+          final dsaSolved = progress?.passedDsa?.length ?? 0;
+          final current = allCourses.firstWhere(
+            (c) => c.id == progress?.currentCourse,
+            orElse: () => allCourses.firstWhere((c) => !passed.contains(c.id),
+                orElse: () => allCourses.first),
+          );
+          final name = profile?.firstName?.trim();
+
+          final sections = <Widget>[
+            _Header(
+              greeting: _greeting(),
+              name: (name == null || name.isEmpty) ? 'Dartisan' : name,
+              photoUrl: profile?.photoUrl,
+            ),
+            _ContinueCard(
+              course: current,
+              lessonNumber: allCourses.indexOf(current) + 1,
+              totalLessons: allCourses.length,
+              passedCount: passedCount,
+            ),
+            Row(children: [
+              Expanded(
+                child: _StatTile(
+                  icon: Icons.local_fire_department_rounded,
+                  color: AppColors.orange,
+                  value: '7',
+                  label: 'Day streak',
+                  onTap: () => AppRouter.push(AppRouter.activity),
                 ),
-                child: Row(children: [
-                  Icon(Icons.local_fire_department_rounded,
-                      color: const Color(0xffFF6B35), size: 20.sp),
-                  SizedBox(width: 8.w),
-                  Text('7 day streak',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontSize: 14.sp, fontWeight: FontWeight.w600)),
-                  const Spacer(),
-                  _StatPill(
-                      value: '$passedCount', label: 'lessons', isDark: isDark),
-                  SizedBox(width: 8.w),
-                  _StatPill(
-                      value: '$dsaSolved', label: 'solved', isDark: isDark),
-                  SizedBox(width: 8.w),
-                  Icon(Icons.chevron_right_rounded,
-                      size: 18.sp, color: AppColors.grey),
-                ]),
               ),
-            );
-          }),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: _StatTile(
+                  icon: Icons.menu_book_rounded,
+                  color: AppColors.appBlue,
+                  value: '$passedCount',
+                  label: 'Lessons',
+                  onTap: onCourseTap ??
+                      () => AppRouter.push(AppRouter.coursesList),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: _StatTile(
+                  icon: Icons.bolt_rounded,
+                  color: AppColors.success,
+                  value: '$dsaSolved',
+                  label: 'Solved',
+                  onTap: () => AppRouter.push(AppRouter.activity),
+                ),
+              ),
+            ]),
+            const SectionHeader('Learning paths'),
+            _PathCard(
+              title: 'Dart fundamentals',
+              subtitle: '${allCourses.length} lessons · Beginner',
+              image: Assets.images.dart,
+              gradient: AppColors.primaryGradient,
+              progress:
+                  allCourses.isEmpty ? 0 : passedCount / allCourses.length,
+              progressLabel: '$passedCount/${allCourses.length}',
+              onTap: onCourseTap ?? () => AppRouter.push(AppRouter.coursesList),
+            ),
+            _PathCard(
+              title: 'Data structures',
+              subtitle: 'Big O to graphs, trees & DP · 7 modules',
+              icon: Icons.account_tree_rounded,
+              gradient: AppColors.dataStructureGradient,
+              progressLabel: 'New',
+              onTap: () {
+                FirebaseAuth.instance.currentUser == null
+                    ? AppRouter.pushAndClear(AppRouter.onboarding)
+                    : AppRouter.push(AppRouter.dsaCourse);
+              },
+            ),
+            _PathCard(
+              title: 'Algorithm practice',
+              subtitle: 'Problem sets · Intermediate',
+              image: Assets.images.dsa,
+              gradient: AppColors.dsaGradient,
+              progressLabel: '$dsaSolved solved',
+              onTap: () {
+                FirebaseAuth.instance.currentUser == null
+                    ? AppRouter.pushAndClear(AppRouter.onboarding)
+                    : AppRouter.push(AppRouter.dsaList);
+              },
+            ),
+            const SectionHeader('Tip of the day'),
+            const _QuickTip(),
+          ];
 
-          SizedBox(height: 24.h),
-
-          // ── Paths ──
-          Text('Paths',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -.2)),
-          SizedBox(height: 12.h),
-
-          _PathCard(
-            title: 'Dart fundamentals',
-            subtitle: '30 lessons · Beginner',
-            image: Assets.images.dart,
-            accentColor: AppColors.appBlue,
-            surface: surface,
-            border: border,
-            isDark: isDark,
-            onTap: onCourseTap ?? () => AppRouter.push(AppRouter.coursesList),
-          ),
-
-          SizedBox(height: 10.h),
-
-          _PathCard(
-            title: 'Algorithm practice',
-            subtitle: 'Problem sets · Intermediate',
-            image: Assets.images.dsa,
-            accentColor: const Color(0xff15805C),
-            surface: surface,
-            border: border,
-            isDark: isDark,
-            onTap: () {
-              FirebaseAuth.instance.currentUser == null
-                  ? AppRouter.pushAndClear(AppRouter.onboarding)
-                  : AppRouter.push(AppRouter.dsaList);
-            },
-          ),
-
-          SizedBox(height: 28.h),
-
-          // ── Quick tip ──
-          _QuickTip(isDark: isDark, surface: surface, border: border),
-        ]),
+          return ListView.separated(
+            padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
+            itemCount: sections.length,
+            separatorBuilder: (_, i) => SizedBox(
+                height: sections[i + 1] is SectionHeader ? 26.h : 14.h),
+            itemBuilder: (_, i) => FadeSlideIn(
+                delay: FadeSlideIn.stagger(i, stepMs: 70), child: sections[i]),
+          );
+        }),
       ),
     );
   }
 }
 
 // ─────────────────────────────────────────────────────
-//  STAT PILL — compact "3 lessons" badge
+//  HEADER — greeting, avatar, notifications
 // ─────────────────────────────────────────────────────
 
-class _StatPill extends StatelessWidget {
-  const _StatPill({
-    required this.value,
-    required this.label,
-    required this.isDark,
+class _Header extends StatelessWidget {
+  const _Header({required this.greeting, required this.name, this.photoUrl});
+  final String greeting;
+  final String name;
+  final String? photoUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    final hasPhoto = photoUrl != null && photoUrl!.isNotEmpty;
+    return Row(children: [
+      Container(
+        padding: EdgeInsets.all(2.r),
+        decoration: const BoxDecoration(
+            gradient: AppColors.primaryGradient, shape: BoxShape.circle),
+        child: CircleAvatar(
+          radius: 21.r,
+          backgroundColor: palette.surfaceAlt,
+          backgroundImage: hasPhoto ? NetworkImage(photoUrl!) : null,
+          child: hasPhoto
+              ? null
+              : Text(name.characters.first.toUpperCase(),
+                  style: context.text.titleMedium?.copyWith(fontSize: 16.sp)),
+        ),
+      ),
+      SizedBox(width: 12.w),
+      Expanded(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(greeting,
+              style: context.text.bodyMedium
+                  ?.copyWith(fontSize: 12.5.sp, color: palette.textMuted)),
+          SizedBox(height: 2.h),
+          Text('$name 👋',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.text.titleLarge?.copyWith(fontSize: 20.sp)),
+        ]),
+      ),
+      Pressable(
+        onTap: () {},
+        child: Container(
+          width: 42.r,
+          height: 42.r,
+          decoration: BoxDecoration(
+            color: palette.surface,
+            shape: BoxShape.circle,
+            border: Border.all(color: palette.border),
+          ),
+          child: Icon(Icons.notifications_none_rounded,
+              size: 20.sp, color: palette.textPrimary),
+        ),
+      ),
+    ]);
+  }
+}
+
+// ─────────────────────────────────────────────────────
+//  CONTINUE CARD — hero with progress ring
+// ─────────────────────────────────────────────────────
+
+class _ContinueCard extends StatelessWidget {
+  const _ContinueCard({
+    required this.course,
+    required this.lessonNumber,
+    required this.totalLessons,
+    required this.passedCount,
   });
-  final String value;
-  final String label;
-  final bool isDark;
+  final CourseModel course;
+  final int lessonNumber;
+  final int totalLessons;
+  final int passedCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final percent = totalLessons == 0 ? 0.0 : passedCount / totalLessons;
+    final white70 = AppColors.white.withValues(alpha: .75);
+    return Pressable(
+      onTap: () => AppRouter.push(AppRouter.courseDetails,
+          arg: CourseDetailsArgs(course: course)),
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          gradient: AppColors.primaryGradient,
+          borderRadius: BorderRadius.circular(22.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.violet.withValues(alpha: .3),
+              blurRadius: 24,
+              offset: const Offset(0, 12),
+            ),
+          ],
+        ),
+        child: Stack(children: [
+          // Decorative glow circles
+          Positioned(
+            right: -40.w,
+            top: -50.h,
+            child: _Glow(size: 160.r),
+          ),
+          Positioned(
+            left: -30.w,
+            bottom: -60.h,
+            child: _Glow(size: 130.r),
+          ),
+          Padding(
+            padding: EdgeInsets.all(18.r),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 9.w, vertical: 4.h),
+                          decoration: BoxDecoration(
+                            color: AppColors.white.withValues(alpha: .18),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text('LESSON $lessonNumber OF $totalLessons',
+                              style: context.text.labelLarge?.copyWith(
+                                  fontSize: 10.sp,
+                                  letterSpacing: .8,
+                                  color: AppColors.white)),
+                        ),
+                        SizedBox(height: 12.h),
+                        Text(course.title ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.text.headlineSmall?.copyWith(
+                                fontSize: 22.sp,
+                                height: 1.15,
+                                color: AppColors.white)),
+                        SizedBox(height: 6.h),
+                        Text(course.desc ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.text.bodyMedium?.copyWith(
+                                fontSize: 12.5.sp,
+                                height: 1.4,
+                                color: white70)),
+                      ]),
+                ),
+                SizedBox(width: 14.w),
+                ProgressRing(
+                  value: percent,
+                  size: 64.r,
+                  stroke: 6.r,
+                  child: Text('${(percent * 100).round()}%',
+                      style: context.text.labelLarge
+                          ?.copyWith(fontSize: 14.sp, color: AppColors.white)),
+                ),
+              ]),
+              SizedBox(height: 18.h),
+              Row(children: [
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(passedCount == 0 ? 'Start learning' : 'Continue',
+                        style: context.text.labelLarge?.copyWith(
+                            fontSize: 13.sp, color: AppColors.appBlueDeep)),
+                    SizedBox(width: 6.w),
+                    Icon(Icons.play_arrow_rounded,
+                        size: 18.sp, color: AppColors.appBlueDeep),
+                  ]),
+                ),
+                const Spacer(),
+                Text('$passedCount completed',
+                    style: context.text.bodyMedium
+                        ?.copyWith(fontSize: 12.sp, color: white70)),
+              ]),
+            ]),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+class _Glow extends StatelessWidget {
+  const _Glow({required this.size});
+  final double size;
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+        width: size,
+        height: size,
         decoration: BoxDecoration(
-          color: isDark
-              ? Colors.white.withValues(alpha: .07)
-              : const Color(0xffF4F5F7),
-          borderRadius: BorderRadius.circular(6.r),
+          shape: BoxShape.circle,
+          gradient: RadialGradient(colors: [
+            AppColors.white.withValues(alpha: .22),
+            AppColors.white.withValues(alpha: 0),
+          ]),
         ),
-        child: Text('$value $label',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w600,
-                color: isDark ? Colors.white60 : const Color(0xff5A6069))),
+      );
+}
+
+// ─────────────────────────────────────────────────────
+//  STAT TILE
+// ─────────────────────────────────────────────────────
+
+class _StatTile extends StatelessWidget {
+  const _StatTile({
+    required this.icon,
+    required this.color,
+    required this.value,
+    required this.label,
+    this.onTap,
+  });
+  final IconData icon;
+  final Color color;
+  final String value;
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => AppCard(
+        onTap: onTap,
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            width: 30.r,
+            height: 30.r,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: .14),
+              borderRadius: BorderRadius.circular(9.r),
+            ),
+            child: Icon(icon, size: 17.sp, color: color),
+          ),
+          SizedBox(height: 10.h),
+          TweenAnimationBuilder<int>(
+            tween: IntTween(begin: 0, end: int.tryParse(value) ?? 0),
+            duration: const Duration(milliseconds: 700),
+            curve: Curves.easeOutCubic,
+            builder: (_, v, __) => Text('$v',
+                style: context.text.headlineSmall
+                    ?.copyWith(fontSize: 20.sp, height: 1)),
+          ),
+          SizedBox(height: 3.h),
+          Text(label,
+              style: context.text.bodySmall?.copyWith(fontSize: 11.5.sp)),
+        ]),
       );
 }
 
@@ -162,81 +404,78 @@ class _PathCard extends StatelessWidget {
   const _PathCard({
     required this.title,
     required this.subtitle,
-    required this.image,
-    required this.accentColor,
-    required this.surface,
-    required this.border,
-    required this.isDark,
+    this.image,
+    this.icon,
+    required this.gradient,
     required this.onTap,
+    this.progress,
+    this.progressLabel,
   });
   final String title;
   final String subtitle;
-  final AppAssetImage image;
-  final Color accentColor;
-  final Color surface;
-  final Color border;
-  final bool isDark;
+  final AppAssetImage? image;
+  final IconData? icon;
+  final Gradient gradient;
   final VoidCallback? onTap;
+  final double? progress;
+  final String? progressLabel;
 
   @override
-  Widget build(BuildContext context) => Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12.r),
-          child: Container(
-            decoration: BoxDecoration(
-              color: surface,
-              border: Border.all(color: border),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Row(children: [
-              // Thumbnail
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(11.r),
-                    bottomLeft: Radius.circular(11.r)),
-                child: SizedBox(
-                    width: 88.w,
-                    height: 88.h,
-                    child: image.image(fit: BoxFit.cover)),
-              ),
-              // Content
-              Expanded(
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(title,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: -.15)),
-                        SizedBox(height: 4.h),
-                        Text(subtitle,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                    fontSize: 12.sp, color: AppColors.grey)),
-                      ]),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 14.w),
-                child: Icon(Icons.chevron_right_rounded,
-                    size: 20.sp, color: AppColors.grey),
-              ),
-            ]),
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return AppCard(
+      onTap: onTap,
+      padding: EdgeInsets.all(12.r),
+      child: Row(children: [
+        Container(
+          width: 72.r,
+          height: 72.r,
+          padding: EdgeInsets.all(2.r),
+          decoration: BoxDecoration(
+            gradient: gradient,
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(14.r),
+            child: image?.image(fit: BoxFit.cover) ??
+                Icon(icon, size: 30.sp, color: AppColors.white),
           ),
         ),
-      );
+        SizedBox(width: 14.w),
+        Expanded(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(title,
+                style: context.text.titleMedium
+                    ?.copyWith(fontSize: 15.sp, letterSpacing: -.15)),
+            SizedBox(height: 3.h),
+            Text(subtitle,
+                style: context.text.bodySmall?.copyWith(fontSize: 12.sp)),
+            SizedBox(height: 10.h),
+            Row(children: [
+              if (progress != null) ...[
+                Expanded(
+                  child: ProgressBar(
+                    value: progress!,
+                    color: gradient.colors.first,
+                    height: 5,
+                  ),
+                ),
+                SizedBox(width: 10.w),
+              ],
+              if (progressLabel != null)
+                Text(progressLabel!,
+                    style: context.text.labelLarge
+                        ?.copyWith(fontSize: 11.sp, color: palette.textMuted)),
+            ]),
+          ]),
+        ),
+        SizedBox(width: 6.w),
+        Icon(Icons.chevron_right_rounded,
+            size: 22.sp, color: palette.textMuted),
+      ]),
+    );
+  }
 }
 
 // ─────────────────────────────────────────────────────
@@ -244,14 +483,7 @@ class _PathCard extends StatelessWidget {
 // ─────────────────────────────────────────────────────
 
 class _QuickTip extends StatelessWidget {
-  const _QuickTip({
-    required this.isDark,
-    required this.surface,
-    required this.border,
-  });
-  final bool isDark;
-  final Color surface;
-  final Color border;
+  const _QuickTip();
 
   static const _tips = [
     (
@@ -576,42 +808,46 @@ class _QuickTip extends StatelessWidget {
     final now = DateTime.now();
     final dayIndex = now.difference(DateTime(2020, 1, 1)).inDays;
     final tip = _tips[dayIndex % _tips.length];
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: surface,
-        border: Border.all(color: border),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          width: 32.r,
-          height: 32.r,
-          decoration: BoxDecoration(
-            color: isDark
-                ? const Color(0xffF9A825).withValues(alpha: .12)
-                : const Color(0xffFFF8E1),
-            borderRadius: BorderRadius.circular(8.r),
+    final palette = context.palette;
+    return AppCard(
+      padding: EdgeInsets.zero,
+      child: IntrinsicHeight(
+        child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Container(
+            width: 4.w,
+            decoration: BoxDecoration(
+              color: AppColors.amber,
+              borderRadius:
+                  BorderRadius.horizontal(left: Radius.circular(16.r)),
+            ),
           ),
-          child: Icon(Icons.lightbulb_outline_rounded,
-              size: 16.sp, color: const Color(0xffF9A825)),
-        ),
-        SizedBox(width: 12.w),
-        Expanded(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(tip.$1,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w600)),
-            SizedBox(height: 3.h),
-            Text(tip.$2,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 12.sp, color: AppColors.grey, height: 1.45)),
-          ]),
-        ),
-      ]),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(16.r),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      Icon(Icons.lightbulb_rounded,
+                          size: 16.sp, color: AppColors.amber),
+                      SizedBox(width: 6.w),
+                      Expanded(
+                        child: Text(tip.$1,
+                            style: context.text.titleMedium
+                                ?.copyWith(fontSize: 14.sp)),
+                      ),
+                    ]),
+                    SizedBox(height: 8.h),
+                    Text(tip.$2,
+                        style: context.text.bodyMedium?.copyWith(
+                            fontSize: 12.5.sp,
+                            color: palette.textMuted,
+                            height: 1.5)),
+                  ]),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -129,7 +129,8 @@ class AppCubit extends Cubit<AppState> {
         username: cleanUsername,
         createdAt: profile?.createdAt ?? DateTime.now(),
         currentLevel: currentLevel ?? profile?.currentLevel,
-        photoUrl: profile?.photoUrl ?? FirebaseAuth.instance.currentUser?.photoURL,
+        photoUrl:
+            profile?.photoUrl ?? FirebaseAuth.instance.currentUser?.photoURL,
         email: FirebaseAuth.instance.currentUser?.email ?? ''));
     if (result.success == true) {
       profile = (await firebaseServices.getProfile()).user;
@@ -144,8 +145,11 @@ class AppCubit extends Cubit<AppState> {
     if (FirebaseAuth.instance.currentUser == null) {
       return;
     }
-    userProgress ??= userProgress
-        ?.copyWith(passedCourses: [...?userProgress?.passedCourses, id]);
+    if (userProgress?.passedCourses?.contains(id) == true) {
+      return;
+    }
+    userProgress = (userProgress ?? UserProgressModel())
+        .copyWith(passedCourses: [...?userProgress?.passedCourses, id]);
     emit(AuthInitial());
     await firebaseServices.updatePassedCourses(id);
   }

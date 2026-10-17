@@ -1,0 +1,689 @@
+[
+  {
+    "question": "What is a topological order?",
+    "options": [
+      "An ordering of a DAG's vertices where every edge u → v has u before v",
+      "Vertices sorted alphabetically",
+      "A BFS order of any graph",
+      "An order of vertices by degree"
+    ],
+    "answer": [
+      "An ordering of a DAG's vertices where every edge u → v has u before v"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which graphs have a topological order?",
+    "options": [
+      "Directed acyclic graphs (DAGs)",
+      "Any graph",
+      "Only trees",
+      "Undirected graphs"
+    ],
+    "answer": [
+      "Directed acyclic graphs (DAGs)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can't a graph with a cycle be topologically sorted?",
+    "options": [
+      "Each vertex in the cycle would have to come before itself",
+      "Cycles have no edges",
+      "The algorithm would be too slow",
+      "It can be"
+    ],
+    "answer": [
+      "Each vertex in the cycle would have to come before itself"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How many valid topological orders can a DAG have?",
+    "options": [
+      "Possibly many",
+      "Always exactly one",
+      "Always zero",
+      "Exactly two"
+    ],
+    "answer": [
+      "Possibly many"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the in-degree of a vertex?",
+    "options": [
+      "The number of edges pointing into it",
+      "The number of edges leaving it",
+      "Its position in the order",
+      "The number of vertices"
+    ],
+    "answer": [
+      "The number of edges pointing into it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Kahn's algorithm, which vertices start in the queue?",
+    "options": [
+      "All vertices with in-degree 0",
+      "All vertices with out-degree 0",
+      "Only the first vertex",
+      "All vertices"
+    ],
+    "answer": [
+      "All vertices with in-degree 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Kahn's algorithm, what happens when a vertex is removed from the queue?",
+    "options": [
+      "Its neighbors' in-degrees are decremented; any that reach 0 join the queue",
+      "Its neighbors are removed from the graph",
+      "Every vertex's in-degree resets",
+      "The algorithm stops"
+    ],
+    "answer": [
+      "Its neighbors' in-degrees are decremented; any that reach 0 join the queue"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does Kahn's algorithm detect a cycle?",
+    "options": [
+      "The result contains fewer vertices than the graph",
+      "The queue never empties",
+      "A vertex gets negative in-degree",
+      "It can't detect cycles"
+    ],
+    "answer": [
+      "The result contains fewer vertices than the graph"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the time complexity of Kahn's algorithm?",
+    "options": [
+      "O(V + E)",
+      "O(V²)",
+      "O(E log V)",
+      "O(V log V)"
+    ],
+    "answer": [
+      "O(V + E)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nList<String>? kahn(Map<String, List<String>> g) {\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  final q = Queue.of(inDeg.keys.where((v) => inDeg[v] == 0));\n  final out = <String>[];\n  while (q.isNotEmpty) {\n    final v = q.removeFirst();\n    out.add(v);\n    for (final w in g[v]!) {\n      inDeg[w] = inDeg[w]! - 1;\n      if (inDeg[w] == 0) q.add(w);\n    }\n  }\n  return out.length == inDeg.length ? out : null;\n}\n\nvoid main() {\n  print(kahn({'a': ['b'], 'b': ['c'], 'c': []}));\n}\n```",
+    "options": [
+      "[a, b, c]",
+      "[c, b, a]",
+      "null",
+      "[a, c, b]"
+    ],
+    "answer": [
+      "[a, b, c]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nList<String>? kahn(Map<String, List<String>> g) {\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  final q = Queue.of(inDeg.keys.where((v) => inDeg[v] == 0));\n  final out = <String>[];\n  while (q.isNotEmpty) {\n    final v = q.removeFirst();\n    out.add(v);\n    for (final w in g[v]!) {\n      inDeg[w] = inDeg[w]! - 1;\n      if (inDeg[w] == 0) q.add(w);\n    }\n  }\n  return out.length == inDeg.length ? out : null;\n}\n\nvoid main() {\n  print(kahn({'a': ['b'], 'b': ['a'], 'c': []}));\n}\n```",
+    "options": [
+      "null",
+      "[c]",
+      "[a, b, c]",
+      "[c, a, b]"
+    ],
+    "answer": [
+      "null"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nList<String>? kahn(Map<String, List<String>> g) {\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  final q = Queue.of(inDeg.keys.where((v) => inDeg[v] == 0));\n  final out = <String>[];\n  while (q.isNotEmpty) {\n    final v = q.removeFirst();\n    out.add(v);\n    for (final w in g[v]!) {\n      inDeg[w] = inDeg[w]! - 1;\n      if (inDeg[w] == 0) q.add(w);\n    }\n  }\n  return out.length == inDeg.length ? out : null;\n}\n\nvoid main() {\n  print(kahn({'x': ['z'], 'y': ['z'], 'z': []}));\n}\n```",
+    "options": [
+      "[x, y, z]",
+      "[z, x, y]",
+      "[x, z, y]",
+      "null"
+    ],
+    "answer": [
+      "[x, y, z]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final g = {'a': ['b', 'c'], 'b': ['c'], 'c': <String>[]};\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  print(inDeg);\n}\n```",
+    "options": [
+      "{a: 0, b: 1, c: 2}",
+      "{a: 2, b: 1, c: 0}",
+      "{a: 0, b: 0, c: 0}",
+      "{a: 1, b: 1, c: 1}"
+    ],
+    "answer": [
+      "{a: 0, b: 1, c: 2}"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Complete Kahn's main loop:\n\n```dart\nwhile (ready.isNotEmpty) {\n  final v = ready.%order%();\n  order.add(v);\n  for (final w in graph[v]!) {\n    inDegree[w] = inDegree[w]! %order% 1;\n    if (inDegree[w] %order% 0) ready.add(w);\n  }\n}\n```",
+    "options": [
+      "removeFirst",
+      "-",
+      "==",
+      "removeLast",
+      "+",
+      "!="
+    ],
+    "answer": [
+      "removeFirst",
+      "-",
+      "=="
+    ],
+    "type": "order"
+  },
+  {
+    "question": "In the DFS-based topological sort, when is a vertex appended to the list?",
+    "options": [
+      "After all the vertices it points to are finished (post-order)",
+      "When it's first discovered",
+      "Before exploring any neighbor",
+      "Never"
+    ],
+    "answer": [
+      "After all the vertices it points to are finished (post-order)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What must you do with the DFS post-order list to get a topological order?",
+    "options": [
+      "Reverse it",
+      "Sort it",
+      "Nothing",
+      "Remove duplicates"
+    ],
+    "answer": [
+      "Reverse it"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How does the DFS approach detect a cycle?",
+    "options": [
+      "Finding an edge to a vertex that is still \"visiting\" (a back edge)",
+      "Finding an edge to a finished vertex",
+      "When the list is empty",
+      "When in-degrees become negative"
+    ],
+    "answer": [
+      "Finding an edge to a vertex that is still \"visiting\" (a back edge)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<String> topo(Map<String, List<String>> g) {\n  final done = <String>{};\n  final post = <String>[];\n  void visit(String v) {\n    if (!done.add(v)) return;\n    for (final w in g[v]!) {\n      visit(w);\n    }\n    post.add(v);\n  }\n\n  g.keys.forEach(visit);\n  return post.reversed.toList();\n}\n\nvoid main() {\n  print(topo({'a': ['b'], 'b': ['c'], 'c': []}));\n}\n```",
+    "options": [
+      "[a, b, c]",
+      "[c, b, a]",
+      "[b, a, c]",
+      "[a, c, b]"
+    ],
+    "answer": [
+      "[a, b, c]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<String> post(Map<String, List<String>> g) {\n  final done = <String>{};\n  final out = <String>[];\n  void visit(String v) {\n    if (!done.add(v)) return;\n    for (final w in g[v]!) {\n      visit(w);\n    }\n    out.add(v);\n  }\n\n  g.keys.forEach(visit);\n  return out;\n}\n\nvoid main() {\n  print(post({'a': ['b'], 'b': ['c'], 'c': []}));\n}\n```",
+    "options": [
+      "[c, b, a]",
+      "[a, b, c]",
+      "[b, c, a]",
+      "[a, c, b]"
+    ],
+    "answer": [
+      "[c, b, a]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why does reversed post-order put prerequisites first?",
+    "options": [
+      "A vertex finishes only after everything it points to, so reversing puts it before them",
+      "DFS visits prerequisites last",
+      "Because the list is sorted",
+      "It's a coincidence"
+    ],
+    "answer": [
+      "A vertex finishes only after everything it points to, so reversing puts it before them"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which approach naturally produces \"waves\" of tasks that can run in parallel?",
+    "options": [
+      "Level-by-level Kahn's algorithm",
+      "DFS reverse post-order",
+      "Binary search",
+      "Heap sort"
+    ],
+    "answer": [
+      "Level-by-level Kahn's algorithm"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a DAG of tasks, what does the number of Kahn \"waves\" tell you?",
+    "options": [
+      "The minimum number of rounds needed with unlimited parallel workers",
+      "The number of tasks",
+      "The number of edges",
+      "The number of cycles"
+    ],
+    "answer": [
+      "The minimum number of rounds needed with unlimited parallel workers"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nList<List<String>> waves(Map<String, List<String>> g) {\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  var cur = [for (final v in g.keys) if (inDeg[v] == 0) v];\n  final res = <List<String>>[];\n  while (cur.isNotEmpty) {\n    res.add(cur);\n    final next = <String>[];\n    for (final v in cur) {\n      for (final w in g[v]!) {\n        if ((inDeg[w] = inDeg[w]! - 1) == 0) next.add(w);\n      }\n    }\n    cur = next;\n  }\n  return res;\n}\n\nvoid main() {\n  print(waves({'a': ['c'], 'b': ['c'], 'c': ['d'], 'd': []}));\n}\n```",
+    "options": [
+      "[[a, b], [c], [d]]",
+      "[[a], [b], [c], [d]]",
+      "[[a, b, c, d]]",
+      "[[d], [c], [a, b]]"
+    ],
+    "answer": [
+      "[[a, b], [c], [d]]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How do you get the lexicographically smallest topological order?",
+    "options": [
+      "Use a priority queue (sorted set) for ready vertices instead of a FIFO queue",
+      "Sort the final result",
+      "Use DFS",
+      "Reverse the alphabet"
+    ],
+    "answer": [
+      "Use a priority queue (sorted set) for ready vertices instead of a FIFO queue"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why can't you simply sort a topological order alphabetically?",
+    "options": [
+      "Sorting can break dependency rules",
+      "Sorting is too slow",
+      "Strings can't be sorted",
+      "You can; it's equivalent"
+    ],
+    "answer": [
+      "Sorting can break dependency rules"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final g = {'c': ['a'], 'b': ['a'], 'a': <String>[], 'd': <String>[]};\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  final ready = SplayTreeSet<String>.of(inDeg.keys.where((v) => inDeg[v] == 0));\n  final out = <String>[];\n  while (ready.isNotEmpty) {\n    final v = ready.first;\n    ready.remove(v);\n    out.add(v);\n    for (final w in g[v]!) {\n      if ((inDeg[w] = inDeg[w]! - 1) == 0) ready.add(w);\n    }\n  }\n  print(out);\n}\n```",
+    "options": [
+      "[b, c, a, d]",
+      "[a, b, c, d]",
+      "[c, b, a, d]",
+      "[b, c, d, a]"
+    ],
+    "answer": [
+      "[b, c, a, d]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a prerequisite graph, what does an edge u → v mean?",
+    "options": [
+      "u must be done before v",
+      "v must be done before u",
+      "u and v can't both be done",
+      "u and v are the same task"
+    ],
+    "answer": [
+      "u must be done before v"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which real tools rely on topological sorting?",
+    "options": [
+      "Build systems and package managers resolving dependencies",
+      "Image compression",
+      "Password hashing",
+      "Random number generators"
+    ],
+    "answer": [
+      "Build systems and package managers resolving dependencies"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Why must every vertex (including ones that only appear as edge targets) be in the in-degree map?",
+    "options": [
+      "Otherwise some vertices are never placed or cause null errors",
+      "To sort the result",
+      "To make it O(1)",
+      "It isn't necessary"
+    ],
+    "answer": [
+      "Otherwise some vertices are never placed or cause null errors"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What happens if you accidentally reverse every edge's meaning (\"depends on\" vs \"must come before\")?",
+    "options": [
+      "You get the order backwards",
+      "The algorithm crashes",
+      "Cycles appear",
+      "Nothing changes"
+    ],
+    "answer": [
+      "You get the order backwards"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does `(inDeg[w] = inDeg[w]! - 1) == 0` do?",
+    "options": [
+      "Decrements inDeg[w] and checks whether the new value is 0",
+      "Compares without changing",
+      "Sets inDeg[w] to 0",
+      "Throws an error"
+    ],
+    "answer": [
+      "Decrements inDeg[w] and checks whether the new value is 0"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Given words sorted in an alien alphabet ['wrt', 'wrf'], what letter rule do you learn?",
+    "options": [
+      "t comes before f",
+      "f comes before t",
+      "w comes before r",
+      "Nothing"
+    ],
+    "answer": [
+      "t comes before f"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Given sorted alien words ['abc', 'ab'], what can you conclude?",
+    "options": [
+      "The input is invalid: a word can't come before its own prefix",
+      "c comes before nothing",
+      "a comes before b",
+      "b comes before c"
+    ],
+    "answer": [
+      "The input is invalid: a word can't come before its own prefix"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In the alien dictionary problem, which pair of words gives a rule?",
+    "options": [
+      "Adjacent words, at their first differing letter",
+      "Every pair of letters in a word",
+      "The first and last word only",
+      "Words of equal length only"
+    ],
+    "answer": [
+      "Adjacent words, at their first differing letter"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nbool valid(Map<String, List<String>> g, List<String> order) {\n  final pos = {for (final (i, v) in order.indexed) v: i};\n  for (final MapEntry(key: u, value: ts) in g.entries) {\n    for (final v in ts) {\n      if (pos[u]! > pos[v]!) return false;\n    }\n  }\n  return true;\n}\n\nvoid main() {\n  final g = {'a': ['c'], 'b': ['c'], 'c': <String>[]};\n  print(valid(g, ['b', 'a', 'c']));\n  print(valid(g, ['a', 'c', 'b']));\n}\n```",
+    "options": [
+      "true then false",
+      "false then true",
+      "true then true",
+      "false then false"
+    ],
+    "answer": [
+      "true then false"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What is the longest path in a DAG used for in project planning?",
+    "options": [
+      "Finding the critical path: the minimum total time to finish",
+      "Finding cycles",
+      "Counting tasks",
+      "Sorting tasks alphabetically"
+    ],
+    "answer": [
+      "Finding the critical path: the minimum total time to finish"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "How can you compute the longest path in a DAG efficiently?",
+    "options": [
+      "Process vertices in topological order, relaxing longest distances",
+      "Use Dijkstra's algorithm directly",
+      "Use BFS on the undirected version",
+      "It requires trying every path"
+    ],
+    "answer": [
+      "Process vertices in topological order, relaxing longest distances"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nvoid main() {\n  final order = ['a', 'b', 'c', 'd'];\n  final edges = {'a': ['b', 'c'], 'b': ['d'], 'c': ['d'], 'd': <String>[]};\n  final longest = {for (final v in order) v: 0};\n  for (final u in order) {\n    for (final v in edges[u]!) {\n      if (longest[u]! + 1 > longest[v]!) longest[v] = longest[u]! + 1;\n    }\n  }\n  print(longest['d']);\n}\n```",
+    "options": [
+      "2",
+      "3",
+      "1",
+      "4"
+    ],
+    "answer": [
+      "2"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "If a course schedule graph has a cycle, what does that mean for students?",
+    "options": [
+      "It's impossible to complete all the courses",
+      "They can take courses in any order",
+      "Only the first course is required",
+      "Courses can be skipped"
+    ],
+    "answer": [
+      "It's impossible to complete all the courses"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which structure does Kahn's algorithm use, and which does the DFS approach use?",
+    "options": [
+      "Kahn: a queue of ready vertices; DFS: recursion/stack",
+      "Kahn: a stack; DFS: a queue",
+      "Both use a heap",
+      "Both use only arrays"
+    ],
+    "answer": [
+      "Kahn: a queue of ready vertices; DFS: recursion/stack"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In a spreadsheet, why is topological sorting used?",
+    "options": [
+      "To recalculate cells after the cells they depend on",
+      "To sort rows alphabetically",
+      "To compress the file",
+      "To pick cell colors"
+    ],
+    "answer": [
+      "To recalculate cells after the cells they depend on"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a spreadsheet report when formulas depend on each other in a loop?",
+    "options": [
+      "A circular reference error",
+      "The sum of the cells",
+      "Zero",
+      "Nothing"
+    ],
+    "answer": [
+      "A circular reference error"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Create a queue from an existing iterable:\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final q = Queue.%fill%(['a', 'b']);\n  print(q.first); // a\n}\n```",
+    "answer": [
+      "of"
+    ],
+    "type": "fill"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nList<String>? kahn(Map<String, List<String>> g) {\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  final q = Queue.of(inDeg.keys.where((v) => inDeg[v] == 0));\n  final out = <String>[];\n  while (q.isNotEmpty) {\n    final v = q.removeFirst();\n    out.add(v);\n    for (final w in g[v]!) {\n      inDeg[w] = inDeg[w]! - 1;\n      if (inDeg[w] == 0) q.add(w);\n    }\n  }\n  return out.length == inDeg.length ? out : null;\n}\n\nvoid main() {\n  final r = kahn({'shoes': [], 'socks': ['shoes']});\n  print(r);\n}\n```",
+    "options": [
+      "[socks, shoes]",
+      "[shoes, socks]",
+      "null",
+      "[]"
+    ],
+    "answer": [
+      "[socks, shoes]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Kahn's algorithm, can a vertex enter the ready queue more than once?",
+    "options": [
+      "No, its in-degree reaches 0 exactly once",
+      "Yes, once per incoming edge",
+      "Yes, always twice",
+      "Only in undirected graphs"
+    ],
+    "answer": [
+      "No, its in-degree reaches 0 exactly once"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a vertex with in-degree 0 represent in a task graph?",
+    "options": [
+      "A task with no prerequisites that can start immediately",
+      "The final task",
+      "A task in a cycle",
+      "An invalid task"
+    ],
+    "answer": [
+      "A task with no prerequisites that can start immediately"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does a vertex with out-degree 0 represent in a task graph?",
+    "options": [
+      "A task that nothing else depends on",
+      "A task with no prerequisites",
+      "A task in a cycle",
+      "The first task"
+    ],
+    "answer": [
+      "A task that nothing else depends on"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which statement about topological sort on a tree (edges parent → child) is true?",
+    "options": [
+      "Any pre-order or level-order traversal is a valid topological order",
+      "Trees can't be topologically sorted",
+      "Only in-order works",
+      "Only post-order works"
+    ],
+    "answer": [
+      "Any pre-order or level-order traversal is a valid topological order"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nList<String>? kahn(Map<String, List<String>> g) {\n  final inDeg = {for (final v in g.keys) v: 0};\n  for (final ts in g.values) {\n    for (final t in ts) {\n      inDeg[t] = inDeg[t]! + 1;\n    }\n  }\n  final q = Queue.of(inDeg.keys.where((v) => inDeg[v] == 0));\n  final out = <String>[];\n  while (q.isNotEmpty) {\n    final v = q.removeFirst();\n    out.add(v);\n    for (final w in g[v]!) {\n      inDeg[w] = inDeg[w]! - 1;\n      if (inDeg[w] == 0) q.add(w);\n    }\n  }\n  return out.length == inDeg.length ? out : null;\n}\n\nvoid main() {\n  final r = kahn({'a': [], 'b': [], 'c': []});\n  print(r);\n}\n```",
+    "options": [
+      "[a, b, c]",
+      "[]",
+      "null",
+      "[c, b, a]"
+    ],
+    "answer": [
+      "[a, b, c]"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "For a graph with no edges, how many topological orders exist for 3 vertices?",
+    "options": [
+      "6 (any permutation)",
+      "1",
+      "0",
+      "3"
+    ],
+    "answer": [
+      "6 (any permutation)"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "What does this print?\n\n```dart\nimport 'dart:collection';\n\nvoid main() {\n  final graph = <String, Set<String>>{'w': {'e'}, 'e': {'r'}, 'r': {}};\n  final inDeg = {for (final c in graph.keys) c: 0};\n  graph.forEach((_, outs) {\n    for (final o in outs) {\n      inDeg[o] = inDeg[o]! + 1;\n    }\n  });\n  final q = Queue.of(inDeg.keys.where((c) => inDeg[c] == 0));\n  final sb = StringBuffer();\n  while (q.isNotEmpty) {\n    final c = q.removeFirst();\n    sb.write(c);\n    for (final n in graph[c]!) {\n      if ((inDeg[n] = inDeg[n]! - 1) == 0) q.add(n);\n    }\n  }\n  print(sb);\n}\n```",
+    "options": [
+      "wer",
+      "rew",
+      "erw",
+      "w"
+    ],
+    "answer": [
+      "wer"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "Which pub command depends on resolving a dependency graph?",
+    "options": [
+      "dart pub get",
+      "dart format",
+      "dart analyze",
+      "dart run"
+    ],
+    "answer": [
+      "dart pub get"
+    ],
+    "type": "mcq"
+  },
+  {
+    "question": "In Kahn's algorithm with a FIFO queue, which ready vertex is processed next?",
+    "options": [
+      "The one that became ready earliest",
+      "The alphabetically smallest",
+      "The one with the most edges",
+      "A random one"
+    ],
+    "answer": [
+      "The one that became ready earliest"
+    ],
+    "type": "mcq"
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "modules": [
+    { "module": 1, "title": "Foundations", "desc": "Complexity, recursion and how Dart stores data." },
+    { "module": 2, "title": "Linear Structures", "desc": "Lists, strings, linked lists, stacks and queues." },
+    { "module": 3, "title": "Hashing", "desc": "Hash tables, collisions and Dart's Map and Set." },
+    { "module": 4, "title": "Trees", "desc": "Binary trees, BSTs, heaps and tries." },
+    { "module": 5, "title": "Graphs", "desc": "Representations, traversals and shortest paths." },
+    { "module": 6, "title": "Sorting & Searching", "desc": "Binary search and the classic sorting algorithms." },
+    { "module": 7, "title": "Advanced", "desc": "Range queries, caches, probabilistic structures and DP." }
+  ],
+  "lessons": [
+    { "id": "why_data_structures", "module": 1, "order": 101, "title": "Why Data Structures Matter", "desc": "See how the same problem gets faster or slower depending on how you store your data." },
+    { "id": "big_o", "module": 1, "order": 102, "title": "Big O: Time & Space", "desc": "Measure how code scales with O(1), O(log n), O(n), O(n log n) and O(n²)." },
+    { "id": "amortized_analysis", "module": 1, "order": 103, "title": "Amortized Analysis", "desc": "Why List.add is O(1) on average even though the list sometimes has to grow." },
+    { "id": "recursion_iteration", "module": 1, "order": 104, "title": "Recursion & Iteration", "desc": "The call stack, base cases, and converting recursion into loops." },
+    { "id": "memory_model", "module": 1, "order": 105, "title": "How Dart Stores Data", "desc": "Values vs references, == vs identical, and why hashCode matters." },
+
+    { "id": "arrays_lists", "module": 2, "order": 201, "title": "Arrays & Dart Lists", "desc": "Fixed vs growable lists and the real cost of index, insert and remove." },
+    { "id": "strings", "module": 2, "order": 202, "title": "Strings as Data Structures", "desc": "Immutability, StringBuffer, code units and runes." },
+    { "id": "two_pointers_sliding_window", "module": 2, "order": 203, "title": "Two Pointers & Sliding Window", "desc": "The two patterns behind most array and string problems." },
+    { "id": "prefix_sums", "module": 2, "order": 204, "title": "Prefix Sums & Difference Arrays", "desc": "Answer range-sum questions in O(1) after a single pass." },
+    { "id": "singly_linked_list", "module": 2, "order": 205, "title": "Singly Linked Lists", "desc": "Build a Node<T> from scratch: insert, delete, search and reverse." },
+    { "id": "doubly_circular_linked_list", "module": 2, "order": 206, "title": "Doubly & Circular Linked Lists", "desc": "Two-way links, circular lists and Dart's LinkedList class." },
+    { "id": "stacks", "module": 2, "order": 207, "title": "Stacks", "desc": "Last in, first out: brackets, undo and the monotonic stack." },
+    { "id": "queues_deques", "module": 2, "order": 208, "title": "Queues & Deques", "desc": "First in, first out with Queue, ListQueue and a circular buffer." },
+
+    { "id": "hash_tables", "module": 3, "order": 301, "title": "Hash Tables from Scratch", "desc": "Hash functions, buckets and load factor." },
+    { "id": "collision_handling", "module": 3, "order": 302, "title": "Handling Collisions", "desc": "Separate chaining vs open addressing, and when tables resize." },
+    { "id": "dart_maps_sets", "module": 3, "order": 303, "title": "Dart's Map & Set Family", "desc": "HashMap, LinkedHashMap, SplayTreeMap and their Set cousins." },
+    { "id": "hashing_patterns", "module": 3, "order": 304, "title": "Hashing Patterns", "desc": "Frequency counts, two-sum, grouping and de-duplication." },
+
+    { "id": "tree_terminology", "module": 4, "order": 401, "title": "Tree Fundamentals", "desc": "Root, leaves, depth, height and the shapes trees come in." },
+    { "id": "binary_tree_traversals", "module": 4, "order": 402, "title": "Binary Tree Traversals", "desc": "Pre-order, in-order and post-order, recursive and iterative." },
+    { "id": "level_order_bfs", "module": 4, "order": 403, "title": "Level-Order Traversal", "desc": "Walk a tree level by level with a Queue." },
+    { "id": "binary_search_trees", "module": 4, "order": 404, "title": "Binary Search Trees", "desc": "Search, insert, delete and validate a BST." },
+    { "id": "balanced_trees", "module": 4, "order": 405, "title": "Balanced Trees", "desc": "Rotations, AVL and red-black trees, and why SplayTreeMap exists." },
+    { "id": "heaps_priority_queues", "module": 4, "order": 406, "title": "Heaps & Priority Queues", "desc": "Build a binary heap and solve top-k problems." },
+    { "id": "tries", "module": 4, "order": 407, "title": "Tries", "desc": "Prefix trees for autocomplete and word search." },
+
+    { "id": "graph_representation", "module": 5, "order": 501, "title": "Representing Graphs", "desc": "Adjacency lists vs matrices, directed, undirected and weighted graphs." },
+    { "id": "graph_bfs_dfs", "module": 5, "order": 502, "title": "Graph BFS & DFS", "desc": "Traverse graphs, find components and detect cycles." },
+    { "id": "topological_sort", "module": 5, "order": 503, "title": "Topological Sort", "desc": "Order tasks that depend on each other with Kahn's algorithm." },
+    { "id": "shortest_paths", "module": 5, "order": 504, "title": "Shortest Paths", "desc": "BFS for unweighted graphs and Dijkstra for weighted ones." },
+    { "id": "union_find", "module": 5, "order": 505, "title": "Union-Find", "desc": "Disjoint sets with union by rank and path compression." },
+    { "id": "minimum_spanning_trees", "module": 5, "order": 506, "title": "Minimum Spanning Trees", "desc": "Connect everything as cheaply as possible with Kruskal and Prim." },
+
+    { "id": "binary_search", "module": 6, "order": 601, "title": "Binary Search", "desc": "Halve the search space, find boundaries and search on the answer." },
+    { "id": "elementary_sorts", "module": 6, "order": 602, "title": "Elementary Sorts", "desc": "Bubble, selection and insertion sort, and why they're O(n²)." },
+    { "id": "merge_quick_sort", "module": 6, "order": 603, "title": "Merge Sort & Quick Sort", "desc": "Divide and conquer, stability, and custom comparators." },
+    { "id": "non_comparison_sorts", "module": 6, "order": 604, "title": "Counting & Radix Sort", "desc": "Beat O(n log n) when you know the range of your keys." },
+
+    { "id": "segment_fenwick_trees", "module": 7, "order": 701, "title": "Segment & Fenwick Trees", "desc": "Range queries and point updates in O(log n)." },
+    { "id": "lru_cache", "module": 7, "order": 702, "title": "LRU Cache", "desc": "Combine a hash map and a linked list for O(1) caching." },
+    { "id": "bloom_filters_skip_lists", "module": 7, "order": 703, "title": "Bloom Filters & Skip Lists", "desc": "Probabilistic structures that trade certainty for speed." },
+    { "id": "dynamic_programming_intro", "module": 7, "order": 704, "title": "Dynamic Programming Basics", "desc": "Memoization and tabulation for overlapping subproblems." }
+  ]
+}

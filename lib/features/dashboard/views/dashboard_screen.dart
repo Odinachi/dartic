@@ -3,14 +3,14 @@ import 'package:dartcoder/features/authetication/views/onboarding_screen.dart';
 import 'package:dartcoder/features/editor/views/editor_screen.dart';
 import 'package:dartcoder/features/profile/views/profile_screen.dart';
 import 'package:dartcoder/shared/app_string.dart';
-import 'package:dartcoder/shared/assets.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/theme.dart';
 import 'package:dartcoder/features/dashboard/views/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -19,98 +19,90 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen>
-    with TickerProviderStateMixin {
-  late TabController tabController;
+class _DashboardScreenState extends State<DashboardScreen> {
+  int _index = 0;
+
   @override
   void initState() {
     super.initState();
-
     context.read<AppCubit>().getUserProfile();
-    tabController = TabController(length: 3, vsync: this);
+  }
+
+  void _select(int index) {
+    if (index == _index) return;
+    HapticFeedback.selectionClick();
+    setState(() => _index = index);
   }
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = Theme.of(context).platform == TargetPlatform.iOS ||
+        Theme.of(context).platform == TargetPlatform.macOS;
     return Scaffold(
-      bottomSheet: Container(
-        height: 70.h,
-        padding: EdgeInsets.only(bottom: 5.h),
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.grey.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -5),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: TabBar(
-            physics: const NeverScrollableScrollPhysics(),
-            onTap: (value) => setState(() {}),
-            controller: tabController,
-            tabs: [
-              navItem(
-                  label: AppString.home,
-                  icon: Assets.svgs.home,
-                  isActive: tabController.index == 0),
-              navItem(
-                  label: AppString.editor,
-                  icon: Assets.svgs.editor,
-                  isActive: tabController.index == 1),
-              navItem(
-                  label: AppString.profile,
-                  icon: Assets.svgs.person,
-                  isActive: tabController.index == 2),
-            ],
-            indicatorColor: Colors.transparent,
-            dividerColor: Colors.transparent,
-            indicator: const BoxDecoration(),
+      bottomNavigationBar: isIOS ? _cupertinoBar(context) : _materialBar(),
+      body: IndexedStack(
+        index: _index,
+        children: [
+          HomeScreen(
+            onCourseTap: () => AppRouter.push(AppRouter.coursesList),
           ),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: 60.h),
-        child: TabBarView(
-            controller: tabController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              HomeScreen(
-                onCourseTap: () => AppRouter.push(AppRouter.coursesList),
-              ),
-              EditorScreen(
-                arg: EditorScreenArg(isPractice: false),
-              ),
-              FirebaseAuth.instance.currentUser != null
-                  ? ProfileScreen(
-                      onDiveIn: () => AppRouter.push(AppRouter.coursesList),
-                    )
-                  : const OnboardingScreen(),
-            ]),
+          EditorScreen(
+            arg: EditorScreenArg(isPractice: false),
+          ),
+          FirebaseAuth.instance.currentUser != null
+              ? ProfileScreen(
+                  onDiveIn: () => AppRouter.push(AppRouter.coursesList),
+                )
+              : const OnboardingScreen(),
+        ],
       ),
     );
   }
 
-  Column navItem(
-      {required String label, required SvgImage icon, bool isActive = false}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        icon.svg(
-          height: 15.h,
-          width: 15.w,
-          color: isActive ? AppColors.appBlue : AppColors.grey,
-        ),
-        Text(label,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                  color: isActive ? AppColors.appBlue : AppColors.grey,
-                )),
-      ],
-    );
-  }
+  Widget _cupertinoBar(BuildContext context) => CupertinoTabBar(
+        currentIndex: _index,
+        onTap: _select,
+        activeColor: AppColors.appBlue,
+        inactiveColor: context.palette.textMuted,
+        backgroundColor: context.palette.background.withValues(alpha: .94),
+        border:
+            Border(top: BorderSide(color: context.palette.border, width: .5)),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.house),
+            activeIcon: Icon(CupertinoIcons.house_fill),
+            label: AppString.home,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.chevron_left_slash_chevron_right),
+            label: AppString.editor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.person),
+            activeIcon: Icon(CupertinoIcons.person_fill),
+            label: AppString.profile,
+          ),
+        ],
+      );
+
+  Widget _materialBar() => NavigationBar(
+        selectedIndex: _index,
+        onDestinationSelected: _select,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home_rounded),
+            label: AppString.home,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.code_rounded),
+            label: AppString.editor,
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline_rounded),
+            selectedIcon: Icon(Icons.person_rounded),
+            label: AppString.profile,
+          ),
+        ],
+      );
 }

@@ -29,7 +29,7 @@ class _QuizScoreScreenState extends State<QuizScoreScreen> {
         (widget.arg?.totalQuestions ?? 1) *
         100);
 
-    if (percentage >= 80) {
+    if (percentage >= 80 && widget.arg?.trackProgress != false) {
       context.read<AppCubit>().updatePassedCourses(widget.arg?.courseId ?? 0);
     }
     super.initState();
@@ -52,7 +52,9 @@ class _QuizScoreScreenState extends State<QuizScoreScreen> {
             height: 40.h,
             child: AppButton(
               onTap: () {
-                if (widget.arg?.courseId == 33) {
+                if (widget.arg?.trackProgress == false) {
+                  AppRouter.pop();
+                } else if (widget.arg?.courseId == 33) {
                   AppRouter.pushAndClear(AppRouter.dashboard);
                 } else {
                   final item = AppData.courses.values
@@ -67,7 +69,11 @@ class _QuizScoreScreenState extends State<QuizScoreScreen> {
                 }
               },
               textColor: AppColors.white,
-              text: widget.arg?.courseId == 33 ? "Home" : AppString.next,
+              text: widget.arg?.trackProgress == false
+                  ? "Back to lesson"
+                  : widget.arg?.courseId == 33
+                      ? "Home"
+                      : AppString.next,
             ),
           ),
         ),
@@ -141,9 +147,14 @@ class QuizScoreScreenArgs {
   final num? correctAnswers;
   final num? courseId;
 
+  /// False for quizzes outside the bundled Dart course, which have no
+  /// numeric course id to record or advance to.
+  final bool trackProgress;
+
   QuizScoreScreenArgs({
     this.totalQuestions,
     this.correctAnswers,
     this.courseId,
+    this.trackProgress = true,
   });
 }
