@@ -7,3 +7,4 @@ node_modules/
 # Editors
 .idea/
 .vscode/
+store_assets/
