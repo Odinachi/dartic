@@ -1,11 +1,11 @@
 // Dartic landing page interactions. No dependencies, no build step.
 
 // ── Store links ───────────────────────────────────────────────
-// Paste the published store URLs here. While a link is empty, its button
-// shows as "coming soon" and the note under the buttons explains why.
+// Published store URLs. If one is ever emptied, its button switches to a
+// disabled "coming soon" state and a note points to GitHub instead.
 const STORE_LINKS = {
-  appStore: "",
-  googlePlay: "",
+  appStore: "https://apps.apple.com/us/app/dartic/id6744124202",
+  googlePlay: "https://play.google.com/store/apps/details?id=com.odibillz.dartcoder",
 };
 
 // ── Curriculum (mirrors the app's content) ────────────────────
@@ -79,11 +79,13 @@ const QUIZ = [
   },
 ];
 
+
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// ── Header: shadow on scroll + mobile menu ────────────────────
+// ── Header: border on scroll + mobile menu ────────────────────
 function initHeader() {
   const header = $(".site-header");
   const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 8);
@@ -124,6 +126,14 @@ function initTheme() {
   });
 }
 
+// ── Topic ticker: every lesson title, duplicated for a seamless loop ──
+function initTicker() {
+  const track = $("#ticker");
+  const topics = [...CURRICULUM.dart, ...CURRICULUM.ds].flatMap((m) => m.lessons);
+  const html = topics.map((t) => `<span>${t.replace(/&/g, "&amp;")}</span>`).join("");
+  track.innerHTML = html + html;
+}
+
 // ── Reveal-on-scroll and number counters ──────────────────────
 function initReveal() {
   const items = $$(".reveal");
@@ -139,16 +149,12 @@ function initReveal() {
         observer.unobserve(entry.target);
       }
     },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
   );
-  items.forEach((el, i) => {
-    el.style.transitionDelay = `${(i % 4) * 70}ms`;
-    observer.observe(el);
-  });
+  items.forEach((el) => observer.observe(el));
 }
 
 function initCounters() {
-  const counters = $$("[data-count]");
   if (prefersReducedMotion || !("IntersectionObserver" in window)) return;
   const format = (n, el) =>
     el.dataset.format === "comma" ? n.toLocaleString("en-US") : String(n);
@@ -159,18 +165,16 @@ function initCounters() {
       const el = entry.target;
       const target = Number(el.dataset.count);
       const start = performance.now();
-      const duration = 1100;
       const tick = (now) => {
-        const t = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = format(Math.round(target * eased), el);
+        const t = Math.min(1, (now - start) / 1200);
+        el.textContent = format(Math.round(target * (1 - Math.pow(1 - t, 4))), el);
         if (t < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
       observer.unobserve(el);
     }
   }, { threshold: 0.6 });
-  counters.forEach((el) => observer.observe(el));
+  $$("[data-count]").forEach((el) => observer.observe(el));
 }
 
 // ── Code runner demo ──────────────────────────────────────────
@@ -182,41 +186,40 @@ function initCodeDemo() {
   btn.addEventListener("click", async () => {
     btn.disabled = true;
     btn.textContent = "Running…";
+    out.classList.remove("idle");
     out.textContent = "";
-    await wait(prefersReducedMotion ? 0 : 450);
+    await wait(prefersReducedMotion ? 0 : 380);
     for (const line of lines) {
       out.textContent += (out.textContent ? "\n" : "") + line;
-      await wait(prefersReducedMotion ? 0 : 260);
+      await wait(prefersReducedMotion ? 0 : 200);
     }
     btn.disabled = false;
-    btn.textContent = "▶ Run again";
+    btn.textContent = "▶ Run";
   });
 }
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// ── Curriculum explorer ───────────────────────────────────────
+// ── Curriculum (table of contents) ────────────────────────────
 function initCurriculum() {
   const panel = $("#curriculum-panel");
   const tabs = $$(".tab");
-  const accent = { dart: "var(--blue)", ds: "var(--orange)" };
+  const pad = (n) => String(n).padStart(2, "0");
 
   const render = (key) => {
+    const modules = CURRICULUM[key];
     panel.innerHTML = "";
-    CURRICULUM[key].forEach((module, i) => {
+    modules.forEach((module, i) => {
       const details = document.createElement("details");
       details.className = "module";
-      details.style.setProperty("--accent", accent[key]);
       if (i === 0) details.open = true;
 
       const summary = document.createElement("summary");
       summary.innerHTML = `
-        <span class="module-num">${i + 1}</span>
-        <span><b></b><small></small></span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`;
-      summary.querySelector("b").textContent = module.title;
-      summary.querySelector("small").textContent =
-        `${module.lessons.length} lessons · ${module.desc}`;
+        <span class="num">${pad(i + 1)}</span>
+        <span><h3></h3><span class="desc"></span></span>
+        <span class="count">${module.lessons.length} lessons</span>
+        <span class="chev" aria-hidden="true"></span>`;
+      summary.querySelector("h3").textContent = module.title;
+      summary.querySelector(".desc").textContent = module.desc;
 
       const list = document.createElement("ol");
       for (const lesson of module.lessons) {
@@ -227,6 +230,8 @@ function initCurriculum() {
       details.append(summary, list);
       panel.append(details);
     });
+    $("#total-modules").textContent = modules.length;
+    $("#total-lessons").textContent = modules.reduce((n, m) => n + m.lessons.length, 0);
   };
 
   const select = (tab) => {
@@ -237,7 +242,7 @@ function initCurriculum() {
 
   tabs.forEach((tab) => tab.addEventListener("click", () => select(tab)));
   // Arrow-key navigation between tabs (WAI-ARIA tabs pattern)
-  $(".tabs").addEventListener("keydown", (e) => {
+  $(".seg").addEventListener("keydown", (e) => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     const i = tabs.indexOf(document.activeElement);
     if (i < 0) return;
@@ -253,63 +258,81 @@ function initCurriculum() {
 function initQuiz() {
   let index = 0;
   let score = 0;
+  let answered = false;
+  let finished = false;
+  const results = [];
   const els = {
+    card: $("#quiz-card"),
     topic: $("#quiz-topic"),
     count: $("#quiz-count"),
-    bar: $("#quiz-bar"),
     question: $("#quiz-question"),
     code: $("#quiz-code"),
     options: $("#quiz-options"),
     feedback: $("#quiz-feedback"),
+    hint: $("#quiz-hint"),
     next: $("#quiz-next"),
+    score: $$("#quiz-score span"),
+  };
+
+  const paintScore = () => {
+    els.score.forEach((bar, i) => {
+      bar.className =
+        results[i] === true ? "good" : results[i] === false ? "bad" : i === index && !finished ? "current" : "";
+    });
   };
 
   const show = () => {
     const q = QUIZ[index];
+    answered = false;
     els.topic.textContent = q.topic;
-    els.count.textContent = `Question ${index + 1} / ${QUIZ.length}`;
-    els.bar.style.width = `${((index + 1) / QUIZ.length) * 100}%`;
+    els.count.textContent = `${index + 1} / ${QUIZ.length}`;
     els.question.textContent = q.question;
     els.code.hidden = !q.code;
     els.code.textContent = q.code || "";
     els.feedback.textContent = "";
+    els.hint.textContent = "Pick an answer";
     els.next.hidden = true;
     els.options.innerHTML = "";
 
-    for (const option of q.options) {
+    q.options.forEach((option, i) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "quiz-option";
-      btn.innerHTML = '<span class="radio" aria-hidden="true"></span><span></span>';
+      btn.innerHTML = `<span class="key" aria-hidden="true">${i + 1}</span><span></span>`;
       btn.lastChild.textContent = option;
       btn.addEventListener("click", () => choose(btn, option));
       els.options.append(btn);
-    }
+    });
+    paintScore();
   };
 
   const choose = (btn, option) => {
+    if (answered) return;
+    answered = true;
     const q = QUIZ[index];
     const correct = option === q.answer;
     if (correct) score++;
+    results[index] = correct;
     for (const b of $$(".quiz-option", els.options)) {
       b.disabled = true;
       if (b.lastChild.textContent === q.answer) b.classList.add("correct");
     }
     if (!correct) btn.classList.add("wrong");
 
-    els.feedback.innerHTML = `<strong>${correct ? "✅ Correct!" : "❌ Not quite."}</strong> `;
+    els.feedback.innerHTML = `<strong>${correct ? "Correct." : "Not quite."}</strong> `;
     els.feedback.append(q.explain);
+    els.hint.textContent = "Press Enter to continue";
     els.next.hidden = false;
-    els.next.textContent = index === QUIZ.length - 1 ? "See my score →" : "Next question →";
-    els.next.focus({ preventScroll: true });
+    els.next.textContent = index === QUIZ.length - 1 ? "See score" : "Next";
+    paintScore();
   };
 
-  let finished = false;
-  els.next.addEventListener("click", () => {
+  const advance = () => {
     if (finished) {
       finished = false;
       index = 0;
       score = 0;
+      results.length = 0;
       show();
       return;
     }
@@ -319,13 +342,37 @@ function initQuiz() {
       return;
     }
     finished = true;
+    els.topic.textContent = "Result";
+    els.count.textContent = `${score} / ${QUIZ.length}`;
     els.question.textContent =
-      score === QUIZ.length ? "Perfect score! 🎉" : `You scored ${score} / ${QUIZ.length}`;
+      score === QUIZ.length ? "Perfect score." : `You got ${score} of ${QUIZ.length}.`;
     els.code.hidden = true;
     els.options.innerHTML = "";
     els.feedback.textContent =
-      "The app has over 4,000 more questions like these, with a fresh set of 10 on every attempt.";
-    els.next.textContent = "Try again ↺";
+      "The app has over 4,000 more like these, with 10 fresh questions on every attempt.";
+    els.hint.textContent = "";
+    els.next.textContent = "Try again";
+    paintScore();
+  };
+
+  els.next.addEventListener("click", advance);
+
+  // Keyboard: 1–4 to answer, Enter to continue, while the quiz is on screen
+  const inView = () => {
+    const r = els.card.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.75 && r.bottom > window.innerHeight * 0.25;
+  };
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || !inView()) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
+    const n = Number(e.key);
+    const options = $$(".quiz-option", els.options);
+    if (!answered && n >= 1 && n <= options.length) {
+      options[n - 1].click();
+    } else if (e.key === "Enter" && !els.next.hidden && document.activeElement !== els.next) {
+      e.preventDefault();
+      advance();
+    }
   });
 
   show();
@@ -338,8 +385,6 @@ function initStoreLinks() {
     const url = STORE_LINKS[btn.dataset.store];
     if (url) {
       btn.href = url;
-      btn.target = "_blank";
-      btn.rel = "noopener";
     } else {
       missing++;
       btn.setAttribute("aria-disabled", "true");
@@ -357,6 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#year").textContent = String(new Date().getFullYear());
   initHeader();
   initTheme();
+  initTicker();
   initCurriculum();
   initQuiz();
   initCodeDemo();

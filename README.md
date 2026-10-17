@@ -423,9 +423,9 @@ served by Firebase Hosting at <https://dartcoder-d57cb.web.app>.
 
 | File | Purpose |
 |---|---|
-| `index.html` | Page markup: hero, features, learning paths, curriculum, sample quiz, how it works, FAQ, download CTA. Includes SEO, Open Graph and JSON-LD metadata. |
-| `styles.css` | Design system (brand tokens matching the app, light/dark themes, Space Grotesk) and all components |
-| `main.js` | Theme toggle (saved in `localStorage`), mobile menu, scroll reveals, stat counters, code-runner demo, curriculum explorer, sample quiz, store links |
+| `index.html` | Page markup: hero with app screenshots, topic ticker, "inside the app" grid, curriculum, sample quiz, FAQ, download CTA. Includes SEO, Open Graph, JSON-LD and Smart App Banner metadata. |
+| `styles.css` | Design system (paper/ink palette with one accent, light/dark themes, Space Grotesk + system mono) and all components |
+| `main.js` | Theme toggle (saved in `localStorage`), mobile menu, scroll reveals, counters, topic ticker, code-runner demo, curriculum explorer, sample quiz (keys 1–4 / Enter), store links |
 | `privacy_policy.html`, `terms.html` | Legal pages. **The app links to these URLs, so keep them at the site root.** |
 | `404.html`, `robots.txt`, `sitemap.xml` | Hosting extras |
 | `firebase.json` | Hosting config: serves the folder and sets cache headers (assets 1 year immutable; HTML/CSS/JS 5 minutes) |
@@ -445,9 +445,15 @@ cd landing_page
 firebase deploy --only hosting
 ```
 
-**Store links.** Once the app is live, paste the URLs into `STORE_LINKS` at the
-top of `main.js`. While a link is empty, its button shows as "Coming soon"
-and the note under the buttons points to GitHub.
+**Store links.** The App Store and Google Play URLs live in `STORE_LINKS` at the
+top of `main.js` (and in the footer and JSON-LD in `index.html`). If a link is
+ever emptied, its button switches to a disabled "Coming soon" state.
+
+**Screenshots.** `assets/img/screens/*.jpg` are real captures from the iOS
+simulator (720px wide JPEGs). To refresh them, run the app in the simulator,
+set a clean status bar with
+`xcrun simctl status_bar booted override --time 9:41 --batteryLevel 100`,
+save with `xcrun simctl io booted screenshot <name>.png`, then resize.
 
 **Keeping it in sync.** The curriculum explorer and the stats in `index.html`
 mirror the app's content (`CURRICULUM` and `QUIZ` in `main.js`). Update them

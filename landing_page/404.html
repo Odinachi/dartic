@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/icon-32.png" />
     <link rel="stylesheet" href="/styles.css" />
     <script>
-      document.documentElement.classList.remove("no-js");
+      document.documentElement.classList.add("js");
       try {
         const t = localStorage.getItem("dartic-theme");
         if (t) document.documentElement.dataset.theme = t;
@@ -16,7 +16,8 @@
     </script>
     <style>
       .not-found { min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 24px; }
-      .not-found h1 { font-size: clamp(64px, 14vw, 120px); line-height: 1; margin-bottom: 12px; }
+      .not-found h1 { font-size: clamp(72px, 16vw, 160px); line-height: 0.9; letter-spacing: -0.06em; margin-bottom: 18px; }
+      .not-found h1 em { font-style: normal; color: var(--accent); }
       .not-found p { color: var(--muted); margin: 0 auto 28px; max-width: 420px; }
       .not-found code { font-family: var(--mono); }
     </style>
@@ -24,10 +25,10 @@
   <body>
     <main class="not-found">
       <div>
-        <img src="/assets/img/icon-180.png" alt="" width="72" height="72" style="border-radius: 20px; margin: 0 auto 20px" />
-        <h1 class="gradient-text">404</h1>
+        <img src="/assets/img/icon-180.png" alt="" width="72" height="72" style="border-radius: 16px; margin: 0 auto 28px; width: 56px; height: 56px" />
+        <h1>4<em>0</em>4</h1>
         <p><code>NoSuchMethodError</code>: this page doesn't exist. It may have moved, or the link is mistyped.</p>
-        <a class="btn btn-primary" href="/">Back to Dartic</a>
+        <a class="btn btn-ink" href="/">Back to Dartic</a>
       </div>
     </main>
   </body>
