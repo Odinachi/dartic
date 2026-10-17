@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dartcoder-d57cb.web.app/sitemap.xml
