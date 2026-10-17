@@ -6,9 +6,6 @@ class AppString {
   static const String continueAsGuest = "Continue without an account";
   static const String onboardingLead =
       "Short lessons, a Dart runner in your pocket, and quizzes that check you really get it.";
-  static const String onboardingFacts = "73 lessons  ·  4,000+ questions  ·  free";
-  static const String signInUnlocks =
-      "Sign in to sync progress and unlock data structures.";
   static const String byContinuing = "By continuing, you agree to our ";
   static const String termsOfService = "Terms of Service ";
   static const String privacyPolicy = "Privacy Policy ";
