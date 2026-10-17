@@ -428,7 +428,9 @@ served by Firebase Hosting at <https://dartcoder-d57cb.web.app>.
 | `main.js` | Theme toggle (saved in `localStorage`), mobile menu, scroll reveals, counters, topic ticker, code-runner demo, curriculum explorer, sample quiz (keys 1–4 / Enter), store links |
 | `privacy_policy.html`, `terms.html` | Legal pages. **The app links to these URLs, so keep them at the site root.** |
 | `404.html`, `robots.txt`, `sitemap.xml` | Hosting extras |
-| `firebase.json` | Hosting config: serves the folder and sets cache headers (assets 1 year immutable; HTML/CSS/JS 5 minutes) |
+| `analytics.js` | Vercel Web Analytics loader (skipped on Firebase Hosting and localhost) |
+| `firebase.json` | Firebase Hosting config and cache headers |
+| `vercel.json`, `.vercelignore` | Vercel config with the same cache headers |
 
 **Preview locally:**
 
@@ -444,6 +446,16 @@ python3 -m http.server 8080      # then open http://localhost:8080
 cd landing_page
 firebase deploy --only hosting
 ```
+
+**Deploy to Vercel (optional):** create a Vercel project with **Root Directory**
+set to `landing_page` (no build command, no output directory), or run
+`vercel --prod` from `landing_page/`.
+
+**Analytics.** `analytics.js` adds [Vercel Web Analytics](https://vercel.com/docs/analytics)
+to every page. It only records on Vercel deployments: enable **Analytics** for the
+project in the Vercel dashboard, then redeploy. On Firebase Hosting and local
+previews the tracking script is skipped. Clicks on the store buttons are sent as
+a `Store click` custom event, which Vercel records on Pro and Enterprise plans.
 
 **Store links.** The App Store and Google Play URLs live in `STORE_LINKS` at the
 top of `main.js` (and in the footer and JSON-LD in `index.html`). If a link is

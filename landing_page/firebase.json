@@ -4,6 +4,7 @@
     "ignore": [
       "firebase.json",
       "README.md",
+      "vercel.json",
       "**/.*",
       "**/node_modules/**"
     ],

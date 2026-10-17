@@ -581,72 +581,8 @@ button {
 .c-5 {
   grid-column: span 5;
 }
-
-.big-num {
-  font-family: var(--display);
-  font-size: clamp(64px, 8vw, 104px);
-  font-weight: 600;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Question split per course */
-.split-bar {
-  display: grid;
-  gap: 10px;
-  margin-top: 6px;
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--muted);
-}
-.split-bar .row {
-  display: grid;
-  grid-template-columns: 124px 1fr 48px;
-  white-space: nowrap;
-  gap: 12px;
-  align-items: center;
-}
-.split-bar .bar {
-  height: 8px;
-  border-radius: 2px;
-  background: var(--surface-2);
-  overflow: hidden;
-}
-.split-bar .bar span {
-  display: block;
-  height: 100%;
-  background: var(--ink);
-}
-.split-bar .row:last-child .bar span {
-  background: var(--accent);
-}
-.split-bar b {
-  color: var(--ink);
-  font-weight: 500;
-  text-align: right;
-}
-
-.qtypes {
-  margin-top: auto;
-  border-top: 1px solid var(--line);
-}
-.qtypes div {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 14.5px;
-  color: var(--ink-2);
-}
-.qtypes div:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-.qtypes code {
-  font-size: 12.5px;
-  color: var(--accent);
+.c-12 {
+  grid-column: span 12;
 }
 
 /* Test-run fragment for algorithm practice */
@@ -715,6 +651,25 @@ button {
   color: var(--muted);
   text-align: right;
   white-space: nowrap;
+}
+
+/* Full-width paths cell: three columns on wide screens */
+@media (min-width: 1025px) {
+  .c-12 .paths {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+  .c-12 .path {
+    grid-template-columns: 32px minmax(0, 1fr);
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .c-12 .path .meta {
+    grid-column: 2;
+    text-align: left;
+    margin-top: 6px;
+  }
 }
 
 /* Inline screenshot that bleeds off the bottom of a cell */
@@ -1355,7 +1310,8 @@ button {
 
 @media (max-width: 1024px) {
   .c-7,
-  .c-5 {
+  .c-5,
+  .c-12 {
     grid-column: span 12;
   }
   .section-head,

@@ -385,6 +385,10 @@ function initStoreLinks() {
     const url = STORE_LINKS[btn.dataset.store];
     if (url) {
       btn.href = url;
+      // Custom event (recorded on Vercel Pro/Enterprise; ignored otherwise).
+      btn.addEventListener("click", () =>
+        window.va?.("event", { name: "Store click", data: { store: btn.dataset.store } }),
+      );
     } else {
       missing++;
       btn.setAttribute("aria-disabled", "true");
