@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:dartcoder/features/authetication/view_model/app_cubit.dart';
 import 'package:dartcoder/shared/app_string.dart';
 import 'package:dartcoder/shared/assets.dart';
@@ -39,7 +41,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             SafeArea(
               child: LayoutBuilder(
                 builder: (context, constraints) => SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  // Keep content at a readable width on tablets.
+                  padding: EdgeInsets.symmetric(
+                      horizontal: math.max(24.w, (constraints.maxWidth - 480) / 2)),
                   child: ConstrainedBox(
                     constraints:
                         BoxConstraints(minHeight: constraints.maxHeight),

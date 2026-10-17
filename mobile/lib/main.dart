@@ -34,6 +34,10 @@ void main() async {
           valueListenable: isDarkTheme,
           builder: (_, isDark, __) {
             return ScreenUtilInit(
+              // Phones scale from the default 360×690 design. Tablets use a
+              // larger design so the UI isn't blown up ~3× on an iPad.
+              designSize: _isTablet ? const Size(720, 1100) : const Size(360, 690),
+              minTextAdapt: _isTablet,
               builder: (context, child) => MultiBlocListener(
                 listeners: [
                   BlocListener<AppCubit, AppState>(listener: (_, state) {
@@ -78,3 +82,8 @@ void main() async {
 final cacheService = CacheService();
 final firebaseService = FirebaseServices();
 final editor = TextEditor(cacheService: cacheService);
+
+bool get _isTablet {
+  final view = WidgetsBinding.instance.platformDispatcher.views.first;
+  return view.physicalSize.shortestSide / view.devicePixelRatio >= 600;
+}
