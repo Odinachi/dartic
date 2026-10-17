@@ -21,10 +21,10 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="4E4-Av-DnL">
                                 <rect key="frame" x="131" y="361" width="131" height="131"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.094117647058823528" green="0.30980392156862746" blue="0.53725490196078429" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.066666666666666666" green="0.078431372549019607" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -33,6 +33,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="1886.6666259765625" height="1886.6666259765625"/>
+        <image name="LaunchImage" width="131" height="131"/>
     </resources>
 </document>

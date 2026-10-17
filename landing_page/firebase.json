@@ -10,12 +10,40 @@
     "cleanUrls": false,
     "headers": [
       {
-        "source": "/assets/**",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+        "source": "/assets/fonts/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/assets/img/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400, stale-while-revalidate=604800"
+          }
+        ]
+      },
+      {
+        "source": "/@(favicon.ico|favicon.svg|site.webmanifest)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
       },
       {
         "source": "**/*.@(html|css|js)",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }]
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=300"
+          }
+        ]
       }
     ]
   }

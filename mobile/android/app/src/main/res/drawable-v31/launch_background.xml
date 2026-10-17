@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Simple version for debugging -->
+<!-- Splash shown while Flutter starts. Uses a plain bitmap (launch_image),
+     because ic_launcher is an adaptive icon on API 26+ and can't be drawn here. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-   
-    <!-- Just the background color first -->
+    <item android:drawable="@color/ic_launcher_background" />
     <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#184F89" />
-        </shape>
-    </item>
-
-    <!-- Image with explicit positioning -->
-     <item>
-        <bitmap 
-            android:src="@mipmap/ic_launcher"
+        <bitmap
+            android:src="@mipmap/launch_image"
             android:gravity="center"
-            android:filter="true"
-            android:dither="true" />
+            android:filter="true" />
     </item>
-  
 </layer-list>

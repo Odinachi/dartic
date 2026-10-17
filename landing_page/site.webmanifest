@@ -1,0 +1,38 @@
+{
+  "name": "Dartic",
+  "short_name": "Dartic",
+  "description": "Learn Dart by writing it: lessons, quizzes, a Dart runner and a data structures course.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111419",
+  "theme_color": "#111419",
+  "icons": [
+    {
+      "src": "/assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/us/app/dartic/id6744124202"
+    },
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.odibillz.dartcoder",
+      "id": "com.odibillz.dartcoder"
+    }
+  ]
+}
