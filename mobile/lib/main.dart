@@ -1,5 +1,6 @@
 import 'package:dartcoder/features/authetication/view_model/app_cubit.dart';
 import 'package:dartcoder/features/editor/view_model/editor_cubit.dart';
+import 'package:dartcoder/features/wallet/view_model/wallet_cubit.dart';
 import 'package:dartcoder/firebase_options.dart';
 import 'package:dartcoder/services/cache_service.dart';
 import 'package:dartcoder/services/firebase_services.dart';
@@ -29,6 +30,9 @@ void main() async {
         BlocProvider<EditorCubit>(
           create: (context) => EditorCubit(firebaseServices: firebaseService),
         ),
+        BlocProvider<WalletCubit>(
+          create: (context) => WalletCubit(firebaseServices: firebaseService),
+        ),
       ],
       child: ValueListenableBuilder(
           valueListenable: isDarkTheme,
@@ -40,10 +44,12 @@ void main() async {
               minTextAdapt: _isTablet,
               builder: (context, child) => MultiBlocListener(
                 listeners: [
-                  BlocListener<AppCubit, AppState>(listener: (_, state) {
+                  BlocListener<AppCubit, AppState>(listener: (context, state) {
                     if (state is AuthLogout) {
+                      context.read<WalletCubit>().reset();
                       AppRouter.pushAndClear(AppRouter.onboarding);
                     } else if (state is AuthSuccessful) {
+                      context.read<WalletCubit>().reset();
                       AppRouter.pushAndClear(AppRouter.dashboard);
                     } else if (state is AuthError) {
                       AppRouter.showMessage(state.message);

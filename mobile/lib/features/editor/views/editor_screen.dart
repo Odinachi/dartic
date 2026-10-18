@@ -9,8 +9,12 @@ import 'package:dartcoder/features/editor/models/test_case.dart';
 import 'package:dartcoder/features/editor/view_model/editor_cubit.dart';
 import 'package:dartcoder/features/editor/views/widgets/dsa_question_widget.dart';
 import 'package:dartcoder/features/editor/views/widgets/test_results_widget.dart';
+import 'package:dartcoder/features/wallet/models/wallet_model.dart';
+import 'package:dartcoder/features/wallet/view_model/wallet_cubit.dart';
+import 'package:dartcoder/features/wallet/views/coin_widgets.dart';
 import 'package:dartcoder/main.dart';
 import 'package:dartcoder/services/test_runner_service.dart';
+import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/text_editor.dart';
 import 'package:flutter/material.dart';
@@ -182,9 +186,13 @@ class _EditorScreenState extends State<EditorScreen>
       if (_testResultNotifier.value?.passedCount ==
           testSuite?.testCases?.length) {
         if (mounted) {
-          context
-              .read<AppCubit>()
-              .markProblemAsSolved(widget.arg?.dsa?.id ?? "");
+          final problemId = widget.arg?.dsa?.id ?? "";
+          context.read<AppCubit>().markProblemAsSolved(problemId);
+          final wallet = context.read<WalletCubit>();
+          if (await wallet.rewardSolve(problemId)) {
+            AppRouter.showMessage(
+                "Solved! +${CoinRules.solveReward} coin · ${wallet.state.coins} total");
+          }
         }
       }
     } catch (e) {
@@ -318,6 +326,7 @@ class _EditorScreenState extends State<EditorScreen>
         title: const Text('Dartic'),
         actions: _tabController.index == (widget.arg?.dsa != null ? 1 : 0)
             ? [
+                if (widget.arg?.dsa != null) const CoinBadge(),
                 ValueListenableBuilder(
                     valueListenable: editor.state,
                     builder: (_, state, __) {
@@ -378,17 +387,34 @@ class _EditorScreenState extends State<EditorScreen>
                     } else if (v == "format") {
                       controller.text = beautify(controller.text);
                     } else if (v == "solution") {
-                      controller.text = beautify(testSuite?.answer ?? "");
+                      openSolution(
+                        context,
+                        problemId: widget.arg?.dsa?.id ?? "",
+                        onUseCode: (code) => controller.text = beautify(code),
+                      );
                     }
                   },
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                     const PopupMenuItem(value: "clear", child: Text('Clear')),
                     const PopupMenuItem(
                         value: "format", child: Text('Beautify')),
-                    if (widget.arg?.dsa != null &&
-                        testSuite?.answer?.isNotEmpty == true)
-                      const PopupMenuItem(
-                          value: "solution", child: Text('Solution')),
+                    if (widget.arg?.dsa != null)
+                      PopupMenuItem(
+                        value: "solution",
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('View solution'),
+                            if (!context
+                                .read<WalletCubit>()
+                                .hasUnlocked(widget.arg?.dsa?.id ?? "")) ...[
+                              const SizedBox(width: 8),
+                              const CoinIcon(size: 16),
+                              Text(' ${CoinRules.solutionCost}'),
+                            ],
+                          ],
+                        ),
+                      ),
                   ],
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0),

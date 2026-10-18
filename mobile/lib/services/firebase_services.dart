@@ -4,6 +4,7 @@ import 'package:dartcoder/features/authetication/models/user_progress.dart';
 import 'package:dartcoder/features/courses/models/dsa_course_model.dart';
 import 'package:dartcoder/features/editor/models/dsa_list_model.dart';
 import 'package:dartcoder/features/editor/models/test_case.dart';
+import 'package:dartcoder/features/wallet/models/wallet_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -251,6 +252,7 @@ class FirebaseServices {
         await user.reauthenticateWithCredential(cred.oAuth!);
 
         // Delete user data from Firestore
+        await _walletDoc?.delete();
         await _firestore.collection('Users').doc(user.uid).delete();
 
         // Delete user authentication
@@ -404,6 +406,137 @@ class FirebaseServices {
     }
   }
 
+  // ── Coins ──────────────────────────────────────────────────
+  //
+  // Users/{uid}/wallet/main = { coins, unlocked: [problemId], rewarded: [problemId] }
+  // Firestore rules only allow: creating it with the welcome bonus, spending
+  // exactly one coin to unlock one problem, or earning exactly one coin for
+  // the first solve of one problem.
+
+  DocumentReference<Map<String, dynamic>>? get _walletDoc {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return null;
+    return _firestore
+        .collection('Users')
+        .doc(uid)
+        .collection('wallet')
+        .doc('main');
+  }
+
+  /// Returns the user's wallet, creating it with the welcome bonus if needed.
+  Future<({WalletModel? wallet, String? error})> fetchWallet() async {
+    final doc = _walletDoc;
+    if (doc == null) return (wallet: null, error: "Sign in to use coins");
+    try {
+      final wallet = await _firestore.runTransaction((tx) async {
+        final snap = await tx.get(doc);
+        if (snap.exists) return WalletModel.fromJson(snap.data()!);
+        tx.set(doc, {
+          'coins': CoinRules.welcomeBonus,
+          'unlocked': <String>[],
+          'rewarded': <String>[],
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+        return const WalletModel(coins: CoinRules.welcomeBonus);
+      });
+      return (wallet: wallet, error: null);
+    } catch (e) {
+      return (wallet: null, error: e.toString());
+    }
+  }
+
+  /// Spends one coin to unlock [problemId]'s solution. Free if it's already
+  /// unlocked. Returns the updated wallet.
+  Future<({WalletModel? wallet, String? error})> unlockSolution(
+      String problemId) async {
+    final doc = _walletDoc;
+    if (doc == null) return (wallet: null, error: "Sign in to use coins");
+    try {
+      final wallet = await _firestore.runTransaction((tx) async {
+        final snap = await tx.get(doc);
+        final current = WalletModel.fromJson(snap.data() ?? const {});
+        if (current.hasUnlocked(problemId)) return current;
+        if (!current.canAffordSolution) throw const NotEnoughCoins();
+        tx.update(doc, {
+          'coins': FieldValue.increment(-CoinRules.solutionCost),
+          'unlocked': FieldValue.arrayUnion([problemId]),
+        });
+        return WalletModel(
+          coins: current.coins - CoinRules.solutionCost,
+          unlocked: [...current.unlocked, problemId],
+          rewarded: current.rewarded,
+        );
+      });
+      return (wallet: wallet, error: null);
+    } on NotEnoughCoins {
+      return (wallet: null, error: NotEnoughCoins.message);
+    } catch (e) {
+      return (wallet: null, error: e.toString());
+    }
+  }
+
+  /// Pays the solve reward for [problemId] the first time it's solved.
+  /// `rewarded` is false when the reward was already collected.
+  Future<({WalletModel? wallet, bool rewarded, String? error})> rewardSolve(
+      String problemId) async {
+    final doc = _walletDoc;
+    if (doc == null) {
+      return (wallet: null, rewarded: false, error: "Sign in to use coins");
+    }
+    try {
+      final result = await _firestore.runTransaction((tx) async {
+        final snap = await tx.get(doc);
+        final current = WalletModel.fromJson(snap.data() ?? const {});
+        if (!snap.exists || current.rewarded.contains(problemId)) {
+          return (wallet: current, rewarded: false);
+        }
+        tx.update(doc, {
+          'coins': FieldValue.increment(CoinRules.solveReward),
+          'rewarded': FieldValue.arrayUnion([problemId]),
+        });
+        return (
+          wallet: WalletModel(
+            coins: current.coins + CoinRules.solveReward,
+            unlocked: current.unlocked,
+            rewarded: [...current.rewarded, problemId],
+          ),
+          rewarded: true,
+        );
+      });
+      return (wallet: result.wallet, rewarded: result.rewarded, error: null);
+    } catch (e) {
+      return (wallet: null, rewarded: false, error: e.toString());
+    }
+  }
+
+  /// Reads an unlocked solution from `DSA/{id}/solution/main`. Falls back to
+  /// the legacy `answer` field on the problem doc for problems that haven't
+  /// been migrated yet (see scripts/move_dsa_solutions).
+  Future<({String? answer, String? error})> fetchSolution(
+      String problemId) async {
+    try {
+      final solution = await _firestore
+          .collection('DSA')
+          .doc(problemId)
+          .collection('solution')
+          .doc('main')
+          .get();
+      final answer = solution.data()?['answer'] as String?;
+      if (answer != null && answer.isNotEmpty) {
+        return (answer: answer, error: null);
+      }
+
+      final legacy = await fetchDsaProblems(problemId);
+      final legacyAnswer = legacy.data?.answer;
+      if (legacyAnswer != null && legacyAnswer.isNotEmpty) {
+        return (answer: legacyAnswer, error: null);
+      }
+      return (answer: null, error: "No solution available for this problem");
+    } catch (e) {
+      return (answer: null, error: e.toString());
+    }
+  }
+
   Future<void> markProblemAsSolved(String id) async {
     try {
       final progressDoc = _firestore
@@ -419,4 +552,10 @@ class FirebaseServices {
       // Handle error if needed
     }
   }
+}
+
+/// Thrown inside the unlock transaction when the balance is too low.
+class NotEnoughCoins implements Exception {
+  const NotEnoughCoins();
+  static const message = "Not enough coins";
 }
