@@ -53,3 +53,4 @@ app.*.map.json
 
 # Upload script dependencies
 scripts/upload_dsa_course/node_modules/
+scripts/move_dsa_solutions/backup-*.json
