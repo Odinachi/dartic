@@ -7,6 +7,10 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
     // ── Data Structures course: signed-in users only, read-only ──
     // Content is written by scripts/upload_dsa_course (Admin SDK, which
     // bypasses these rules), so clients never need write access.
@@ -26,13 +30,22 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // ── Algorithm practice problems (existing) ──
+    // ── Algorithm practice problems ──
     match /DSA/{problemId} {
       allow read: if signedIn();
       allow write: if false;
 
       match /problem/{docId} {
         allow read: if signedIn();
+        allow write: if false;
+      }
+
+      // Solutions are paid for with coins: readable only once this problem
+      // is in the reader's wallet.unlocked list.
+      match /solution/{docId} {
+        allow read: if signedIn() && problemId in get(
+            /databases/$(database)/documents/Users/$(request.auth.uid)/wallet/main
+          ).data.unlocked;
         allow write: if false;
       }
     }
@@ -46,6 +59,50 @@ service cloud.firestore {
 
       match /progress/{docId} {
         allow read, write: if signedIn() && request.auth.uid == userId;
+      }
+
+      // ── Coin wallet: { coins, unlocked: [problemId], rewarded: [problemId] } ──
+      // Numbers must match CoinRules in lib/features/wallet/models/wallet_model.dart.
+      match /wallet/{docId} {
+        allow read: if isOwner(userId);
+
+        // Created once, with the welcome bonus and nothing unlocked.
+        allow create: if isOwner(userId) && docId == 'main'
+          && request.resource.data.keys().hasOnly(['coins', 'unlocked', 'rewarded', 'createdAt'])
+          && request.resource.data.coins == 3
+          && request.resource.data.unlocked.size() == 0
+          && request.resource.data.rewarded.size() == 0;
+
+        // Only two moves: spend 1 coin to unlock one problem, or earn 1 coin
+        // for the first solve of one problem.
+        allow update: if isOwner(userId) && docId == 'main'
+          && request.resource.data.keys().hasOnly(['coins', 'unlocked', 'rewarded', 'createdAt'])
+          && request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)
+          && (spendsOneCoin() || earnsOneCoin());
+
+        // Allowed so account deletion can remove it.
+        allow delete: if isOwner(userId);
+
+        function addedOne(field) {
+          let added = request.resource.data[field].removeAll(resource.data[field]);
+          return request.resource.data[field].size() == resource.data[field].size() + 1
+            && request.resource.data[field].hasAll(resource.data[field])
+            && added.size() == 1
+            && exists(/databases/$(database)/documents/DSA/$(added[0]));
+        }
+
+        function spendsOneCoin() {
+          return resource.data.coins >= 1
+            && request.resource.data.coins == resource.data.coins - 1
+            && request.resource.data.rewarded == resource.data.rewarded
+            && addedOne('unlocked');
+        }
+
+        function earnsOneCoin() {
+          return request.resource.data.coins == resource.data.coins + 1
+            && request.resource.data.unlocked == resource.data.unlocked
+            && addedOne('rewarded');
+        }
       }
     }
   }
