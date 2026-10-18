@@ -114,6 +114,16 @@ they share the same Firebase project (`dartcoder-d57cb`).
 - Solutions are checked against automated test cases (`test_runner_service.dart`).
   Solved problems are recorded in the user's progress.
 
+### 🪙 Coins
+- Viewing a problem's reference solution costs **1 coin**. Once unlocked, it
+  stays unlocked.
+- New accounts start with **3 coins**, and solving a problem for the first
+  time earns **1 coin**.
+- The balance shows on the problem list and in the editor. The solution
+  opens read-only, with **Copy** and **Use in editor**.
+- Settings live in `CoinRules` (`lib/features/wallet/models/wallet_model.dart`).
+  `firestore.rules` enforces the same numbers, so change both together.
+
 ### 👤 Accounts and progress
 - Sign in with Google or Apple, then create a profile with a unique username
   and skill level.
@@ -283,12 +293,16 @@ Project ID: **`dartcoder-d57cb`**
 ```
 Users/{uid}                              profile: firstName, lastName, username, email,
 │                                        photoUrl, currentLevel, createdAt
-└── progress/current                     current_course: num
-                                         passed_courses: [num]     ← Dart lessons passed
-                                         passed_dsa:     [string]  ← algorithm problems solved
+├── progress/current                     current_course: num
+│                                        passed_courses: [num]     ← Dart lessons passed
+│                                        passed_dsa:     [string]  ← algorithm problems solved
+└── wallet/main                          coins: num
+                                         unlocked: [string]  ← problems whose solution was bought
+                                         rewarded: [string]  ← problems already paid a solve reward
 
 DSA/{problemId}                          algorithm problem summary (title, difficulty, …)
-└── problem/{docId}                      full problem and test suite
+├── problem/{docId}                      question and test suite
+└── solution/main                        answer (readable only once unlocked)
 
 DSA_course_modules/{module}              module, title, desc, lessonCount
 DSA_course/{lessonId}                    title, desc, module, moduleTitle, order,
@@ -310,9 +324,23 @@ The rules are in `mobile/firestore.rules`:
 | Path | Read | Write |
 |---|---|---|
 | `DSA_course/**`, `DSA_course_modules/*` | signed-in users | nobody (content is uploaded with the Admin SDK) |
-| `DSA/**` | signed-in users | nobody |
+| `DSA/{id}`, `DSA/{id}/problem/*` | signed-in users | nobody |
+| `DSA/{id}/solution/main` | signed-in users who have `{id}` in their `wallet.unlocked` | nobody |
 | `Users/{uid}` | signed-in users (needed for the username availability check) | owner only |
 | `Users/{uid}/progress/*` | owner only | owner only |
+| `Users/{uid}/wallet/main` | owner only | owner, limited to three moves (below) |
+
+The wallet can't be edited freely. The client can only:
+1. create it with exactly the welcome bonus and empty lists;
+2. spend exactly 1 coin to add one existing problem to `unlocked`;
+3. earn exactly 1 coin to add one existing problem to `rewarded`.
+
+Anything else is rejected, such as setting a balance, unlocking two problems
+for one coin, unlocking a problem that doesn't exist, or earning twice for the
+same problem. The owner can delete the wallet so account deletion works. That
+also means a determined user could delete it to reclaim the welcome bonus, at
+the cost of everything they had unlocked. If coins ever become purchasable,
+move spending and earning to Cloud Functions.
 
 Deploy them from `mobile/`:
 
@@ -334,6 +362,25 @@ firebase deploy --only firestore:rules
 To add a lesson, write the Markdown file and the quiz JSON, register both in
 `AppData.courses`, and make sure the files fall under an asset folder that
 `pubspec.yaml` already declares.
+
+### Moving solutions behind the coin paywall
+
+Problem docs used to carry the solution in an `answer` field, which every
+signed-in user downloads. `mobile/scripts/move_dsa_solutions` moves each
+answer to `DSA/{id}/solution/main` and removes it from the problem doc:
+
+```bash
+cd mobile/scripts/move_dsa_solutions
+npm install
+node migrate.mjs            # dry run: shows what would move
+node migrate.mjs --commit   # backs up answers locally, then moves them
+```
+
+Order of operations: deploy the rules, release the app version with coins,
+then run the migration. Until it runs, the app falls back to the old field.
+After it runs, older app versions just stop showing their Solution menu item.
+Re-running the script is safe: problems that were already moved are skipped.
+New problems should be added with their answer in `solution/main`.
 
 ### Data structures course (Firestore)
 
