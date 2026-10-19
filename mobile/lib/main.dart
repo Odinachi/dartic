@@ -7,7 +7,6 @@ import 'package:dartcoder/services/gem_store_service.dart';
 import 'package:dartcoder/services/firebase_services.dart';
 import 'package:dartcoder/services/notification_service.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
-import 'package:dartcoder/shared/text_editor.dart';
 import 'package:dartcoder/shared/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -93,7 +92,6 @@ void main() async {
 final cacheService = CacheService();
 final firebaseService = FirebaseServices();
 final gemStore = GemStoreService();
-final editor = TextEditor(cacheService: cacheService);
 
 bool get _isTablet {
   final view = WidgetsBinding.instance.platformDispatcher.views.first;

@@ -39,6 +39,7 @@ class _EditorScreenState extends State<EditorScreen>
     language: dart,
   );
 
+  final editor = TextEditor(cacheService: cacheService);
   final _outputNotifier = ValueNotifier<String>("");
   final _testResultNotifier = ValueNotifier<TestRunResult?>(null);
   final _isTestingNotifier = ValueNotifier<bool>(false);
@@ -103,6 +104,7 @@ class _EditorScreenState extends State<EditorScreen>
     _outputNotifier.dispose();
     _testResultNotifier.dispose();
     _isTestingNotifier.dispose();
+    editor.dispose();
     super.dispose();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartcoder/features/authetication/views/create_profile_screen.dart';
 import 'package:dartcoder/features/authetication/views/onboarding_screen.dart';
 import 'package:dartcoder/features/courses/views/course_quiz.dart';
@@ -97,37 +99,29 @@ class AppRouter {
       .currentState
       ?.pushNamedAndRemoveUntil(routeName, (route) => false, arguments: arg);
 
+  static OverlayEntry? _toast;
+
+  /// Shows a short message as a toast above the keyboard and bottom insets.
+  ///
+  /// Drawn in the navigator's overlay rather than as a floating SnackBar, so a
+  /// tall FloatingActionButton (e.g. the editor's run/test buttons) or an open
+  /// keyboard can't push it off screen. A new message replaces the old one.
   static void showMessage(String message) {
-    ScaffoldMessenger.of(navKey.currentContext!).showSnackBar(SnackBar(
-      elevation: 0,
-      content: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-              decoration: BoxDecoration(
-                  color: AppColors.black,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Text(message,
-                  style: Theme.of(navKey.currentContext!)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.white)),
-            ),
-          ),
-        ],
+    final overlay = navKey.currentState?.overlay;
+    if (overlay == null) return;
+    _toast?.remove();
+    late final OverlayEntry entry;
+    entry = OverlayEntry(
+      builder: (_) => _Toast(
+        message: message,
+        onDismissed: () {
+          if (_toast == entry) _toast = null;
+          if (entry.mounted) entry.remove();
+        },
       ),
-      backgroundColor: Colors.transparent,
-      margin: const EdgeInsets.all(10),
-      duration: const Duration(seconds: 3),
-      clipBehavior: Clip.antiAlias,
-      behavior: SnackBarBehavior.floating,
-    ));
+    );
+    _toast = entry;
+    overlay.insert(entry);
   }
 
   static Future showConfirmation(String s,
@@ -153,5 +147,81 @@ class AppRouter {
             ],
           );
         });
+  }
+}
+
+class _Toast extends StatefulWidget {
+  const _Toast({required this.message, required this.onDismissed});
+
+  final String message;
+  final VoidCallback onDismissed;
+
+  @override
+  State<_Toast> createState() => _ToastState();
+}
+
+class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
+  late final _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 220),
+      reverseDuration: const Duration(milliseconds: 180))
+    ..forward();
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(const Duration(seconds: 3), () async {
+      if (!mounted) return;
+      await _controller.reverse();
+      widget.onDismissed();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final bottom = media.viewInsets.bottom + media.padding.bottom + 24;
+    final curve =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    return Positioned(
+      left: 16,
+      right: 16,
+      bottom: bottom,
+      child: IgnorePointer(
+        child: FadeTransition(
+          opacity: curve,
+          child: SlideTransition(
+            position: Tween(begin: const Offset(0, .3), end: Offset.zero)
+                .animate(curve),
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                  decoration: BoxDecoration(
+                      color: AppColors.black,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Text(widget.message,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.white)),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

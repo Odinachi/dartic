@@ -1,3 +1,4 @@
+import 'package:dartcoder/shared/markdown.dart';
 import 'package:dartcoder/features/authetication/view_model/app_cubit.dart';
 import 'package:dartcoder/features/courses/views/course_quiz.dart';
 import 'package:dartcoder/features/courses/views/widget/video_player.dart';
@@ -129,7 +130,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
-                            data: dataStr,
+                            data: tagUntaggedCodeFences(dataStr),
                             config: config,
                             tocController: tocController,
                           ),

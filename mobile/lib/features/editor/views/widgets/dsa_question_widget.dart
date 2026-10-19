@@ -1,3 +1,4 @@
+import 'package:dartcoder/shared/markdown.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -158,7 +159,7 @@ class _DsaQuestionWidgetState extends State<DsaQuestionWidget> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: MarkdownWidget(
-          data: widget.text ?? "",
+          data: tagUntaggedCodeFences(widget.text ?? ""),
           selectable: true,
           config: config,
         ),

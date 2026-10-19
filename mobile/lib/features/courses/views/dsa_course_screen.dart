@@ -1,3 +1,4 @@
+import 'package:dartcoder/shared/markdown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartcoder/features/courses/models/dsa_course_model.dart';
 import 'package:dartcoder/features/courses/views/course_quiz.dart';
@@ -636,7 +637,7 @@ class _DsaCourseDetailsScreenState extends State<DsaCourseDetailsScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
-                  data: content.markdown,
+                  data: tagUntaggedCodeFences(content.markdown),
                   config: config,
                 ),
               if (lesson.videos.isNotEmpty) ...[

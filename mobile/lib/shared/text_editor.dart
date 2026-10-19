@@ -2,18 +2,12 @@ import 'package:flutter/cupertino.dart';
 
 import '../services/cache_service.dart';
 
+/// Undo/redo history for one editor screen. Each EditorScreen owns its own
+/// instance, so screens don't share history or notify each other's widgets.
 class TextEditor {
+  TextEditor({required this.cacheService});
+
   final CacheService cacheService;
-
-  // Singleton implementation with dependency injection
-  static TextEditor? _instance;
-
-  factory TextEditor({required CacheService cacheService}) {
-    _instance ??= TextEditor._internal(cacheService: cacheService);
-    return _instance!;
-  }
-
-  TextEditor._internal({required this.cacheService});
 
   final state = ValueNotifier(TextEditorState(
       undoStack: [],
@@ -51,6 +45,8 @@ class TextEditor {
   }
 
   String get text => _currentText;
+
+  void dispose() => state.dispose();
 
   void _updateNotifier({String? key}) {
     state.value = TextEditorState(
