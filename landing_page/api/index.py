@@ -23,9 +23,9 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-import gem_webhook
+from api import gem_webhook
 
-PUBLIC = Path(__file__).parent / "public"
+PUBLIC = Path(__file__).resolve().parent.parent / "public"
 
 app = FastAPI(title="Dartic API", docs_url=None, redoc_url=None, openapi_url=None)
 

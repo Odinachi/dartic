@@ -1,6 +1,6 @@
 """Credits gems bought through RevenueCat to a user's Firestore wallet.
 
-RevenueCat calls the webhook (see app.py) for every store event. We act on:
+RevenueCat calls the webhook (see api/index.py) for every store event. We act on:
 
 - NON_RENEWING_PURCHASE for a gem pack -> add its gems to the wallet
 - CANCELLATION of a gem pack (a refund)  -> take those gems back

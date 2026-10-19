@@ -1,9 +1,9 @@
 """Webhook tests. They need the Firestore emulator:
 
     cd landing_page
-    pip install -r requirements.txt httpx pytest
+    pip install -e ".[test]"
     firebase emulators:exec --only firestore --project demo-dartic \
-        "FIREBASE_PROJECT_ID=demo-dartic python -m pytest tests -q"
+        "FIREBASE_PROJECT_ID=demo-dartic python -m pytest -q"
 """
 
 import hashlib
@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # landing_page/
 
 os.environ.setdefault("FIREBASE_PROJECT_ID", "demo-dartic")
 os.environ["REVENUECAT_WEBHOOK_AUTH"] = "Bearer test-auth"
@@ -27,8 +27,8 @@ if not os.environ.get("FIRESTORE_EMULATOR_HOST"):
 
 from fastapi.testclient import TestClient  # noqa: E402
 
-import app as server  # noqa: E402
-import gem_webhook  # noqa: E402
+from api import gem_webhook  # noqa: E402
+from api import index as server  # noqa: E402
 
 client = TestClient(server.app)
 db = server.firestore_client()

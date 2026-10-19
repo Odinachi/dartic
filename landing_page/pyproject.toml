@@ -1,0 +1,20 @@
+# Python config for the API in api/. Vercel reads this from the project root:
+# it installs the dependencies and serves the FastAPI app named in
+# tool.vercel.entrypoint, while public/ is served from its CDN.
+[project]
+name = "dartic-api"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.118,<1",
+    "firebase-admin>=6.9,<8",
+]
+
+[project.optional-dependencies]
+test = ["httpx", "pytest"]
+
+[tool.vercel]
+entrypoint = "api.index:app"
+
+[tool.pytest.ini_options]
+testpaths = ["api/tests"]

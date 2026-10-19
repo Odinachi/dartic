@@ -40,8 +40,8 @@
     }
   ],
   "functions": {
-    "app.py": {
-      "excludeFiles": "{tests/**,.venv/**,**/__pycache__/**}",
+    "api/index.py": {
+      "excludeFiles": "{api/tests/**,.venv/**,**/__pycache__/**}",
       "maxDuration": 30
     }
   }

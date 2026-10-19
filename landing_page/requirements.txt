@@ -1,2 +1,0 @@
-fastapi>=0.118,<1
-firebase-admin>=6.9,<8

@@ -17,7 +17,7 @@ class GemPack {
 /// In-app gem purchases through RevenueCat.
 ///
 /// Gems are credited server-side: RevenueCat calls the webhook in
-/// landing_page/app.py, which adds them to the Firestore wallet. The app only
+/// landing_page/api/index.py, which adds them to the Firestore wallet. The app only
 /// starts the purchase and then watches the wallet.
 ///
 /// Store setup (see README → Gems):

@@ -63,10 +63,12 @@ dartcoder/
 │   └── pubspec.yaml
 └── landing_page/              ← website + API (Vercel; the site also on Firebase Hosting)
     ├── public/                ← static site: index.html, styles.css, main.js, legal pages, assets/
-    ├── app.py                 ← FastAPI app (Vercel Function): /api/health, /api/revenuecat/webhook
-    ├── gem_webhook.py         ← credits gem purchases to Firestore wallets
-    ├── tests/                 ← webhook tests (Firestore emulator)
-    ├── requirements.txt  .python-version  .env.example
+    ├── api/                   ← FastAPI server (Vercel Function)
+    │   ├── index.py           ← app: /api/health, /api/revenuecat/webhook
+    │   ├── gem_webhook.py     ← credits gem purchases to Firestore wallets
+    │   ├── tests/             ← webhook tests (Firestore emulator)
+    │   └── .env.example       ← environment variables to set on Vercel
+    ├── pyproject.toml         ← Python deps + Vercel entrypoint (must sit at the project root)
     ├── vercel.json  .vercelignore
     └── firebase.json  .firebaserc
 ```
@@ -127,7 +129,7 @@ they share the same Firebase project (`dartcoder-d57cb`).
   (via RevenueCat) from the **Get gems** sheet. Purchased gems are credited by
   the server (see [Buying gems](#buying-gems-revenuecat)).
 - Settings live in `GemRules` (`lib/features/wallet/models/wallet_model.dart`).
-  `firestore.rules` and `landing_page/gem_webhook.py` use the same numbers, so
+  `firestore.rules` and `landing_page/api/gem_webhook.py` use the same numbers, so
   change them together.
 
 ### 👤 Accounts and progress
@@ -501,7 +503,7 @@ the **Get gems** sheet is allowed inside the app. The flow:
 3. **Webhook.** In RevenueCat → Integrations → Webhooks, set the URL to
    `https://<your-vercel-domain>/api/revenuecat/webhook`. Set an Authorization
    header value (a long random string). Optionally enable HMAC signing.
-4. **Vercel environment variables** (see `landing_page/.env.example`):
+4. **Vercel environment variables** (see `landing_page/api/.env.example`):
    `REVENUECAT_WEBHOOK_AUTH` (the same Authorization value),
    `REVENUECAT_WEBHOOK_SECRET` (optional signing secret), and
    `FIREBASE_SERVICE_ACCOUNT`. For the last one, use Firebase console →
@@ -521,7 +523,7 @@ are acknowledged and ignored.
 
 `landing_page/` holds the website and a small FastAPI app. The static site in
 `public/` has no build step. On Vercel, `public/` is served from the CDN and
-`app.py` runs as a Python function (`/api/*`). Firebase Hosting can also serve
+the FastAPI app in `api/` runs as a Python function (`/api/*`). Firebase Hosting can also serve
 `public/` at <https://dartcoder-d57cb.web.app>, but the API only runs on Vercel.
 
 | File (in `public/` unless noted) | Purpose |
@@ -532,7 +534,8 @@ are acknowledged and ignored.
 | `privacy_policy.html`, `terms.html` | Legal pages. **The app links to these URLs, so keep them at the site root.** |
 | `404.html`, `robots.txt`, `sitemap.xml` | Hosting extras |
 | `analytics.js` | Vercel Web Analytics loader (skipped on Firebase Hosting and localhost) |
-| `app.py`, `gem_webhook.py` (root) | FastAPI app and gem-purchase webhook (see [Buying gems](#buying-gems-revenuecat)) |
+| `api/` (root) | FastAPI app (`index.py`) and gem-purchase webhook (`gem_webhook.py`), see [Buying gems](#buying-gems-revenuecat) |
+| `pyproject.toml` (root) | Python dependencies and the Vercel entrypoint `api.index:app` |
 | `firebase.json` (root) | Firebase Hosting config (serves `public/`) and cache headers |
 | `vercel.json`, `.vercelignore` (root) | Vercel function config and the same cache headers |
 
@@ -547,13 +550,14 @@ python3 -m http.server 8080 --directory public   # then open http://localhost:80
 
 ```bash
 cd landing_page
-pip install -r requirements.txt httpx pytest
+pip install -e ".[test]"
 firebase emulators:exec --only firestore --project demo-dartic \
-  "FIREBASE_PROJECT_ID=demo-dartic python -m pytest tests -q"
+  "FIREBASE_PROJECT_ID=demo-dartic python -m pytest -q"
 ```
 
 **Deploy to Vercel:** create a Vercel project with **Root Directory** set to
-`landing_page`. Vercel detects FastAPI from `requirements.txt` and `app.py`.
+`landing_page`. Vercel detects FastAPI from `pyproject.toml`, which points it at
+`api/index.py`.
 Add the environment variables above, then deploy (or run `vercel --prod`
 from `landing_page/`).
 

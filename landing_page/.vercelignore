@@ -4,6 +4,6 @@ README.md
 .env
 .env.*
 !.env.example
-tests/
+api/tests/
 .venv/
 __pycache__/
