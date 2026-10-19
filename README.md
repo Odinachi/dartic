@@ -35,6 +35,7 @@ This repository holds the mobile app and its marketing site.
   - [Dart course (bundled)](#dart-course-bundled)
   - [Data structures course (Firestore)](#data-structures-course-firestore)
   - [Quiz format](#quiz-format)
+- [Buying gems (RevenueCat)](#buying-gems-revenuecat)
 - [Landing page](#landing-page)
 - [Contributing](#contributing)
 - [Roadmap](#roadmap)
@@ -60,13 +61,14 @@ dartcoder/
 │   ├── firestore.rules        ← Firestore security rules
 │   ├── .firebaserc            ← Firebase project alias (dartcoder-d57cb)
 │   └── pubspec.yaml
-└── landing_page/              ← static marketing site (Firebase Hosting)
-    ├── index.html  styles.css  main.js
-    ├── privacy_policy.html  terms.html  404.html
-    ├── robots.txt  sitemap.xml
-    ├── assets/                ← icons and Space Grotesk font files
-    ├── firebase.json          ← hosting config
-    └── .firebaserc
+└── landing_page/              ← website + API (Vercel; the site also on Firebase Hosting)
+    ├── public/                ← static site: index.html, styles.css, main.js, legal pages, assets/
+    ├── app.py                 ← FastAPI app (Vercel Function): /api/health, /api/revenuecat/webhook
+    ├── gem_webhook.py         ← credits gem purchases to Firestore wallets
+    ├── tests/                 ← webhook tests (Firestore emulator)
+    ├── requirements.txt  .python-version  .env.example
+    ├── vercel.json  .vercelignore
+    └── firebase.json  .firebaserc
 ```
 
 The two projects are independent. Neither one builds or imports the other, but
@@ -114,15 +116,19 @@ they share the same Firebase project (`dartcoder-d57cb`).
 - Solutions are checked against automated test cases (`test_runner_service.dart`).
   Solved problems are recorded in the user's progress.
 
-### 🪙 Coins
-- Viewing a problem's reference solution costs **1 coin**. Once unlocked, it
+### 💎 Gems
+- Viewing a problem's reference solution costs **1 gem**. Once unlocked, it
   stays unlocked.
-- New accounts start with **3 coins**, and solving a problem for the first
-  time earns **1 coin**.
+- New accounts start with **3 gems**, and solving a problem for the first
+  time earns **1 gem**.
 - The balance shows on the problem list and in the editor. The solution
   opens read-only, with **Copy** and **Use in editor**.
-- Settings live in `CoinRules` (`lib/features/wallet/models/wallet_model.dart`).
-  `firestore.rules` enforces the same numbers, so change both together.
+- Gems can also be bought in packs through Apple / Google in-app purchase
+  (via RevenueCat) from the **Get gems** sheet. Purchased gems are credited by
+  the server (see [Buying gems](#buying-gems-revenuecat)).
+- Settings live in `GemRules` (`lib/features/wallet/models/wallet_model.dart`).
+  `firestore.rules` and `landing_page/gem_webhook.py` use the same numbers, so
+  change them together.
 
 ### 👤 Accounts and progress
 - Sign in with Google or Apple, then create a profile with a unique username
@@ -193,15 +199,17 @@ To use your own Firebase project, run `flutterfire configure` against it,
 deploy `firestore.rules`, and upload the course content (see
 [Data structures course](#data-structures-course-firestore)).
 
-**Compile-time defines.** Sign in with Apple on Android uses a web OAuth flow,
-which needs two values passed with `--dart-define`:
+**Compile-time defines.** Passed with `--dart-define`:
 
 | Define | Purpose |
 |---|---|
-| `CLIENT_ID` | Apple Services ID used for web-based Sign in with Apple |
+| `CLIENT_ID` | Apple Services ID used for web-based Sign in with Apple on Android |
 | `REDIRECT_URI` | Callback URL registered for that Services ID |
+| `RC_APPLE_KEY` | RevenueCat public SDK key for iOS (`appl_…`). Without it, the gem store is hidden |
+| `RC_GOOGLE_KEY` | RevenueCat public SDK key for Android (`goog_…`) |
 
-`String.fromEnvironment` reads both in `lib/services/firebase_services.dart`.
+`String.fromEnvironment` reads them in `lib/services/firebase_services.dart`
+and `lib/services/gem_store_service.dart`.
 Locally they live in `.vscode/launch.json` (VS Code) and in a gitignored
 `makefile`. Keep real values out of commits.
 
@@ -296,13 +304,16 @@ Users/{uid}                              profile: firstName, lastName, username,
 ├── progress/current                     current_course: num
 │                                        passed_courses: [num]     ← Dart lessons passed
 │                                        passed_dsa:     [string]  ← algorithm problems solved
-└── wallet/main                          coins: num
+└── wallet/main                          gems: num
                                          unlocked: [string]  ← problems whose solution was bought
                                          rewarded: [string]  ← problems already paid a solve reward
 
 DSA/{problemId}                          algorithm problem summary (title, difficulty, …)
 ├── problem/{docId}                      question and test suite
 └── solution/main                        answer (readable only once unlocked)
+
+Purchases/{store}_{transactionId}        uid, productId, gems, store, environment,
+                                         status: credited | refunded   ← written by the webhook
 
 DSA_course_modules/{module}              module, title, desc, lessonCount
 DSA_course/{lessonId}                    title, desc, module, moduleTitle, order,
@@ -328,19 +339,20 @@ The rules are in `mobile/firestore.rules`:
 | `DSA/{id}/solution/main` | signed-in users who have `{id}` in their `wallet.unlocked` | nobody |
 | `Users/{uid}` | signed-in users (needed for the username availability check) | owner only |
 | `Users/{uid}/progress/*` | owner only | owner only |
-| `Users/{uid}/wallet/main` | owner only | owner, limited to three moves (below) |
+| `Users/{uid}/wallet/main` | owner only | owner, limited to three moves (below); the webhook adds purchased gems with the Admin SDK |
+| `Purchases/{id}` | the purchasing user | nobody (webhook only) |
 
 The wallet can't be edited freely. The client can only:
 1. create it with exactly the welcome bonus and empty lists;
-2. spend exactly 1 coin to add one existing problem to `unlocked`;
-3. earn exactly 1 coin to add one existing problem to `rewarded`.
+2. spend exactly 1 gem to add one existing problem to `unlocked`;
+3. earn exactly 1 gem to add one existing problem to `rewarded`.
 
 Anything else is rejected, such as setting a balance, unlocking two problems
-for one coin, unlocking a problem that doesn't exist, or earning twice for the
-same problem. The owner can delete the wallet so account deletion works. That
-also means a determined user could delete it to reclaim the welcome bonus, at
-the cost of everything they had unlocked. If coins ever become purchasable,
-move spending and earning to Cloud Functions.
+for one gem, unlocking a problem that doesn't exist, or earning twice for the
+same problem. Purchased gems never pass through the client: only the webhook
+server can add them. The owner can delete the wallet so account deletion
+works. A determined user could delete it to reclaim the 3-gem welcome bonus,
+but they'd lose everything in it, including purchased gems.
 
 Deploy them from `mobile/`:
 
@@ -363,7 +375,7 @@ To add a lesson, write the Markdown file and the quiz JSON, register both in
 `AppData.courses`, and make sure the files fall under an asset folder that
 `pubspec.yaml` already declares.
 
-### Moving solutions behind the coin paywall
+### Moving solutions behind the gem paywall
 
 Problem docs used to carry the solution in an `answer` field, which every
 signed-in user downloads. `mobile/scripts/move_dsa_solutions` moves each
@@ -376,7 +388,7 @@ node migrate.mjs            # dry run: shows what would move
 node migrate.mjs --commit   # backs up answers locally, then moves them
 ```
 
-Order of operations: deploy the rules, release the app version with coins,
+Order of operations: deploy the rules, release the app version with gems,
 then run the migration. Until it runs, the app falls back to the old field.
 After it runs, older app versions just stop showing their Solution menu item.
 Re-running the script is safe: problems that were already moved are skipped.
@@ -463,12 +475,56 @@ always a list.
 
 ---
 
+## Buying gems (RevenueCat)
+
+Gems are consumable in-app purchases sold through Apple and Google billing,
+using RevenueCat. That is what both stores require for in-app currency, so
+the **Get gems** sheet is allowed inside the app. The flow:
+
+1. The app logs the user in to RevenueCat with their Firebase uid.
+2. The user buys a pack in the **Get gems** sheet (Apple / Google payment
+   sheet).
+3. RevenueCat calls `POST /api/revenuecat/webhook` on the Vercel deployment.
+4. The webhook adds the pack's gems to `Users/{uid}/wallet/main` and records
+   `Purchases/{store}_{transactionId}`, so retries never credit twice.
+5. The app's wallet streams from Firestore, so the new balance appears
+   within seconds. Refunds take the gems back, never below zero.
+
+**One-time setup**
+
+1. **Stores.** Create consumable products named `dartic_gems_<amount>`, for
+   example `dartic_gems_10`, `dartic_gems_30` and `dartic_gems_100`. The amount
+   in the ID is what the user receives. Use App Store Connect (In-App Purchases)
+   and Play Console (Monetize → In-app products).
+2. **RevenueCat.** Create a project with the iOS and Android apps. Add the
+   products, and put them in an offering with identifier **`gems`**.
+3. **Webhook.** In RevenueCat → Integrations → Webhooks, set the URL to
+   `https://<your-vercel-domain>/api/revenuecat/webhook`. Set an Authorization
+   header value (a long random string). Optionally enable HMAC signing.
+4. **Vercel environment variables** (see `landing_page/.env.example`):
+   `REVENUECAT_WEBHOOK_AUTH` (the same Authorization value),
+   `REVENUECAT_WEBHOOK_SECRET` (optional signing secret), and
+   `FIREBASE_SERVICE_ACCOUNT`. For the last one, use Firebase console →
+   Project settings → Service accounts → Generate new private key, and paste
+   the JSON as one line.
+5. **App build.** Pass `--dart-define=RC_APPLE_KEY=appl_…` and
+   `--dart-define=RC_GOOGLE_KEY=goog_…` (RevenueCat → API keys → public
+   app-specific keys).
+6. **Review.** Attach the in-app purchases to the app version in App Store
+   Connect. Apple's reviewer buys in the sandbox, and the webhook credits
+   sandbox purchases too.
+
+Use RevenueCat's **Send test event** to check the URL and auth. Test events
+are acknowledged and ignored.
+
 ## Landing page
 
-`landing_page/` is a static site with no dependencies and no build step. It is
-served by Firebase Hosting at <https://dartcoder-d57cb.web.app>.
+`landing_page/` holds the website and a small FastAPI app. The static site in
+`public/` has no build step. On Vercel, `public/` is served from the CDN and
+`app.py` runs as a Python function (`/api/*`). Firebase Hosting can also serve
+`public/` at <https://dartcoder-d57cb.web.app>, but the API only runs on Vercel.
 
-| File | Purpose |
+| File (in `public/` unless noted) | Purpose |
 |---|---|
 | `index.html` | Page markup: hero with app screenshots, topic ticker, "inside the app" grid, curriculum, sample quiz, FAQ, download CTA. Includes SEO, Open Graph, JSON-LD and Smart App Banner metadata. |
 | `styles.css` | Design system (paper/ink palette with one accent, light/dark themes, Space Grotesk + system mono) and all components |
@@ -476,27 +532,37 @@ served by Firebase Hosting at <https://dartcoder-d57cb.web.app>.
 | `privacy_policy.html`, `terms.html` | Legal pages. **The app links to these URLs, so keep them at the site root.** |
 | `404.html`, `robots.txt`, `sitemap.xml` | Hosting extras |
 | `analytics.js` | Vercel Web Analytics loader (skipped on Firebase Hosting and localhost) |
-| `firebase.json` | Firebase Hosting config and cache headers |
-| `vercel.json`, `.vercelignore` | Vercel config with the same cache headers |
+| `app.py`, `gem_webhook.py` (root) | FastAPI app and gem-purchase webhook (see [Buying gems](#buying-gems-revenuecat)) |
+| `firebase.json` (root) | Firebase Hosting config (serves `public/`) and cache headers |
+| `vercel.json`, `.vercelignore` (root) | Vercel function config and the same cache headers |
 
-**Preview locally:**
+**Preview the site locally:**
 
 ```bash
 cd landing_page
-python3 -m http.server 8080      # then open http://localhost:8080
-# or: firebase emulators:start --only hosting
+python3 -m http.server 8080 --directory public   # then open http://localhost:8080
 ```
 
-**Deploy:**
+**Run the API tests** (Firestore emulator, Java 21+):
+
+```bash
+cd landing_page
+pip install -r requirements.txt httpx pytest
+firebase emulators:exec --only firestore --project demo-dartic \
+  "FIREBASE_PROJECT_ID=demo-dartic python -m pytest tests -q"
+```
+
+**Deploy to Vercel:** create a Vercel project with **Root Directory** set to
+`landing_page`. Vercel detects FastAPI from `requirements.txt` and `app.py`.
+Add the environment variables above, then deploy (or run `vercel --prod`
+from `landing_page/`).
+
+**Deploy the site to Firebase Hosting** (static only):
 
 ```bash
 cd landing_page
 firebase deploy --only hosting
 ```
-
-**Deploy to Vercel (optional):** create a Vercel project with **Root Directory**
-set to `landing_page` (no build command, no output directory), or run
-`vercel --prod` from `landing_page/`.
 
 **Analytics.** `analytics.js` adds [Vercel Web Analytics](https://vercel.com/docs/analytics)
 to every page. It only records on Vercel deployments: enable **Analytics** for the
@@ -508,7 +574,7 @@ a `Store click` custom event, which Vercel records on Pro and Enterprise plans.
 top of `main.js` (and in the footer and JSON-LD in `index.html`). If a link is
 ever emptied, its button switches to a disabled "Coming soon" state.
 
-**Screenshots.** `assets/img/screens/*.jpg` are real captures from the iOS
+**Screenshots.** `public/assets/img/screens/*.jpg` are real captures from the iOS
 simulator (720px wide JPEGs). To refresh them, run the app in the simulator,
 set a clean status bar with
 `xcrun simctl status_bar booted override --time 9:41 --batteryLevel 100`,
