@@ -8,3 +8,11 @@ node_modules/
 .idea/
 .vscode/
 store_assets/
+
+# Python / secrets
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/

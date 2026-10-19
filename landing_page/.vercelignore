@@ -1,3 +1,9 @@
 firebase.json
 .firebaserc
 README.md
+.env
+.env.*
+!.env.example
+tests/
+.venv/
+__pycache__/
