@@ -445,6 +445,14 @@ class FirebaseServices {
     }
   }
 
+  /// Live wallet updates, e.g. when the server credits purchased coins.
+  Stream<WalletModel?> watchWallet() {
+    final doc = _walletDoc;
+    if (doc == null) return const Stream.empty();
+    return doc.snapshots().map(
+        (snap) => snap.exists ? WalletModel.fromJson(snap.data()!) : null);
+  }
+
   /// Spends one coin to unlock [problemId]'s solution. Free if it's already
   /// unlocked. Returns the updated wallet.
   Future<({WalletModel? wallet, String? error})> unlockSolution(

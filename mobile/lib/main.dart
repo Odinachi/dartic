@@ -3,6 +3,7 @@ import 'package:dartcoder/features/editor/view_model/editor_cubit.dart';
 import 'package:dartcoder/features/wallet/view_model/wallet_cubit.dart';
 import 'package:dartcoder/firebase_options.dart';
 import 'package:dartcoder/services/cache_service.dart';
+import 'package:dartcoder/services/coin_store_service.dart';
 import 'package:dartcoder/services/firebase_services.dart';
 import 'package:dartcoder/services/notification_service.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
@@ -21,6 +22,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await cacheService.init();
   NotificationService().init();
+  await coinStore.configure(uid: FirebaseAuth.instance.currentUser?.uid);
   runApp(
     MultiBlocProvider(
       providers: [
@@ -47,9 +49,12 @@ void main() async {
                   BlocListener<AppCubit, AppState>(listener: (context, state) {
                     if (state is AuthLogout) {
                       context.read<WalletCubit>().reset();
+                      coinStore.signOut();
                       AppRouter.pushAndClear(AppRouter.onboarding);
                     } else if (state is AuthSuccessful) {
                       context.read<WalletCubit>().reset();
+                      final uid = FirebaseAuth.instance.currentUser?.uid;
+                      if (uid != null) coinStore.identify(uid);
                       AppRouter.pushAndClear(AppRouter.dashboard);
                     } else if (state is AuthError) {
                       AppRouter.showMessage(state.message);
@@ -87,6 +92,7 @@ void main() async {
 
 final cacheService = CacheService();
 final firebaseService = FirebaseServices();
+final coinStore = CoinStoreService();
 final editor = TextEditor(cacheService: cacheService);
 
 bool get _isTablet {

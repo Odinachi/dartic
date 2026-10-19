@@ -57,6 +57,7 @@ dependencies:
   sign_in_with_apple: ^7.0.1
   cloud_firestore: ^6.0.2
   url_launcher: ^6.1.0
+  purchases_flutter: ^10.10.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

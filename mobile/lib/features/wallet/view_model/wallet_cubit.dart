@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartcoder/features/wallet/models/wallet_model.dart';
 import 'package:dartcoder/services/firebase_services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,18 +14,28 @@ class WalletState {
   int get coins => wallet?.coins ?? 0;
 }
 
-/// Holds the signed-in user's coin wallet. Load it with [load] before using
-/// the other methods; every write goes through a Firestore transaction.
+/// Holds the signed-in user's coin wallet. [load] creates it if needed and
+/// then keeps it in sync with Firestore, so coins credited by the server
+/// (purchases) show up without a refresh.
 class WalletCubit extends Cubit<WalletState> {
   WalletCubit({required this.firebaseServices}) : super(const WalletState());
 
   final FirebaseServices firebaseServices;
+  StreamSubscription<WalletModel?>? _sub;
 
   Future<void> load() async {
     if (state.loading) return;
     emit(WalletState(wallet: state.wallet, loading: true));
     final result = await firebaseServices.fetchWallet();
     emit(WalletState(wallet: result.wallet ?? state.wallet, error: result.error));
+    if (result.wallet != null) _watch();
+  }
+
+  void _watch() {
+    _sub?.cancel();
+    _sub = firebaseServices.watchWallet().listen((wallet) {
+      if (wallet != null && !isClosed) emit(WalletState(wallet: wallet));
+    }, onError: (_) {});
   }
 
   bool hasUnlocked(String problemId) =>
@@ -50,5 +62,15 @@ class WalletCubit extends Cubit<WalletState> {
   }
 
   /// Clear on sign-out so the next user doesn't see a stale balance.
-  void reset() => emit(const WalletState());
+  void reset() {
+    _sub?.cancel();
+    _sub = null;
+    emit(const WalletState());
+  }
+
+  @override
+  Future<void> close() {
+    _sub?.cancel();
+    return super.close();
+  }
 }
