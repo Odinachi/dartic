@@ -44,5 +44,22 @@
       "excludeFiles": "{api/tests/**,.venv/**,**/__pycache__/**}",
       "maxDuration": 30
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/privacy_policy.html",
+      "destination": "/privacy/",
+      "permanent": true
+    },
+    {
+      "source": "/privacy_policy",
+      "destination": "/privacy/",
+      "permanent": true
+    },
+    {
+      "source": "/terms.html",
+      "destination": "/terms/",
+      "permanent": true
+    }
+  ]
 }

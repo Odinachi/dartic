@@ -12,7 +12,7 @@ This repository holds the mobile app and its marketing site.
 | **Quiz questions** | 4,151 (about 2,060 Dart + 2,090 data structures) |
 | **Platforms** | iOS and Android (Flutter) |
 | **Backend** | Firebase: Auth, Firestore, Analytics, Crashlytics, Messaging, Hosting |
-| **Website** | <https://dartcoder-d57cb.web.app> |
+| **Website** | <https://dartic.odinachi.space> |
 
 ---
 
@@ -531,7 +531,7 @@ the FastAPI app in `api/` runs as a Python function (`/api/*`). Firebase Hosting
 | `index.html` | Page markup: hero with app screenshots, topic ticker, "inside the app" grid, curriculum, sample quiz, FAQ, download CTA. Includes SEO, Open Graph, JSON-LD and Smart App Banner metadata. |
 | `styles.css` | Design system (paper/ink palette with one accent, light/dark themes, Space Grotesk + system mono) and all components |
 | `main.js` | Theme toggle (saved in `localStorage`), mobile menu, scroll reveals, counters, topic ticker, code-runner demo, curriculum explorer, sample quiz (keys 1–4 / Enter), store links |
-| `privacy_policy.html`, `terms.html` | Legal pages. **The app links to these URLs, so keep them at the site root.** |
+| `privacy/`, `terms/`, `legal.css`, `legal.js` | Legal pages at `/privacy/` and `/terms/`. **The app links to these URLs** (`AppLinks` in `mobile/lib/shared/app_string.dart`). Old `.html` URLs redirect. |
 | `404.html`, `robots.txt`, `sitemap.xml` | Hosting extras |
 | `analytics.js` | Vercel Web Analytics loader (skipped on Firebase Hosting and localhost) |
 | `api/` (root) | FastAPI app (`index.py`) and gem-purchase webhook (`gem_webhook.py`), see [Buying gems](#buying-gems-revenuecat) |

@@ -1,370 +1,298 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service - Dartic</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Terms of Service · Dartic</title>
+  <meta name="description" content="The terms for using Dartic: accounts, acceptable use, gems and in-app purchases, content, and your rights." />
+  <link rel="canonical" href="https://dartic.odinachi.space/terms/" />
+  <meta name="theme-color" content="#0c0d0f" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f4f3ee" media="(prefers-color-scheme: light)" />
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/legal.css" />
+  <script>
+    (function () {
+      document.documentElement.classList.add("js");
+      try {
+        var t = localStorage.getItem("dartic-theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
   <script src="/analytics.js" defer></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        .app-name {
-            color: #007AFF;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #6c757d;
-            font-size: 1.1rem;
-        }
-
-        h1 {
-            color: #2c3e50;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            color: #34495e;
-            font-size: 1.5rem;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        h3 {
-            color: #495057;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul {
-            margin-bottom: 15px;
-            padding-left: 30px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        .highlight {
-            background-color: #e3f2fd;
-            padding: 15px;
-            border-left: 4px solid #007AFF;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .warning {
-            background-color: #fff3cd;
-            padding: 15px;
-            border-left: 4px solid #ffc107;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .contact-info {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-
-        .last-updated {
-            text-align: center;
-            color: #6c757d;
-            font-style: italic;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        a {
-            color: #007AFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            .app-name {
-                font-size: 2rem;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+  <script src="/legal.js" defer></script>
 </head>
+
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <nav class="container nav" aria-label="Main">
+      <a class="brand" href="/" aria-label="Dartic home">
+        <img src="/assets/img/icon-64.png" alt="" width="28" height="28" />
+        Dartic
+      </a>
+      <ul class="nav-links">
+        <li><a href="/privacy/">Privacy</a></li>
+        <li><a href="/terms/" aria-current="page">Terms</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a class="btn btn-ink btn-sm" href="/#download">Get the app</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="container legal">
+    <aside class="legal-toc" aria-label="On this page">
+      <details open>
+        <summary>On this page</summary>
+        <span class="label">On this page</span>
+        <ol>
+          <li><a href="#agreement"><span>01</span>The agreement</a></li>
+          <li><a href="#eligibility"><span>02</span>Who can use Dartic</a></li>
+          <li><a href="#accounts"><span>03</span>Your account</a></li>
+          <li><a href="#use"><span>04</span>Acceptable use</a></li>
+          <li><a href="#gems"><span>05</span>Gems</a></li>
+          <li><a href="#purchases"><span>06</span>Buying gems</a></li>
+          <li><a href="#runner"><span>07</span>The code runner</a></li>
+          <li><a href="#content"><span>08</span>Content and ownership</a></li>
+          <li><a href="#third"><span>09</span>Third-party services</a></li>
+          <li><a href="#disclaimer"><span>10</span>Disclaimers</a></li>
+          <li><a href="#liability"><span>11</span>Limitation of liability</a></li>
+          <li><a href="#ending"><span>12</span>Ending the agreement</a></li>
+          <li><a href="#apple"><span>13</span>Apple App Store terms</a></li>
+          <li><a href="#changes"><span>14</span>Changes</a></li>
+          <li><a href="#law"><span>15</span>Governing law</a></li>
+          <li><a href="#general"><span>16</span>General</a></li>
+          <li><a href="#contact"><span>17</span>Contact</a></li>
+        </ol>
+      </details>
+    </aside>
+
+    <article class="legal-body">
+      <span class="label"><b>Legal</b> Dartic app and website</span>
+      <h1>Terms of Service</h1>
+      <p class="legal-meta">Last updated 19 October 2026</p>
+      <p class="legal-lead">
+        These terms are the agreement between you and us for using Dartic. Please read them; they
+        explain your rights, how gems and purchases work, and the limits of our responsibility.
+      </p>
+
+      <div class="legal-summary">
+        <h2>The short version</h2>
+        <ul>
+          <li>Dartic is free to learn with. Gems are optional and unlock reference solutions.</li>
+          <li>Gems have no cash value and can't be exchanged, transferred or sold.</li>
+          <li>Purchases go through Apple or Google, and refunds follow their rules.</li>
+          <li>The code you write is yours. The lessons, quizzes and problems are ours.</li>
+          <li>Be decent: don't abuse the app, other people, or the gem system.</li>
+        </ul>
+      </div>
+
+      <section id="agreement">
+        <h2><span class="num">01</span>The agreement</h2>
+        <p>
+          Dartic (the app for iOS and Android, and the website at
+          <a href="https://dartic.odinachi.space">dartic.odinachi.space</a>) is operated by
+          <strong>Odinachi David</strong>, an individual developer based in Nigeria ("we", "us").
+          By downloading or using Dartic you agree to these terms and to our
+          <a href="/privacy/">Privacy Policy</a>. If you don't agree, please don't use Dartic.
+        </p>
+      </section>
+
+      <section id="eligibility">
+        <h2><span class="num">02</span>Who can use Dartic</h2>
+        <p>
+          You must be at least 13 to use Dartic. If you're under 18, you need permission from a
+          parent or guardian, who also agrees to these terms for you and is responsible for any
+          purchases.
+        </p>
+      </section>
+
+      <section id="accounts">
+        <h2><span class="num">03</span>Your account</h2>
+        <ul>
+          <li>You can use the Dart course as a guest. Signing in with Google or Apple syncs your progress and unlocks the data structures course, algorithm practice and gems.</li>
+          <li>Keep your Google or Apple account secure. You're responsible for activity on your Dartic account.</li>
+          <li>Choose a username that isn't offensive, misleading or someone else's name or trademark. We may change or remove usernames that break this.</li>
+          <li>You can delete your account at any time in the app: Profile → Delete account.</li>
+        </ul>
+      </section>
+
+      <section id="use">
+        <h2><span class="num">04</span>Acceptable use</h2>
+        <p>Dartic is for learning. You agree not to:</p>
+        <ul>
+          <li>break the law, or use Dartic to harm, harass or deceive anyone;</li>
+          <li>exploit bugs, use bots or scripts, or tamper with the app or its data to get gems, unlock solutions or affect anyone else's account;</li>
+          <li>attempt to access data that isn't yours, or disrupt or overload our services;</li>
+          <li>copy, republish or sell our lessons, quizzes, problems or solutions, except for personal study or as the law allows;</li>
+          <li>reverse engineer the app except as the law allows.</li>
+        </ul>
+        <p>If you break these rules, we may remove gems gained through abuse, or suspend or close your account.</p>
+      </section>
+
+      <section id="gems">
+        <h2><span class="num">05</span>Gems</h2>
+        <p>
+          Gems are a virtual item in Dartic. You can spend them to unlock reference solutions to
+          algorithm problems. An unlocked solution stays unlocked for as long as your account exists.
+        </p>
+        <ul>
+          <li>New accounts receive free gems, and you can earn gems by solving problems for the first time, as described in the app. We may change how many gems are given or how they're earned in the future; this won't remove gems already in your balance.</li>
+          <li>Gems are a limited, personal, non-transferable licence to use a feature of the app. They are not money or property, have no cash value, and can't be exchanged for money or anything else outside Dartic, transferred to another account, or sold.</li>
+          <li>Gems don't expire while your account exists. They're deleted when you delete your account.</li>
+          <li>If we stop offering Dartic or gems, we'll give reasonable notice in the app where we can, so you have time to use your balance.</li>
+        </ul>
+      </section>
+
+      <section id="purchases">
+        <h2><span class="num">06</span>Buying gems</h2>
+        <ul>
+          <li>Gem packs are sold as in-app purchases through Apple's App Store or Google Play, and are also subject to their terms. Prices are shown in the app before you buy, in your local currency.</li>
+          <li>Your purchase is complete when the store confirms it. Gems are then added to your account, usually within a few seconds. If they don't arrive, contact us with your receipt.</li>
+          <li>Purchased gems are delivered immediately for use in the app, so all sales are final except where the law gives you a right to a refund.</li>
+          <li><strong>Refunds are handled by Apple or Google</strong> under their policies; we can't process them directly. If a purchase is refunded, the gems from it are removed from your balance (it won't go below zero).</li>
+          <li>Nothing in these terms affects rights you have under consumer protection law where you live.</li>
+        </ul>
+      </section>
+
+      <section id="runner">
+        <h2><span class="num">07</span>The code runner</h2>
+        <p>
+          Code you write in the editor runs on your device inside an interpreter. It supports a
+          subset of Dart, may behave differently from the official Dart SDK, and is meant for
+          learning and practice, not production use. Don't run code you don't understand or that
+          comes from untrusted sources. You're responsible for the code you write and run.
+        </p>
+      </section>
+
+      <section id="content">
+        <h2><span class="num">08</span>Content and ownership</h2>
+        <ul>
+          <li><strong>Ours:</strong> the lessons, quizzes, problems, solutions, design and app belong to us (or our licensors). We give you a personal, non-exclusive, non-transferable licence to use them in Dartic for your own learning.</li>
+          <li><strong>Yours:</strong> code you write in the editor belongs to you, and it stays on your device.</li>
+          <li>We work hard to keep lessons accurate, but programming changes and mistakes happen. If you spot one, please tell us.</li>
+        </ul>
+      </section>
+
+      <section id="third">
+        <h2><span class="num">09</span>Third-party services</h2>
+        <p>
+          Dartic relies on services from other companies, including Google (Firebase, sign-in,
+          Google Play, YouTube), Apple (sign-in, App Store) and RevenueCat (purchases). Your use of
+          those services is also subject to their terms. We aren't responsible for their content or
+          availability.
+        </p>
+      </section>
+
+      <section id="disclaimer">
+        <h2><span class="num">10</span>Disclaimers</h2>
+        <p>
+          We provide Dartic "as is" and "as available". To the extent the law allows, we don't
+          promise that it will always be available, error-free or suitable for a particular purpose,
+          or that its content is complete or up to date. Dartic is an educational tool and isn't
+          professional advice.
+        </p>
+      </section>
+
+      <section id="liability">
+        <h2><span class="num">11</span>Limitation of liability</h2>
+        <p>
+          To the extent the law allows, we're not liable for indirect or consequential losses, or
+          for lost data, profits or opportunities, arising from your use of Dartic. Our total
+          liability to you for any claim is limited to the amount you paid us for gems in the 12
+          months before the claim.
+        </p>
+        <p>
+          Nothing in these terms limits liability that can't be limited by law, such as for fraud
+          or for death or personal injury caused by negligence.
+        </p>
+      </section>
+
+      <section id="ending">
+        <h2><span class="num">12</span>Ending the agreement</h2>
+        <p>
+          You can stop using Dartic and delete your account at any time. We may suspend or close
+          accounts that break these terms or the law, or if we stop providing Dartic. Where it's
+          fair to do so, we'll tell you first and explain why. Sections 5 (gems have no cash value),
+          8, 10, 11 and 15 continue to apply after the agreement ends.
+        </p>
+      </section>
+
+      <section id="apple">
+        <h2><span class="num">13</span>Apple App Store terms</h2>
+        <p>If you downloaded Dartic from Apple's App Store, these points also apply:</p>
+        <ul>
+          <li>These terms are between you and us, not Apple. We, not Apple, are responsible for the app and its content.</li>
+          <li>Your licence is to use the app on Apple devices you own or control, as allowed by the App Store's Usage Rules.</li>
+          <li>Apple has no obligation to provide maintenance or support for the app.</li>
+          <li>If the app fails to meet an applicable warranty, you can notify Apple, which may refund the app's purchase price (if any). To the extent the law allows, Apple has no other warranty obligation for the app.</li>
+          <li>We, not Apple, are responsible for handling any claims about the app, including product liability, legal or regulatory compliance, consumer protection and intellectual property claims.</li>
+          <li>You confirm you're not in a country subject to a U.S. government embargo or on a U.S. government list of prohibited or restricted parties.</li>
+          <li>Apple and its subsidiaries are third-party beneficiaries of these terms and may enforce them against you.</li>
+        </ul>
+      </section>
+
+      <section id="changes">
+        <h2><span class="num">14</span>Changes</h2>
+        <p>
+          We may update these terms as Dartic changes. We'll change the date at the top, and for
+          significant changes we'll tell you in the app before they take effect. If you keep using
+          Dartic after that, the new terms apply. If you don't agree, you can delete your account.
+        </p>
+      </section>
+
+      <section id="law">
+        <h2><span class="num">15</span>Governing law</h2>
+        <p>
+          These terms are governed by the laws of the Federal Republic of Nigeria. Disputes will be
+          handled by the courts of Nigeria, but if you live elsewhere you keep any right to bring
+          proceedings in your local courts and the protection of your local consumer laws.
+        </p>
+        <p>
+          Before going to court, please contact us. Most problems can be sorted out quickly by email.
+        </p>
+      </section>
+
+      <section id="general">
+        <h2><span class="num">16</span>General</h2>
+        <ul>
+          <li>These terms and the Privacy Policy are the whole agreement between you and us about Dartic.</li>
+          <li>If part of these terms can't be enforced, the rest still applies.</li>
+          <li>If we don't enforce a term straight away, we can still enforce it later.</li>
+          <li>You can't transfer your rights under these terms. We may transfer ours to someone who takes over Dartic, as long as your rights aren't reduced.</li>
+        </ul>
+      </section>
+
+      <section id="contact">
+        <h2><span class="num">17</span>Contact</h2>
+        <dl class="legal-contact">
+          <dt>Operator</dt><dd>Odinachi David, Nigeria</dd>
+          <dt>Email</dt><dd><a href="mailto:odinachidavid@yahoo.com">odinachidavid@yahoo.com</a></dd>
+          <dt>In the app</dt><dd>Profile → Contact support</dd>
+        </dl>
+      </section>
+
+      <p class="legal-switch">See also our <a href="/privacy/">Privacy Policy</a>.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
     <div class="container">
-        <div class="header">
-            <div class="app-name">Dartic</div>
-            <div class="subtitle">Flutter-based Dart Learning Platform</div>
-        </div>
-
-        <h1>Terms of Service</h1>
-
-        <div class="highlight">
-            <p><strong>Effective Date:</strong> January 1, 2024</p>
-            <p>Please read these Terms of Service ("Terms") carefully before using the Dartic mobile application ("Service") operated by Dartic ("us," "we," or "our").</p>
-        </div>
-
-        <h2>1. Acceptance of Terms</h2>
-
-        <p>By accessing and using Dartic, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
-
-        <div class="warning">
-            <p><strong>Important:</strong> These terms constitute a legally binding agreement between you and Dartic. Your use of the Service constitutes acceptance of these Terms.</p>
-        </div>
-
-        <h2>2. Description of Service</h2>
-
-        <p>Dartic is a comprehensive Flutter-based Dart learning platform that provides:</p>
-        <ul>
-            <li>Interactive Dart programming tutorials and courses</li>
-            <li>Code editor with real-time execution capabilities</li>
-            <li>Educational quizzes and assessments</li>
-            <li>Data Structures and Algorithms (DSA) coding challenges</li>
-            <li>Progress tracking and achievement systems</li>
-            <li>Video tutorials and multimedia content</li>
-            <li>User authentication and profile management</li>
-        </ul>
-
-        <h2>3. User Accounts</h2>
-
-        <h3>3.1 Account Creation</h3>
-        <p>To access certain features of the Service, you may be required to create an account. You may create an account by:</p>
-        <ul>
-            <li>Signing in with your Google account</li>
-            <li>Signing in with your Apple ID</li>
-            <li>Using the Service as a guest (with limited functionality)</li>
-        </ul>
-
-        <h3>3.2 Account Security</h3>
-        <p>You are responsible for:</p>
-        <ul>
-            <li>Maintaining the confidentiality of your account information</li>
-            <li>All activities that occur under your account</li>
-            <li>Notifying us immediately of any unauthorized use of your account</li>
-        </ul>
-
-        <h3>3.3 Account Termination</h3>
-        <p>You may delete your account at any time through the app settings. We reserve the right to suspend or terminate accounts that violate these Terms.</p>
-
-        <h2>4. Acceptable Use Policy</h2>
-
-        <h3>4.1 Permitted Use</h3>
-        <p>You may use Dartic for:</p>
-        <ul>
-            <li>Learning Dart programming language</li>
-            <li>Practicing coding skills through exercises and challenges</li>
-            <li>Creating and testing code snippets for educational purposes</li>
-            <li>Tracking your learning progress</li>
-            <li>Accessing educational content and tutorials</li>
-        </ul>
-
-        <h3>4.2 Prohibited Use</h3>
-        <p>You agree NOT to use the Service to:</p>
-        <ul>
-            <li>Execute malicious code or attempt to harm the Service or other users</li>
-            <li>Upload, share, or create content that is illegal, harmful, or offensive</li>
-            <li>Attempt to reverse engineer, decompile, or hack the application</li>
-            <li>Use the Service for commercial purposes without permission</li>
-            <li>Violate any applicable laws or regulations</li>
-            <li>Impersonate other users or provide false information</li>
-            <li>Attempt to overwhelm our servers with excessive requests</li>
-        </ul>
-
-        <h2>5. Intellectual Property Rights</h2>
-
-        <h3>5.1 Our Content</h3>
-        <p>All content provided by Dartic, including but not limited to:</p>
-        <ul>
-            <li>Tutorial materials and course content</li>
-            <li>Quiz questions and educational materials</li>
-            <li>DSA problems and solutions</li>
-            <li>App design, graphics, and user interface</li>
-            <li>Source code and software architecture</li>
-        </ul>
-        <p>are protected by copyright, trademark, and other intellectual property laws and remain the exclusive property of Dartic.</p>
-
-        <h3>5.2 User Content</h3>
-        <p>You retain ownership of any code or content you create using our Service. However, by using the Service, you grant us a limited, non-exclusive license to:</p>
-        <ul>
-            <li>Store and process your content to provide the Service</li>
-            <li>Use anonymized data for analytics and improvement purposes</li>
-            <li>Display your progress and achievements within the app</li>
-        </ul>
-
-        <h3>5.3 Third-Party Content</h3>
-        <p>The Service may include content from third parties. Such content remains the property of their respective owners and is used under appropriate licenses.</p>
-
-        <h2>6. Code Execution and Security</h2>
-
-        <h3>6.1 Code Execution Environment</h3>
-        <p>Dartic provides a sandboxed environment for executing Dart code. While we implement security measures:</p>
-        <ul>
-            <li>Code execution is limited to safe operations</li>
-            <li>Network access and file system operations are restricted</li>
-            <li>Execution time and memory usage are limited</li>
-        </ul>
-
-        <h3>6.2 Security Limitations</h3>
-        <p>You acknowledge that:</p>
-        <ul>
-            <li>No code execution environment is 100% secure</li>
-            <li>You should not execute untrusted code from external sources</li>
-            <li>We are not responsible for any security issues arising from user code</li>
-        </ul>
-
-        <h2>7. Privacy and Data Protection</h2>
-
-        <p>Your privacy is important to us. Our collection and use of your personal information is governed by our <a href="privacy_policy.html">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
-
-        <h2>8. Educational Content and Accuracy</h2>
-
-        <h3>8.1 Educational Purpose</h3>
-        <p>Dartic is designed for educational purposes. While we strive to provide accurate and up-to-date content:</p>
-        <ul>
-            <li>Content is provided "as-is" without warranties of completeness or accuracy</li>
-            <li>Programming languages and best practices evolve over time</li>
-            <li>Users should verify information from multiple sources for professional use</li>
-        </ul>
-
-        <h3>8.2 No Professional Advice</h3>
-        <p>The content provided through Dartic does not constitute professional programming advice. For production applications, consult official documentation and professional developers.</p>
-
-        <h2>9. Disclaimers and Limitation of Liability</h2>
-
-        <h3>9.1 Service Availability</h3>
-        <p>We strive to maintain high availability but do not guarantee that the Service will be:</p>
-        <ul>
-            <li>Available 24/7 without interruption</li>
-            <li>Free from bugs or technical issues</li>
-            <li>Compatible with all devices or operating systems</li>
-        </ul>
-
-        <h3>9.2 Limitation of Liability</h3>
-        <div class="warning">
-            <p><strong>Important Legal Notice:</strong> To the maximum extent permitted by law, Dartic shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of the Service.</p>
-        </div>
-
-        <h2>10. Modifications to Service and Terms</h2>
-
-        <h3>10.1 Service Modifications</h3>
-        <p>We reserve the right to:</p>
-        <ul>
-            <li>Modify or discontinue the Service at any time</li>
-            <li>Add, remove, or modify features</li>
-            <li>Change the availability of certain content</li>
-        </ul>
-
-        <h3>10.2 Terms Modifications</h3>
-        <p>We may update these Terms from time to time. We will notify you of material changes by:</p>
-        <ul>
-            <li>Posting the updated Terms in the app</li>
-            <li>Sending notifications through the app</li>
-            <li>Updating the "Last Updated" date</li>
-        </ul>
-
-        <p>Your continued use of the Service after such modifications constitutes acceptance of the updated Terms.</p>
-
-        <h2>11. Termination</h2>
-
-        <h3>11.1 Termination by You</h3>
-        <p>You may terminate your use of the Service at any time by:</p>
-        <ul>
-            <li>Deleting your account through app settings</li>
-            <li>Uninstalling the application</li>
-            <li>Ceasing to use the Service</li>
-        </ul>
-
-        <h3>11.2 Termination by Us</h3>
-        <p>We may terminate or suspend your access to the Service if you:</p>
-        <ul>
-            <li>Violate these Terms of Service</li>
-            <li>Engage in prohibited activities</li>
-            <li>Pose a security risk to the Service or other users</li>
-        </ul>
-
-        <h2>12. Governing Law</h2>
-
-        <p>These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions. Any disputes arising from these Terms or your use of the Service shall be subject to the exclusive jurisdiction of the courts in [Your Jurisdiction].</p>
-
-        <h2>13. Contact Information</h2>
-
-        <div class="contact-info">
-            <p>If you have any questions about these Terms of Service, please contact us:</p>
-            <ul>
-                <li><strong>Email:</strong> odinachidavid@yahoo.com</li>
-                <li><strong>Support:</strong> odinachidavid@yahoo.com</li>
-                <li><strong>GitHub Issues:</strong> <a href="https://github.com/Odinachi/dartic/issues" target="_blank">https://github.com/Odinachi/dartic/issues</a></li>
-                <li><strong>In-App Contact:</strong> Use the contact form available in the app settings</li>
-            </ul>
-        </div>
-
-        <h2>14. Severability</h2>
-
-        <p>If any provision of these Terms is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that the Terms will otherwise remain in full force and effect and enforceable.</p>
-
-        <h2>15. Entire Agreement</h2>
-
-        <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and Dartic regarding the use of the Service and supersede all prior agreements and understandings.</p>
-
-        <div class="last-updated">
-            <p>Last updated: January 1, 2024</p>
-            <p>Version 1.0</p>
-        </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> Dartic · Odinachi David</span>
+        <span><a href="/">Home</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></span>
+      </div>
     </div>
+  </footer>
 </body>
 </html>

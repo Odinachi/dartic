@@ -43,6 +43,23 @@
           }
         ]
       }
+    ],
+    "redirects": [
+      {
+        "source": "/privacy_policy.html",
+        "destination": "/privacy/",
+        "type": 301
+      },
+      {
+        "source": "/privacy_policy",
+        "destination": "/privacy/",
+        "type": 301
+      },
+      {
+        "source": "/terms.html",
+        "destination": "/terms/",
+        "type": 301
+      }
     ]
   }
 }
