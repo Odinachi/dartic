@@ -1,16 +1,16 @@
-"""Credits coins bought through RevenueCat to a user's Firestore wallet.
+"""Credits gems bought through RevenueCat to a user's Firestore wallet.
 
 RevenueCat calls the webhook (see app.py) for every store event. We act on:
 
-- NON_RENEWING_PURCHASE for a coin pack -> add its coins to the wallet
-- CANCELLATION of a coin pack (a refund)  -> take those coins back
+- NON_RENEWING_PURCHASE for a gem pack -> add its gems to the wallet
+- CANCELLATION of a gem pack (a refund)  -> take those gems back
 
 Each store transaction is recorded in Purchases/{store}_{transaction_id}, so
 retried or duplicated webhooks never credit twice.
 
-Wallet: Users/{uid}/wallet/main = { coins, unlocked, rewarded, createdAt }.
-Firestore rules stop clients from adding coins; this server uses the Admin
-SDK, which bypasses rules. Keep WELCOME_BONUS in sync with CoinRules in
+Wallet: Users/{uid}/wallet/main = { gems, unlocked, rewarded, createdAt }.
+Firestore rules stop clients from adding gems; this server uses the Admin
+SDK, which bypasses rules. Keep WELCOME_BONUS in sync with GemRules in
 mobile/lib/features/wallet/models/wallet_model.dart and firestore.rules.
 """
 
@@ -27,12 +27,12 @@ from google.cloud import firestore
 
 WELCOME_BONUS = 3
 ANONYMOUS_PREFIX = "$RCAnonymousID:"
-_COINS_IN_PRODUCT = re.compile(r"coins_(\d+)")
+_GEMS_IN_PRODUCT = re.compile(r"gems_(\d+)")
 
 
-def coins_for_product(product_id: str | None) -> int | None:
-    """`dartic_coins_25` -> 25. Same rule as CoinStoreService.coinsForProduct."""
-    match = _COINS_IN_PRODUCT.search(product_id or "")
+def gems_for_product(product_id: str | None) -> int | None:
+    """`dartic_gems_25` -> 25. Same rule as GemStoreService.gemsForProduct."""
+    match = _GEMS_IN_PRODUCT.search(product_id or "")
     return int(match.group(1)) if match else None
 
 
@@ -74,7 +74,7 @@ def valid_signature(header: str | None, raw_body: bytes, secret: str,
 class Outcome:
     action: str  # credited | refunded | duplicate | ignored
     detail: str = ""
-    coins: int = 0
+    gems: int = 0
     uid: str | None = None
 
 
@@ -83,9 +83,9 @@ def handle_event(db: firestore.Client, event: dict[str, Any]) -> Outcome:
     if event_type not in ("NON_RENEWING_PURCHASE", "CANCELLATION"):
         return Outcome("ignored", f"event type {event_type}")
 
-    coins = coins_for_product(event.get("product_id"))
-    if not coins:
-        return Outcome("ignored", f"not a coin pack: {event.get('product_id')}")
+    gems = gems_for_product(event.get("product_id"))
+    if not gems:
+        return Outcome("ignored", f"not a gem pack: {event.get('product_id')}")
 
     uid = firebase_uid(event)
     if uid is None:
@@ -99,20 +99,20 @@ def handle_event(db: firestore.Client, event: dict[str, Any]) -> Outcome:
     wallet_ref = db.collection("Users").document(uid).collection("wallet").document("main")
 
     if event_type == "NON_RENEWING_PURCHASE":
-        return _credit(db.transaction(), purchase_ref, wallet_ref, event, uid, coins)
+        return _credit(db.transaction(), purchase_ref, wallet_ref, event, uid, gems)
     return _refund(db.transaction(), db, purchase_ref, event)
 
 
 @firestore.transactional
-def _credit(tx, purchase_ref, wallet_ref, event, uid, coins) -> Outcome:
+def _credit(tx, purchase_ref, wallet_ref, event, uid, gems) -> Outcome:
     if purchase_ref.get(transaction=tx).exists:
-        return Outcome("duplicate", "already credited", coins, uid)
+        return Outcome("duplicate", "already credited", gems, uid)
     wallet = wallet_ref.get(transaction=tx)
 
     tx.set(purchase_ref, {
         "uid": uid,
         "productId": event.get("product_id"),
-        "coins": coins,
+        "gems": gems,
         "store": event.get("store"),
         "environment": event.get("environment"),
         "transactionId": event.get("transaction_id"),
@@ -122,16 +122,16 @@ def _credit(tx, purchase_ref, wallet_ref, event, uid, coins) -> Outcome:
         "creditedAt": firestore.SERVER_TIMESTAMP,
     })
     if wallet.exists:
-        tx.update(wallet_ref, {"coins": firestore.Increment(coins)})
+        tx.update(wallet_ref, {"gems": firestore.Increment(gems)})
     else:
         # Same shape the app creates, so later client updates pass the rules.
         tx.set(wallet_ref, {
-            "coins": WELCOME_BONUS + coins,
+            "gems": WELCOME_BONUS + gems,
             "unlocked": [],
             "rewarded": [],
             "createdAt": firestore.SERVER_TIMESTAMP,
         })
-    return Outcome("credited", "", coins, uid)
+    return Outcome("credited", "", gems, uid)
 
 
 @firestore.transactional
@@ -139,21 +139,21 @@ def _refund(tx, db, purchase_ref, event) -> Outcome:
     purchase = purchase_ref.get(transaction=tx)
     if not purchase.exists or purchase.get("status") != "credited":
         return Outcome("ignored", "no credited purchase to refund")
-    # Take coins back from whoever was credited, even if the RevenueCat user
+    # Take gems back from whoever was credited, even if the RevenueCat user
     # has since been aliased to another id.
     owner = purchase.get("uid")
-    coins = int(purchase.get("coins"))
+    gems = int(purchase.get("gems"))
     wallet_ref = db.collection("Users").document(owner).collection("wallet").document("main")
     wallet = wallet_ref.get(transaction=tx)
 
-    taken = min(coins, int(wallet.get("coins") or 0)) if wallet.exists else 0
+    taken = min(gems, int(wallet.get("gems") or 0)) if wallet.exists else 0
     tx.update(purchase_ref, {
         "status": "refunded",
         "refundedAt": firestore.SERVER_TIMESTAMP,
         "cancelReason": event.get("cancel_reason"),
-        "coinsTakenBack": taken,
+        "gemsTakenBack": taken,
     })
     if taken:
-        # Never below zero: coins already spent on unlocks stay spent.
-        tx.update(wallet_ref, {"coins": firestore.Increment(-taken)})
+        # Never below zero: gems already spent on unlocks stay spent.
+        tx.update(wallet_ref, {"gems": firestore.Increment(-taken)})
     return Outcome("refunded", "", taken, owner)

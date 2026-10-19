@@ -4,29 +4,29 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-/// A coin pack sold through Apple / Google in-app purchase via RevenueCat.
-class CoinPack {
+/// A gem pack sold through Apple / Google in-app purchase via RevenueCat.
+class GemPack {
   final Package package;
-  final int coins;
+  final int gems;
 
-  const CoinPack(this.package, this.coins);
+  const GemPack(this.package, this.gems);
 
   String get price => package.storeProduct.priceString;
 }
 
-/// In-app coin purchases through RevenueCat.
+/// In-app gem purchases through RevenueCat.
 ///
-/// Coins are credited server-side: RevenueCat calls the webhook in
+/// Gems are credited server-side: RevenueCat calls the webhook in
 /// landing_page/app.py, which adds them to the Firestore wallet. The app only
 /// starts the purchase and then watches the wallet.
 ///
-/// Store setup (see README → Coins):
-/// - consumable products named `dartic_coins_<amount>` (e.g. dartic_coins_10)
+/// Store setup (see README → Gems):
+/// - consumable products named `dartic_gems_<amount>` (e.g. dartic_gems_10)
 ///   in App Store Connect and Play Console;
 /// - a RevenueCat offering with identifier [offeringId] containing them;
 /// - public SDK keys passed with --dart-define=RC_APPLE_KEY=… / RC_GOOGLE_KEY=….
-class CoinStoreService {
-  static const offeringId = 'coins';
+class GemStoreService {
+  static const offeringId = 'gems';
 
   static const _appleKey = String.fromEnvironment('RC_APPLE_KEY');
   static const _googleKey = String.fromEnvironment('RC_GOOGLE_KEY');
@@ -36,10 +36,10 @@ class CoinStoreService {
   /// False when the build has no RevenueCat key for this platform.
   bool get isAvailable => _configured;
 
-  /// Coins granted by a product, from its id: `dartic_coins_25` → 25.
+  /// Gems granted by a product, from its id: `dartic_gems_25` → 25.
   /// The webhook server uses the same rule.
-  static int? coinsForProduct(String productId) {
-    final match = RegExp(r'coins_(\d+)').firstMatch(productId);
+  static int? gemsForProduct(String productId) {
+    final match = RegExp(r'gems_(\d+)').firstMatch(productId);
     return match == null ? null : int.tryParse(match.group(1)!);
   }
 
@@ -77,31 +77,31 @@ class CoinStoreService {
     }
   }
 
-  /// Coin packs from the [offeringId] offering, smallest first.
-  Future<({List<CoinPack> packs, String? error})> fetchPacks() async {
+  /// Gem packs from the [offeringId] offering, smallest first.
+  Future<({List<GemPack> packs, String? error})> fetchPacks() async {
     if (!_configured) {
-      return (packs: <CoinPack>[], error: 'Coin purchases aren\'t available right now');
+      return (packs: <GemPack>[], error: 'Gem purchases aren\'t available right now');
     }
     try {
       final offerings = await Purchases.getOfferings();
       final offering = offerings.getOffering(offeringId) ?? offerings.current;
-      final packs = <CoinPack>[
+      final packs = <GemPack>[
         for (final p in offering?.availablePackages ?? const <Package>[])
-          if (coinsForProduct(p.storeProduct.identifier) case final coins?)
-            CoinPack(p, coins),
-      ]..sort((a, b) => a.coins.compareTo(b.coins));
+          if (gemsForProduct(p.storeProduct.identifier) case final gems?)
+            GemPack(p, gems),
+      ]..sort((a, b) => a.gems.compareTo(b.gems));
       return (
         packs: packs,
-        error: packs.isEmpty ? 'No coin packs available right now' : null
+        error: packs.isEmpty ? 'No gem packs available right now' : null
       );
     } on PlatformException catch (e) {
-      return (packs: <CoinPack>[], error: e.message ?? 'Could not load coin packs');
+      return (packs: <GemPack>[], error: e.message ?? 'Could not load gem packs');
     }
   }
 
   /// Starts the store purchase. `cancelled` is true if the user backed out.
   Future<({bool success, bool cancelled, String? error})> buy(
-      CoinPack pack) async {
+      GemPack pack) async {
     try {
       await Purchases.purchase(PurchaseParams.package(pack.package));
       return (success: true, cancelled: false, error: null);

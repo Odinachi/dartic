@@ -11,11 +11,11 @@ class WalletState {
 
   const WalletState({this.wallet, this.loading = false, this.error});
 
-  int get coins => wallet?.coins ?? 0;
+  int get gems => wallet?.gems ?? 0;
 }
 
-/// Holds the signed-in user's coin wallet. [load] creates it if needed and
-/// then keeps it in sync with Firestore, so coins credited by the server
+/// Holds the signed-in user's gem wallet. [load] creates it if needed and
+/// then keeps it in sync with Firestore, so gems credited by the server
 /// (purchases) show up without a refresh.
 class WalletCubit extends Cubit<WalletState> {
   WalletCubit({required this.firebaseServices}) : super(const WalletState());
@@ -41,7 +41,7 @@ class WalletCubit extends Cubit<WalletState> {
   bool hasUnlocked(String problemId) =>
       state.wallet?.hasUnlocked(problemId) ?? false;
 
-  /// Spends a coin (unless already unlocked) and returns the solution code.
+  /// Spends a gem (unless already unlocked) and returns the solution code.
   Future<({String? answer, String? error})> unlockAndFetch(
       String problemId) async {
     if (!hasUnlocked(problemId)) {
@@ -52,7 +52,7 @@ class WalletCubit extends Cubit<WalletState> {
     return firebaseServices.fetchSolution(problemId);
   }
 
-  /// Pays the first-solve reward for [problemId]. Returns true if a coin was
+  /// Pays the first-solve reward for [problemId]. Returns true if a gem was
   /// earned (false if it was already collected or the call failed).
   Future<bool> rewardSolve(String problemId) async {
     if (state.wallet == null) await load();

@@ -1,6 +1,6 @@
 // Moves each algorithm problem's `answer` out of the problem doc (which every
 // signed-in user can read) into DSA/{id}/solution/main, which Firestore rules
-// only let a user read after unlocking it with a coin.
+// only let a user read after unlocking it with a gem.
 //
 //   DSA/{id}/problem/{doc}.answer  ->  DSA/{id}/solution/main { answer }
 //
@@ -9,7 +9,7 @@
 //   node migrate.mjs --commit   # writes solution docs and removes `answer` fields
 //
 // Before --commit, deploy the updated firestore.rules and ship an app version
-// with coins (older versions simply stop showing the Solution menu item).
+// with gems (older versions simply stop showing the Solution menu item).
 // A backup of every answer is written to backup-<timestamp>.json first.
 //
 // Credentials: `gcloud auth application-default login`, or set

@@ -406,11 +406,11 @@ class FirebaseServices {
     }
   }
 
-  // ── Coins ──────────────────────────────────────────────────
+  // ── Gems ──────────────────────────────────────────────────
   //
-  // Users/{uid}/wallet/main = { coins, unlocked: [problemId], rewarded: [problemId] }
+  // Users/{uid}/wallet/main = { gems, unlocked: [problemId], rewarded: [problemId] }
   // Firestore rules only allow: creating it with the welcome bonus, spending
-  // exactly one coin to unlock one problem, or earning exactly one coin for
+  // exactly one gem to unlock one problem, or earning exactly one gem for
   // the first solve of one problem.
 
   DocumentReference<Map<String, dynamic>>? get _walletDoc {
@@ -426,18 +426,18 @@ class FirebaseServices {
   /// Returns the user's wallet, creating it with the welcome bonus if needed.
   Future<({WalletModel? wallet, String? error})> fetchWallet() async {
     final doc = _walletDoc;
-    if (doc == null) return (wallet: null, error: "Sign in to use coins");
+    if (doc == null) return (wallet: null, error: "Sign in to use gems");
     try {
       final wallet = await _firestore.runTransaction((tx) async {
         final snap = await tx.get(doc);
         if (snap.exists) return WalletModel.fromJson(snap.data()!);
         tx.set(doc, {
-          'coins': CoinRules.welcomeBonus,
+          'gems': GemRules.welcomeBonus,
           'unlocked': <String>[],
           'rewarded': <String>[],
           'createdAt': FieldValue.serverTimestamp(),
         });
-        return const WalletModel(coins: CoinRules.welcomeBonus);
+        return const WalletModel(gems: GemRules.welcomeBonus);
       });
       return (wallet: wallet, error: null);
     } catch (e) {
@@ -445,7 +445,7 @@ class FirebaseServices {
     }
   }
 
-  /// Live wallet updates, e.g. when the server credits purchased coins.
+  /// Live wallet updates, e.g. when the server credits purchased gems.
   Stream<WalletModel?> watchWallet() {
     final doc = _walletDoc;
     if (doc == null) return const Stream.empty();
@@ -453,31 +453,31 @@ class FirebaseServices {
         (snap) => snap.exists ? WalletModel.fromJson(snap.data()!) : null);
   }
 
-  /// Spends one coin to unlock [problemId]'s solution. Free if it's already
+  /// Spends one gem to unlock [problemId]'s solution. Free if it's already
   /// unlocked. Returns the updated wallet.
   Future<({WalletModel? wallet, String? error})> unlockSolution(
       String problemId) async {
     final doc = _walletDoc;
-    if (doc == null) return (wallet: null, error: "Sign in to use coins");
+    if (doc == null) return (wallet: null, error: "Sign in to use gems");
     try {
       final wallet = await _firestore.runTransaction((tx) async {
         final snap = await tx.get(doc);
         final current = WalletModel.fromJson(snap.data() ?? const {});
         if (current.hasUnlocked(problemId)) return current;
-        if (!current.canAffordSolution) throw const NotEnoughCoins();
+        if (!current.canAffordSolution) throw const NotEnoughGems();
         tx.update(doc, {
-          'coins': FieldValue.increment(-CoinRules.solutionCost),
+          'gems': FieldValue.increment(-GemRules.solutionCost),
           'unlocked': FieldValue.arrayUnion([problemId]),
         });
         return WalletModel(
-          coins: current.coins - CoinRules.solutionCost,
+          gems: current.gems - GemRules.solutionCost,
           unlocked: [...current.unlocked, problemId],
           rewarded: current.rewarded,
         );
       });
       return (wallet: wallet, error: null);
-    } on NotEnoughCoins {
-      return (wallet: null, error: NotEnoughCoins.message);
+    } on NotEnoughGems {
+      return (wallet: null, error: NotEnoughGems.message);
     } catch (e) {
       return (wallet: null, error: e.toString());
     }
@@ -489,7 +489,7 @@ class FirebaseServices {
       String problemId) async {
     final doc = _walletDoc;
     if (doc == null) {
-      return (wallet: null, rewarded: false, error: "Sign in to use coins");
+      return (wallet: null, rewarded: false, error: "Sign in to use gems");
     }
     try {
       final result = await _firestore.runTransaction((tx) async {
@@ -499,12 +499,12 @@ class FirebaseServices {
           return (wallet: current, rewarded: false);
         }
         tx.update(doc, {
-          'coins': FieldValue.increment(CoinRules.solveReward),
+          'gems': FieldValue.increment(GemRules.solveReward),
           'rewarded': FieldValue.arrayUnion([problemId]),
         });
         return (
           wallet: WalletModel(
-            coins: current.coins + CoinRules.solveReward,
+            gems: current.gems + GemRules.solveReward,
             unlocked: current.unlocked,
             rewarded: [...current.rewarded, problemId],
           ),
@@ -563,7 +563,7 @@ class FirebaseServices {
 }
 
 /// Thrown inside the unlock transaction when the balance is too low.
-class NotEnoughCoins implements Exception {
-  const NotEnoughCoins();
-  static const message = "Not enough coins";
+class NotEnoughGems implements Exception {
+  const NotEnoughGems();
+  static const message = "Not enough gems";
 }

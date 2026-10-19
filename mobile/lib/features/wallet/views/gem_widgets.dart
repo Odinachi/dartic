@@ -1,7 +1,7 @@
 import 'package:dartcoder/features/wallet/models/wallet_model.dart';
 import 'package:dartcoder/features/wallet/view_model/wallet_cubit.dart';
-import 'package:dartcoder/main.dart' show coinStore;
-import 'package:dartcoder/services/coin_store_service.dart';
+import 'package:dartcoder/main.dart' show gemStore;
+import 'package:dartcoder/services/gem_store_service.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/theme.dart';
 import 'package:dartcoder/shared/widgets/ui.dart';
@@ -13,27 +13,27 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/atom-one-light.dart';
 import 'package:flutter_highlight/themes/nord.dart';
 
-const _coinColor = AppColors.amber;
+const _gemColor = Color(0xff8B7CFF); // soft violet, reads as a gem on light and dark
 
-/// A small coin icon used wherever coins are mentioned.
-class CoinIcon extends StatelessWidget {
-  const CoinIcon({super.key, this.size = 18});
+/// A small gem icon used wherever gems are mentioned.
+class GemIcon extends StatelessWidget {
+  const GemIcon({super.key, this.size = 18});
   final double size;
 
   @override
   Widget build(BuildContext context) =>
-      Icon(Icons.toll_rounded, size: size, color: _coinColor);
+      Icon(Icons.diamond_rounded, size: size, color: _gemColor);
 }
 
-/// Live coin balance pill, e.g. in an app bar. Loads the wallet on first use.
-class CoinBadge extends StatefulWidget {
-  const CoinBadge({super.key});
+/// Live gem balance pill, e.g. in an app bar. Loads the wallet on first use.
+class GemBadge extends StatefulWidget {
+  const GemBadge({super.key});
 
   @override
-  State<CoinBadge> createState() => _CoinBadgeState();
+  State<GemBadge> createState() => _GemBadgeState();
 }
 
-class _CoinBadgeState extends State<CoinBadge> {
+class _GemBadgeState extends State<GemBadge> {
   @override
   void initState() {
     super.initState();
@@ -48,29 +48,29 @@ class _CoinBadgeState extends State<CoinBadge> {
         return const SizedBox.shrink(); // signed out or offline
       }
       return Pressable(
-        onTap: () => showCoinInfoSheet(context),
+        onTap: () => showGemInfoSheet(context),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
-            color: _coinColor.withValues(alpha: .14),
+            color: _gemColor.withValues(alpha: .14),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CoinIcon(size: 18),
+              const GemIcon(size: 18),
               const SizedBox(width: 5),
               state.wallet == null
                   ? const SizedBox(
                       width: 12,
                       height: 12,
                       child: CircularProgressIndicator(
-                          strokeWidth: 1.6, color: _coinColor))
+                          strokeWidth: 1.6, color: _gemColor))
                   : Text(
-                      '${state.coins}',
+                      '${state.gems}',
                       style: context.text.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: _coinColor,
+                        color: _gemColor,
                       ),
                     ),
             ],
@@ -81,30 +81,30 @@ class _CoinBadgeState extends State<CoinBadge> {
   }
 }
 
-/// Explains how coins work, with a way into the coin store.
-Future<void> showCoinInfoSheet(BuildContext context) async {
-  final canBuy = coinStore.isAvailable;
+/// Explains how gems work, with a way into the gem store.
+Future<void> showGemInfoSheet(BuildContext context) async {
+  final canBuy = gemStore.isAvailable;
   final buy = await _sheet(
     context,
-    icon: const CoinIcon(size: 30),
-    title: 'Coins',
+    icon: const GemIcon(size: 30),
+    title: 'Gems',
     body:
-        'Spend ${_coins(CoinRules.solutionCost)} to unlock a problem\'s solution. '
+        'Spend ${_gems(GemRules.solutionCost)} to unlock a problem\'s solution. '
         'Once unlocked, it stays unlocked.\n\n'
-        'Earn ${_coins(CoinRules.solveReward)} the first time you solve each problem'
-        '${canBuy ? ', or get more in the coin store' : ''}. '
-        'New accounts start with ${_coins(CoinRules.welcomeBonus)}.',
-    primary: canBuy ? 'Get coins' : 'Got it',
+        'Earn ${_gems(GemRules.solveReward)} the first time you solve each problem'
+        '${canBuy ? ', or get more in the gem store' : ''}. '
+        'New accounts start with ${_gems(GemRules.welcomeBonus)}.',
+    primary: canBuy ? 'Get gems' : 'Got it',
     secondary: canBuy ? 'Close' : null,
   );
-  if (buy == true && canBuy && context.mounted) await showCoinStore(context);
+  if (buy == true && canBuy && context.mounted) await showGemStore(context);
 }
 
-/// In-app coin store: packs sold through Apple / Google in-app purchase.
-/// Purchased coins are credited by the server and arrive via the wallet stream.
-Future<void> showCoinStore(BuildContext context) {
+/// In-app gem store: packs sold through Apple / Google in-app purchase.
+/// Purchased gems are credited by the server and arrive via the wallet stream.
+Future<void> showGemStore(BuildContext context) {
   if (FirebaseAuth.instance.currentUser == null) {
-    AppRouter.showMessage('Sign in to get coins');
+    AppRouter.showMessage('Sign in to get gems');
     return Future.value();
   }
   return showModalBottomSheet<void>(
@@ -113,30 +113,30 @@ Future<void> showCoinStore(BuildContext context) {
     backgroundColor: context.palette.surface,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-    builder: (_) => const _CoinStoreSheet(),
+    builder: (_) => const _GemStoreSheet(),
   );
 }
 
-class _CoinStoreSheet extends StatefulWidget {
-  const _CoinStoreSheet();
+class _GemStoreSheet extends StatefulWidget {
+  const _GemStoreSheet();
 
   @override
-  State<_CoinStoreSheet> createState() => _CoinStoreSheetState();
+  State<_GemStoreSheet> createState() => _GemStoreSheetState();
 }
 
-class _CoinStoreSheetState extends State<_CoinStoreSheet> {
-  late final _packs = coinStore.fetchPacks();
-  CoinPack? _buying;
+class _GemStoreSheetState extends State<_GemStoreSheet> {
+  late final _packs = gemStore.fetchPacks();
+  GemPack? _buying;
 
-  Future<void> _buy(CoinPack pack) async {
+  Future<void> _buy(GemPack pack) async {
     setState(() => _buying = pack);
-    final result = await coinStore.buy(pack);
+    final result = await gemStore.buy(pack);
     if (!mounted) return;
     setState(() => _buying = null);
     if (result.success) {
       Navigator.of(context).pop();
       AppRouter.showMessage(
-          'Thanks! ${_coins(pack.coins)} will be added in a moment.');
+          'Thanks! ${_gems(pack.gems)} will be added in a moment.');
     } else if (!result.cancelled) {
       AppRouter.showMessage(result.error ?? 'The purchase didn\'t go through');
     }
@@ -157,11 +157,11 @@ class _CoinStoreSheetState extends State<_CoinStoreSheet> {
             Row(
               children: [
                 Expanded(
-                  child: Text('Get coins',
+                  child: Text('Get gems',
                       style: context.text.titleLarge
                           ?.copyWith(fontWeight: FontWeight.w700)),
                 ),
-                const CoinBadge(),
+                const GemBadge(),
               ],
             ),
             const SizedBox(height: 6),
@@ -176,14 +176,14 @@ class _CoinStoreSheetState extends State<_CoinStoreSheet> {
                   return const Padding(
                     padding: EdgeInsets.symmetric(vertical: 32),
                     child: Center(
-                        child: CircularProgressIndicator(color: _coinColor)),
+                        child: CircularProgressIndicator(color: _gemColor)),
                   );
                 }
                 final (:packs, :error) = snap.data!;
                 if (packs.isEmpty) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: Text(error ?? 'No coin packs available right now',
+                    child: Text(error ?? 'No gem packs available right now',
                         textAlign: TextAlign.center,
                         style: context.text.bodyMedium
                             ?.copyWith(color: palette.textMuted)),
@@ -207,7 +207,7 @@ class _CoinStoreSheetState extends State<_CoinStoreSheet> {
             const SizedBox(height: 6),
             Text(
               'Charged to your ${Theme.of(context).platform == TargetPlatform.iOS ? 'Apple Account' : 'Google Play account'}. '
-              'Coins never expire and can only be used in Dartic.',
+              'Gems never expire and can only be used in Dartic.',
               textAlign: TextAlign.center,
               style: context.text.bodySmall?.copyWith(color: palette.textMuted),
             ),
@@ -221,7 +221,7 @@ class _CoinStoreSheetState extends State<_CoinStoreSheet> {
 class _PackRow extends StatelessWidget {
   const _PackRow({required this.pack, required this.busy, this.onTap});
 
-  final CoinPack pack;
+  final GemPack pack;
   final bool busy;
   final VoidCallback? onTap;
 
@@ -239,10 +239,10 @@ class _PackRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const CoinIcon(size: 26),
+            const GemIcon(size: 26),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(_coins(pack.coins),
+              child: Text(_gems(pack.gems),
                   style: context.text.titleMedium
                       ?.copyWith(fontWeight: FontWeight.w700)),
             ),
@@ -272,7 +272,7 @@ class _PackRow extends StatelessWidget {
   }
 }
 
-/// Asks to spend a coin on [problemId]'s solution, then shows it.
+/// Asks to spend a gem on [problemId]'s solution, then shows it.
 /// [onUseCode] receives the code if the user copies it into the editor.
 Future<void> openSolution(
   BuildContext context, {
@@ -286,31 +286,31 @@ Future<void> openSolution(
   if (!cubit.hasUnlocked(problemId)) {
     final wallet = cubit.state.wallet;
     if (wallet == null) {
-      AppRouter.showMessage(cubit.state.error ?? 'Could not load your coins');
+      AppRouter.showMessage(cubit.state.error ?? 'Could not load your gems');
       return;
     }
     if (!wallet.canAffordSolution) {
-      final canBuy = coinStore.isAvailable;
+      final canBuy = gemStore.isAvailable;
       final buy = await _sheet(
         context,
-        icon: const CoinIcon(size: 30),
-        title: 'Out of coins',
+        icon: const GemIcon(size: 30),
+        title: 'Out of gems',
         body: 'Solve a problem you haven\'t solved before to earn '
-            '${_coins(CoinRules.solveReward)}'
-            '${canBuy ? ', or get a coin pack' : ''}, then come back to unlock this solution.',
-        primary: canBuy ? 'Get coins' : 'Keep trying',
+            '${_gems(GemRules.solveReward)}'
+            '${canBuy ? ', or get a gem pack' : ''}, then come back to unlock this solution.',
+        primary: canBuy ? 'Get gems' : 'Keep trying',
         secondary: canBuy ? 'Keep trying' : null,
       );
-      if (buy == true && canBuy && context.mounted) await showCoinStore(context);
+      if (buy == true && canBuy && context.mounted) await showGemStore(context);
       return;
     }
     final confirmed = await _sheet(
       context,
-      icon: const CoinIcon(size: 30),
+      icon: const GemIcon(size: 30),
       title: 'Unlock solution?',
-      body: 'This costs ${_coins(CoinRules.solutionCost)}. '
-          'You have ${_coins(wallet.coins)}. The solution stays unlocked for good.',
-      primary: 'Unlock for ${_coins(CoinRules.solutionCost)}',
+      body: 'This costs ${_gems(GemRules.solutionCost)}. '
+          'You have ${_gems(wallet.gems)}. The solution stays unlocked for good.',
+      primary: 'Unlock for ${_gems(GemRules.solutionCost)}',
       secondary: 'Not now',
     );
     if (confirmed != true || !context.mounted) return;
@@ -325,7 +325,7 @@ Future<void> openSolution(
   await _showSolution(context, result.answer!, onUseCode);
 }
 
-String _coins(int n) => n == 1 ? '1 coin' : '$n coins';
+String _gems(int n) => n == 1 ? '1 gem' : '$n gems';
 
 Future<void> _showSolution(
     BuildContext context, String code, ValueChanged<String> onUseCode) {

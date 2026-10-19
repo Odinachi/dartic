@@ -11,7 +11,7 @@ import 'package:dartcoder/features/editor/views/widgets/dsa_question_widget.dart
 import 'package:dartcoder/features/editor/views/widgets/test_results_widget.dart';
 import 'package:dartcoder/features/wallet/models/wallet_model.dart';
 import 'package:dartcoder/features/wallet/view_model/wallet_cubit.dart';
-import 'package:dartcoder/features/wallet/views/coin_widgets.dart';
+import 'package:dartcoder/features/wallet/views/gem_widgets.dart';
 import 'package:dartcoder/main.dart';
 import 'package:dartcoder/services/test_runner_service.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
@@ -191,7 +191,7 @@ class _EditorScreenState extends State<EditorScreen>
           final wallet = context.read<WalletCubit>();
           if (await wallet.rewardSolve(problemId)) {
             AppRouter.showMessage(
-                "Solved! +${CoinRules.solveReward} coin · ${wallet.state.coins} total");
+                "Solved! +${GemRules.solveReward} gem · ${wallet.state.gems} total");
           }
         }
       }
@@ -326,7 +326,7 @@ class _EditorScreenState extends State<EditorScreen>
         title: const Text('Dartic'),
         actions: _tabController.index == (widget.arg?.dsa != null ? 1 : 0)
             ? [
-                if (widget.arg?.dsa != null) const CoinBadge(),
+                if (widget.arg?.dsa != null) const GemBadge(),
                 ValueListenableBuilder(
                     valueListenable: editor.state,
                     builder: (_, state, __) {
@@ -409,8 +409,8 @@ class _EditorScreenState extends State<EditorScreen>
                                 .read<WalletCubit>()
                                 .hasUnlocked(widget.arg?.dsa?.id ?? "")) ...[
                               const SizedBox(width: 8),
-                              const CoinIcon(size: 16),
-                              Text(' ${CoinRules.solutionCost}'),
+                              const GemIcon(size: 16),
+                              Text(' ${GemRules.solutionCost}'),
                             ],
                           ],
                         ),

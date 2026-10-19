@@ -1,7 +1,7 @@
 import 'package:dartcoder/features/authetication/view_model/app_cubit.dart';
 import 'package:dartcoder/features/editor/view_model/editor_cubit.dart';
 import 'package:dartcoder/features/editor/views/editor_screen.dart';
-import 'package:dartcoder/features/wallet/views/coin_widgets.dart';
+import 'package:dartcoder/features/wallet/views/gem_widgets.dart';
 import 'package:dartcoder/shared/app_string.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/navigation/router.dart';
@@ -93,7 +93,7 @@ class _DsaListScreenState extends State<DsaListScreen> {
       appBar: AppBar(
         title: Text(AppString.dsa),
         actions: const [
-          CoinBadge(),
+          GemBadge(),
           SizedBox(width: 16),
         ],
       ),

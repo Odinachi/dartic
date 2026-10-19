@@ -2,7 +2,7 @@
 
 Routes:
   GET  /api/health              liveness check
-  POST /api/revenuecat/webhook  credits coin purchases (see coin_webhook.py)
+  POST /api/revenuecat/webhook  credits gem purchases (see gem_webhook.py)
 
 Environment variables (set in the Vercel project):
   REVENUECAT_WEBHOOK_AUTH    required; the Authorization value configured on
@@ -23,7 +23,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-import coin_webhook
+import gem_webhook
 
 PUBLIC = Path(__file__).parent / "public"
 
@@ -58,11 +58,11 @@ async def revenuecat_webhook(request: Request):
     raw = await request.body()
 
     expected_auth = os.environ.get("REVENUECAT_WEBHOOK_AUTH", "")
-    if not coin_webhook.valid_authorization(request.headers.get("authorization"), expected_auth):
+    if not gem_webhook.valid_authorization(request.headers.get("authorization"), expected_auth):
         raise HTTPException(status_code=401, detail="unauthorized")
 
     secret = os.environ.get("REVENUECAT_WEBHOOK_SECRET")
-    if secret and not coin_webhook.valid_signature(
+    if secret and not gem_webhook.valid_signature(
             request.headers.get("x-revenuecat-webhook-signature"), raw, secret):
         raise HTTPException(status_code=401, detail="bad signature")
 
@@ -73,10 +73,10 @@ async def revenuecat_webhook(request: Request):
 
     # Any exception here returns 500, so RevenueCat retries (~5 times over
     # ~80 minutes). Processing is idempotent per store transaction.
-    outcome = coin_webhook.handle_event(firestore_client(), event)
+    outcome = gem_webhook.handle_event(firestore_client(), event)
     print(f"revenuecat {event.get('type')} {event.get('id')}: {outcome.action} "
-          f"{outcome.coins} coins uid={outcome.uid} {outcome.detail}".strip())
-    return {"result": outcome.action, "coins": outcome.coins}
+          f"{outcome.gems} gems uid={outcome.uid} {outcome.detail}".strip())
+    return {"result": outcome.action, "gems": outcome.gems}
 
 
 @app.exception_handler(StarletteHTTPException)

@@ -28,7 +28,7 @@ if not os.environ.get("FIRESTORE_EMULATOR_HOST"):
 from fastapi.testclient import TestClient  # noqa: E402
 
 import app as server  # noqa: E402
-import coin_webhook  # noqa: E402
+import gem_webhook  # noqa: E402
 
 client = TestClient(server.app)
 db = server.firestore_client()
@@ -47,7 +47,7 @@ def purchase_event(**overrides):
         "app_user_id": "alice",
         "original_app_user_id": "$RCAnonymousID:abc",
         "aliases": ["$RCAnonymousID:abc", "alice"],
-        "product_id": "dartic_coins_10",
+        "product_id": "dartic_gems_10",
         "transaction_id": "tx-1",
         "store": "APP_STORE",
         "environment": "SANDBOX",
@@ -74,25 +74,25 @@ def clean():
 
 # ── pure helpers ──────────────────────────────────────────────
 
-def test_coins_for_product():
-    assert coin_webhook.coins_for_product("dartic_coins_10") == 10
-    assert coin_webhook.coins_for_product("dartic_coins_25:base") == 25
-    assert coin_webhook.coins_for_product("dartic_pro") is None
-    assert coin_webhook.coins_for_product(None) is None
+def test_gems_for_product():
+    assert gem_webhook.gems_for_product("dartic_gems_10") == 10
+    assert gem_webhook.gems_for_product("dartic_gems_25:base") == 25
+    assert gem_webhook.gems_for_product("dartic_pro") is None
+    assert gem_webhook.gems_for_product(None) is None
 
 
 def test_firebase_uid_skips_anonymous_ids():
-    assert coin_webhook.firebase_uid({"app_user_id": "$RCAnonymousID:x", "aliases": ["$RCAnonymousID:x", "bob"]}) == "bob"
-    assert coin_webhook.firebase_uid({"app_user_id": "$RCAnonymousID:x"}) is None
+    assert gem_webhook.firebase_uid({"app_user_id": "$RCAnonymousID:x", "aliases": ["$RCAnonymousID:x", "bob"]}) == "bob"
+    assert gem_webhook.firebase_uid({"app_user_id": "$RCAnonymousID:x"}) is None
 
 
 def test_signature_check():
     raw, secret, t = b'{"event":{}}', "s3cret", int(time.time())
     sig = hmac.new(secret.encode(), f"{t}.".encode() + raw, hashlib.sha256).hexdigest()
-    assert coin_webhook.valid_signature(f"t={t},v1={sig}", raw, secret)
-    assert not coin_webhook.valid_signature(f"t={t},v1={sig}", raw + b" ", secret)
-    assert not coin_webhook.valid_signature(f"t={t - 3600},v1={sig}", raw, secret)
-    assert not coin_webhook.valid_signature("garbage", raw, secret)
+    assert gem_webhook.valid_signature(f"t={t},v1={sig}", raw, secret)
+    assert not gem_webhook.valid_signature(f"t={t},v1={sig}", raw + b" ", secret)
+    assert not gem_webhook.valid_signature(f"t={t - 3600},v1={sig}", raw, secret)
+    assert not gem_webhook.valid_signature("garbage", raw, secret)
 
 
 # ── webhook endpoint ──────────────────────────────────────────
@@ -103,37 +103,37 @@ def test_rejects_missing_or_wrong_authorization():
     assert wallet("alice") is None
 
 
-def test_purchase_creates_wallet_with_bonus_plus_coins():
+def test_purchase_creates_wallet_with_bonus_plus_gems():
     r = post(purchase_event())
-    assert r.status_code == 200 and r.json() == {"result": "credited", "coins": 10}
+    assert r.status_code == 200 and r.json() == {"result": "credited", "gems": 10}
     w = wallet("alice")
-    assert w["coins"] == coin_webhook.WELCOME_BONUS + 10
+    assert w["gems"] == gem_webhook.WELCOME_BONUS + 10
     assert w["unlocked"] == [] and w["rewarded"] == []
     p = db.document("Purchases/APP_STORE_tx-1").get().to_dict()
-    assert p["uid"] == "alice" and p["coins"] == 10 and p["status"] == "credited"
+    assert p["uid"] == "alice" and p["gems"] == 10 and p["status"] == "credited"
 
 
 def test_purchase_adds_to_existing_wallet():
-    db.document("Users/alice/wallet/main").set({"coins": 1, "unlocked": ["p1"], "rewarded": []})
+    db.document("Users/alice/wallet/main").set({"gems": 1, "unlocked": ["p1"], "rewarded": []})
     post(purchase_event())
     w = wallet("alice")
-    assert w["coins"] == 11 and w["unlocked"] == ["p1"]
+    assert w["gems"] == 11 and w["unlocked"] == ["p1"]
 
 
 def test_retried_webhook_credits_once():
     post(purchase_event())
     r = post(purchase_event())
     assert r.json()["result"] == "duplicate"
-    assert wallet("alice")["coins"] == coin_webhook.WELCOME_BONUS + 10
+    assert wallet("alice")["gems"] == gem_webhook.WELCOME_BONUS + 10
 
 
 def test_two_purchases_both_credit():
     post(purchase_event())
-    post(purchase_event(id="evt-2", transaction_id="tx-2", product_id="dartic_coins_30"))
-    assert wallet("alice")["coins"] == coin_webhook.WELCOME_BONUS + 40
+    post(purchase_event(id="evt-2", transaction_id="tx-2", product_id="dartic_gems_30"))
+    assert wallet("alice")["gems"] == gem_webhook.WELCOME_BONUS + 40
 
 
-def test_ignores_non_coin_products_and_other_events():
+def test_ignores_non_gem_products_and_other_events():
     assert post(purchase_event(product_id="dartic_pro")).json()["result"] == "ignored"
     assert post(purchase_event(type="INITIAL_PURCHASE")).json()["result"] == "ignored"
     assert post(purchase_event(type="TEST")).json()["result"] == "ignored"
@@ -145,23 +145,23 @@ def test_ignores_anonymous_purchases():
     assert post(body).json()["result"] == "ignored"
 
 
-def test_refund_takes_coins_back():
+def test_refund_takes_gems_back():
     post(purchase_event())
     r = post(purchase_event(id="evt-r", type="CANCELLATION", cancel_reason="CUSTOMER_SUPPORT"))
-    assert r.json() == {"result": "refunded", "coins": 10}
-    assert wallet("alice")["coins"] == coin_webhook.WELCOME_BONUS
+    assert r.json() == {"result": "refunded", "gems": 10}
+    assert wallet("alice")["gems"] == gem_webhook.WELCOME_BONUS
     assert db.document("Purchases/APP_STORE_tx-1").get().get("status") == "refunded"
     # A repeated refund does nothing.
     assert post(purchase_event(id="evt-r2", type="CANCELLATION")).json()["result"] == "ignored"
-    assert wallet("alice")["coins"] == coin_webhook.WELCOME_BONUS
+    assert wallet("alice")["gems"] == gem_webhook.WELCOME_BONUS
 
 
 def test_refund_never_goes_below_zero():
     post(purchase_event())
-    db.document("Users/alice/wallet/main").update({"coins": 4})  # spent most coins
+    db.document("Users/alice/wallet/main").update({"gems": 4})  # spent most gems
     r = post(purchase_event(id="evt-r", type="CANCELLATION"))
-    assert r.json() == {"result": "refunded", "coins": 4}
-    assert wallet("alice")["coins"] == 0
+    assert r.json() == {"result": "refunded", "gems": 4}
+    assert wallet("alice")["gems"] == 0
 
 
 def test_refund_without_purchase_is_ignored():
