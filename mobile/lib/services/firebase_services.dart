@@ -251,9 +251,12 @@ class FirebaseServices {
         // Reauthenticate user before deletion
         await user.reauthenticateWithCredential(cred.oAuth!);
 
-        // Delete user data from Firestore
+        // Delete user data from Firestore: subcollections first (deleting a
+        // document doesn't delete its subcollections), then the profile.
+        final userDoc = _firestore.collection('Users').doc(user.uid);
+        await userDoc.collection('progress').doc('current').delete();
         await _walletDoc?.delete();
-        await _firestore.collection('Users').doc(user.uid).delete();
+        await userDoc.delete();
 
         // Delete user authentication
         await user.delete();
