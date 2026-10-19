@@ -50,6 +50,12 @@ service cloud.firestore {
       }
     }
 
+    // ── Coin purchases (RevenueCat webhook, written with the Admin SDK) ──
+    match /Purchases/{purchaseId} {
+      allow read: if signedIn() && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
+
     // ── User profiles and progress (existing) ──
     match /Users/{userId} {
       // Signed-in users can read profiles: the username availability check
