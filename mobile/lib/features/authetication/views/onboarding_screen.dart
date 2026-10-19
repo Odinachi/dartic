@@ -162,8 +162,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 TextSpan(
                                   text: AppString.termsOfService.trim(),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () => _open(
-                                        'https://dartcoder-d57cb.web.app/terms.html'),
+                                    ..onTap = () => _open(AppLinks.terms),
                                   style: TextStyle(
                                     color: palette.textPrimary,
                                     decoration: TextDecoration.underline,
@@ -174,8 +173,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 TextSpan(
                                   text: AppString.privacyPolicy.trim(),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () => _open(
-                                        'https://dartcoder-d57cb.web.app/privacy_policy.html'),
+                                    ..onTap = () => _open(AppLinks.privacy),
                                   style: TextStyle(
                                     color: palette.textPrimary,
                                     decoration: TextDecoration.underline,

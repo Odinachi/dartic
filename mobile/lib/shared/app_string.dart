@@ -73,3 +73,10 @@ class AppString {
 
   static const String comingSoon = "Coming Soon";
 }
+
+/// Public web pages the app links to.
+class AppLinks {
+  static const website = 'https://dartic.odinachi.space';
+  static const privacy = '$website/privacy/';
+  static const terms = '$website/terms/';
+}

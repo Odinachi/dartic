@@ -24,7 +24,6 @@ const _appStoreUrl = 'https://apps.apple.com/app/id6744124202';
 const _playStoreUrl =
     'https://play.google.com/store/apps/details?id=com.odibillz.dartcoder';
 const _supportEmail = 'odinachidavid@yahoo.com';
-const _site = 'https://dartcoder-d57cb.web.app';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, this.onDiveIn});
@@ -838,12 +837,12 @@ class _AboutCard extends StatelessWidget {
       _Tile(
         icon: Icons.privacy_tip_outlined,
         title: 'Privacy policy',
-        onTap: () => _open('$_site/privacy_policy.html'),
+        onTap: () => _open(AppLinks.privacy),
       ),
       _Tile(
         icon: Icons.description_outlined,
         title: 'Terms of service',
-        onTap: () => _open('$_site/terms.html'),
+        onTap: () => _open(AppLinks.terms),
       ),
     ]);
   }
