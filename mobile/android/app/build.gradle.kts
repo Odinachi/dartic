@@ -22,7 +22,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.odibillz.dartcoder"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -60,6 +60,20 @@ android {
                 storeFile = keystoreProperties["storeFile"]?.let { path -> file(path) }
                 storePassword = keystoreProperties["storePassword"] as String
             }
+        }
+    }
+
+    // Fail release builds with a clear message instead of an NPE in
+    // signReleaseBundle when no upload key is configured.
+    gradle.taskGraph.whenReady {
+        val wantsRelease = allTasks.any { it.name.contains("Release") && it.project == project }
+        val release = signingConfigs.getByName("release")
+        if (wantsRelease && (release.storeFile == null || !release.storeFile!!.exists())) {
+            throw GradleException(
+                "Release signing isn't configured: add android/key.properties " +
+                    "(storeFile, storePassword, keyAlias, keyPassword) or set CM_KEYSTORE_PATH " +
+                    "and related env vars. storeFile is resolved relative to android/app/."
+            )
         }
     }
      buildTypes {
