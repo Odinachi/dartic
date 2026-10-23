@@ -486,11 +486,19 @@ the **Get gems** sheet is allowed inside the app. The flow:
 1. The app logs the user in to RevenueCat with their Firebase uid.
 2. The user buys a pack in the **Get gems** sheet (Apple / Google payment
    sheet).
-3. RevenueCat calls `POST /api/revenuecat/webhook` on the Vercel deployment.
-4. The webhook adds the pack's gems to `Users/{uid}/wallet/main` and records
-   `Purchases/{store}_{transactionId}`, so retries never credit twice.
+3. The app calls `POST /api/gems/sync` with its Firebase ID token. It also
+   calls it whenever the wallet loads, to catch purchases where the app closed
+   mid-way.
+4. The server verifies the token, then reads that user's purchases from
+   RevenueCat's REST API using the secret key. It credits each gem-pack
+   transaction not yet in `Purchases/{store}_{transactionId}`, so a purchase
+   is never credited twice. The app never says what it bought.
 5. The app's wallet streams from Firestore, so the new balance appears
-   within seconds. Refunds take the gems back, never below zero.
+   within seconds.
+
+Refunds aren't taken back automatically on this path. RevenueCat webhooks
+(paid plans) would handle them: `POST /api/revenuecat/webhook` is already
+built and uses the same crediting, so the two can't double-credit.
 
 **One-time setup**
 
@@ -500,24 +508,22 @@ the **Get gems** sheet is allowed inside the app. The flow:
    and Play Console (Monetize → In-app products).
 2. **RevenueCat.** Create a project with the iOS and Android apps. Add the
    products, and put them in an offering with identifier **`gems`**.
-3. **Webhook.** In RevenueCat → Integrations → Webhooks, set the URL to
-   `https://<your-vercel-domain>/api/revenuecat/webhook`. Set an Authorization
-   header value (a long random string). Optionally enable HMAC signing.
-4. **Vercel environment variables** (see `landing_page/api/.env.example`):
-   `REVENUECAT_WEBHOOK_AUTH` (the same Authorization value),
-   `REVENUECAT_WEBHOOK_SECRET` (optional signing secret), and
-   `FIREBASE_SERVICE_ACCOUNT`. For the last one, use Firebase console →
-   Project settings → Service accounts → Generate new private key, and paste
-   the JSON as one line.
-5. **App build.** Pass `--dart-define=RC_APPLE_KEY=appl_…` and
+3. **Vercel environment variables** (see `landing_page/api/.env.example`):
+   - `REVENUECAT_SECRET_KEY`: RevenueCat → Project settings → API keys →
+     secret key (`sk_…`). Server only; never put it in the app.
+   - `FIREBASE_SERVICE_ACCOUNT`: Firebase console → Project settings →
+     Service accounts → Generate new private key, pasted as one line.
+4. **App build.** Pass `--dart-define=RC_APPLE_KEY=appl_…` and
    `--dart-define=RC_GOOGLE_KEY=goog_…` (RevenueCat → API keys → public
    app-specific keys).
-6. **Review.** Attach the in-app purchases to the app version in App Store
-   Connect. Apple's reviewer buys in the sandbox, and the webhook credits
-   sandbox purchases too.
+5. **Review.** Attach the in-app purchases to the app version in App Store
+   Connect. Apple's reviewer buys in the sandbox, and sandbox purchases are
+   credited too.
 
-Use RevenueCat's **Send test event** to check the URL and auth. Test events
-are acknowledged and ignored.
+**Optional, paid RevenueCat plans:** add a webhook pointing at
+`https://<your-domain>/api/revenuecat/webhook` with an Authorization header,
+and set `REVENUECAT_WEBHOOK_AUTH` (and optionally `REVENUECAT_WEBHOOK_SECRET`)
+in Vercel, for background crediting and automatic refund handling.
 
 ## Landing page
 

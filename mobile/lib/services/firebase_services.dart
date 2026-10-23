@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartcoder/features/authetication/models/user_model.dart';
 import 'package:dartcoder/features/authetication/models/user_progress.dart';
@@ -5,6 +7,7 @@ import 'package:dartcoder/features/courses/models/dsa_course_model.dart';
 import 'package:dartcoder/features/editor/models/dsa_list_model.dart';
 import 'package:dartcoder/features/editor/models/test_case.dart';
 import 'package:dartcoder/features/wallet/models/wallet_model.dart';
+import 'package:dartcoder/shared/app_string.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -454,6 +457,32 @@ class FirebaseServices {
     if (doc == null) return const Stream.empty();
     return doc.snapshots().map(
         (snap) => snap.exists ? WalletModel.fromJson(snap.data()!) : null);
+  }
+
+  /// Asks the server to credit any gem purchases it hasn't credited yet. The
+  /// server verifies the ID token and reads purchases from RevenueCat itself,
+  /// so the app never says what it bought. Returns how many gems were added.
+  Future<({int gems, String? error})> syncGemPurchases() async {
+    final user = _auth.currentUser;
+    if (user == null) return (gems: 0, error: "Sign in to use gems");
+    final client = HttpClient()..connectionTimeout = const Duration(seconds: 10);
+    try {
+      final token = await user.getIdToken();
+      final request = await client.postUrl(Uri.parse(AppLinks.gemSync));
+      request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $token');
+      final response =
+          await request.close().timeout(const Duration(seconds: 20));
+      final body = await response.transform(utf8.decoder).join();
+      if (response.statusCode != 200) {
+        return (gems: 0, error: "Sync failed (${response.statusCode})");
+      }
+      final gems = (jsonDecode(body)['gems'] as num?)?.toInt() ?? 0;
+      return (gems: gems, error: null);
+    } catch (e) {
+      return (gems: 0, error: e.toString());
+    } finally {
+      client.close();
+    }
   }
 
   /// Spends one gem to unlock [problemId]'s solution. Free if it's already

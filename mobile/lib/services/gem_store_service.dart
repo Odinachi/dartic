@@ -16,7 +16,9 @@ class GemPack {
 
 /// In-app gem purchases through RevenueCat.
 ///
-/// Gems are credited server-side: RevenueCat calls the webhook in
+/// Gems are credited server-side: after a purchase the app calls
+/// POST /api/gems/sync (landing_page/api/gem_sync.py), which reads purchases
+/// from RevenueCat and adds them to the Firestore wallet. Formerly: the webhook in
 /// landing_page/api/index.py, which adds them to the Firestore wallet. The app only
 /// starts the purchase and then watches the wallet.
 ///
@@ -37,7 +39,7 @@ class GemStoreService {
   bool get isAvailable => _configured;
 
   /// Gems granted by a product, from its id: `dartic_gems_25` → 25.
-  /// The webhook server uses the same rule.
+  /// The server (gem_webhook.gems_for_product) uses the same rule.
   static int? gemsForProduct(String productId) {
     final match = RegExp(r'gems_(\d+)').firstMatch(productId);
     return match == null ? null : int.tryParse(match.group(1)!);
@@ -57,7 +59,7 @@ class GemStoreService {
     }
   }
 
-  /// Ties purchases to the Firebase user so the webhook knows whose wallet to
+  /// Ties purchases to the Firebase user so the server knows whose wallet to
   /// credit.
   Future<void> identify(String uid) async {
     if (!_configured) return;

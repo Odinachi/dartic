@@ -134,9 +134,13 @@ class _GemStoreSheetState extends State<_GemStoreSheet> {
     if (!mounted) return;
     setState(() => _buying = null);
     if (result.success) {
+      final wallet = context.read<WalletCubit>();
       Navigator.of(context).pop();
-      AppRouter.showMessage(
-          'Thanks! ${_gems(pack.gems)} will be added in a moment.');
+      AppRouter.showMessage('Thanks! Adding ${_gems(pack.gems)}…');
+      final added = await wallet.syncAfterPurchase();
+      AppRouter.showMessage(added > 0
+          ? '${_gems(added)} added to your balance.'
+          : 'Your gems are on the way. If they don\'t appear soon, reopen the app.');
     } else if (!result.cancelled) {
       AppRouter.showMessage(result.error ?? 'The purchase didn\'t go through');
     }

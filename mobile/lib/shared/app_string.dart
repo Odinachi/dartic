@@ -79,4 +79,7 @@ class AppLinks {
   static const website = 'https://dartic.odinachi.space';
   static const privacy = '$website/privacy/';
   static const terms = '$website/terms/';
+
+  /// Server endpoint that credits the signed-in user's gem purchases.
+  static const gemSync = '$website/api/gems/sync';
 }

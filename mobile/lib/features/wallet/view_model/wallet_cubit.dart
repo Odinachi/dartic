@@ -28,7 +28,23 @@ class WalletCubit extends Cubit<WalletState> {
     emit(WalletState(wallet: state.wallet, loading: true));
     final result = await firebaseServices.fetchWallet();
     emit(WalletState(wallet: result.wallet ?? state.wallet, error: result.error));
-    if (result.wallet != null) _watch();
+    if (result.wallet != null) {
+      _watch();
+      // Picks up purchases that were paid for but not credited (e.g. the app
+      // closed mid-purchase). New gems arrive through the wallet stream.
+      firebaseServices.syncGemPurchases();
+    }
+  }
+
+  /// Credits a just-completed purchase. The store can take a moment to report
+  /// it to RevenueCat, so retry a few times. Returns gems added (0 if none).
+  Future<int> syncAfterPurchase() async {
+    for (final delay in const [0, 2, 5, 10]) {
+      if (delay > 0) await Future.delayed(Duration(seconds: delay));
+      final result = await firebaseServices.syncGemPurchases();
+      if (result.gems > 0) return result.gems;
+    }
+    return 0;
   }
 
   void _watch() {
