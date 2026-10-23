@@ -16,3 +16,4 @@ store_assets/
 .venv/
 __pycache__/
 .pytest_cache/
+* .build.sh

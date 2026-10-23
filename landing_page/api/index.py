@@ -2,11 +2,16 @@
 
 Routes:
   GET  /api/health              liveness check
-  POST /api/revenuecat/webhook  credits gem purchases (see gem_webhook.py)
+  POST /api/gems/sync           app-triggered: credits the caller's new gem
+                                purchases from RevenueCat (see gem_sync.py)
+  POST /api/revenuecat/webhook  RevenueCat webhook (paid plans only); same
+                                crediting, plus refunds (see gem_webhook.py)
 
 Environment variables (set in the Vercel project):
-  REVENUECAT_WEBHOOK_AUTH    required; the Authorization value configured on
-                             the RevenueCat webhook
+  REVENUECAT_SECRET_KEY      required for /api/gems/sync; RevenueCat secret
+                             API key (sk_...), never shipped in the app
+  REVENUECAT_WEBHOOK_AUTH    required for the webhook; the Authorization value
+                             configured on the RevenueCat webhook
   REVENUECAT_WEBHOOK_SECRET  optional; enables HMAC signature checks
   FIREBASE_SERVICE_ACCOUNT   required in production; service-account JSON
   FIREBASE_PROJECT_ID        optional; defaults to dartcoder-d57cb
@@ -23,7 +28,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from api import gem_webhook
+from api import gem_sync, gem_webhook
 
 PUBLIC = Path(__file__).resolve().parent.parent / "public"
 
@@ -51,6 +56,43 @@ def firestore_client():
 @app.get("/api/health")
 def health():
     return {"ok": True}
+
+
+def verify_firebase_user(authorization: str | None) -> str:
+    """Returns the uid from a `Bearer <Firebase ID token>` header."""
+    from firebase_admin import auth
+
+    token = (authorization or "").removeprefix("Bearer ").strip()
+    if not token:
+        raise HTTPException(status_code=401, detail="sign in required")
+    firestore_client()  # initialises firebase_admin
+    try:
+        return auth.verify_id_token(token)["uid"]
+    except Exception:
+        raise HTTPException(status_code=401, detail="invalid token")
+
+
+def fetch_revenuecat_subscriber(uid: str) -> dict:
+    secret = os.environ.get("REVENUECAT_SECRET_KEY", "")
+    if not secret:
+        raise RuntimeError("REVENUECAT_SECRET_KEY is not set")
+    return gem_sync.fetch_subscriber(uid, secret)
+
+
+@app.post("/api/gems/sync")
+def sync_gems(request: Request):
+    """Called by the signed-in app after a purchase and when the wallet loads.
+    Credits any of the caller's gem purchases that haven't been credited yet."""
+    uid = verify_firebase_user(request.headers.get("authorization"))
+    try:
+        result = gem_sync.sync_user(firestore_client(), uid, fetch_revenuecat_subscriber)
+    except gem_sync.RevenueCatError as e:
+        print(f"gems sync uid={uid}: {e}")
+        raise HTTPException(status_code=502, detail="could not reach the store")
+    if result["credited"]:
+        print(f"gems sync uid={uid}: credited {result['gems']} gems "
+              f"from {result['credited']} purchase(s)")
+    return result
 
 
 @app.post("/api/revenuecat/webhook")

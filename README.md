@@ -550,7 +550,7 @@ python3 -m http.server 8080 --directory public   # then open http://localhost:80
 
 ```bash
 cd landing_page
-pip install -e ".[test]"
+pip install "fastapi>=0.118,<1" "firebase-admin>=6.9,<8" httpx pytest
 firebase emulators:exec --only firestore --project demo-dartic \
   "FIREBASE_PROJECT_ID=demo-dartic python -m pytest -q"
 ```
