@@ -11,6 +11,8 @@
 .svn/
 .swiftpm/
 .vscode/
+# Holds build secrets (dart-defines); never commit it.
+.vscode/launch.json
 migrate_working_dir/
 firebase.json
 

@@ -212,20 +212,45 @@ deploy `firestore.rules`, and upload the course content (see
 
 `String.fromEnvironment` reads them in `lib/services/firebase_services.dart`
 and `lib/services/gem_store_service.dart`.
-Locally they live in `.vscode/launch.json` (VS Code) and in a gitignored
-`makefile`. Keep real values out of commits.
+Locally they live in `mobile/.vscode/launch.json` (VS Code) and in a
+`makefile`. Both are gitignored; keep real values out of commits.
 
 ### Running
 
 ```bash
 fvm flutter run \
   --dart-define=CLIENT_ID=<apple-services-id> \
-  --dart-define=REDIRECT_URI=<redirect-uri>
+  --dart-define=REDIRECT_URI=<redirect-uri> \
+  --dart-define=RC_APPLE_KEY=<appl_…> \
+  --dart-define=RC_GOOGLE_KEY=<goog_…>
 ```
 
-In VS Code, pick the launch configuration from `.vscode/launch.json` and press
-F5. Google sign-in and every other feature work without the defines. Only
-Apple sign-in on Android needs them.
+In VS Code, create `mobile/.vscode/launch.json` (it's gitignored), open the
+`mobile/` folder, pick a configuration and press F5:
+
+```jsonc
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "dartcoder",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=CLIENT_ID=<apple-services-id>",
+        "--dart-define=REDIRECT_URI=<redirect-uri>",
+        "--dart-define=RC_APPLE_KEY=<appl_…>",
+        "--dart-define=RC_GOOGLE_KEY=<goog_…>"
+      ]
+    }
+  ]
+}
+```
+
+Add copies with `"flutterMode": "profile"` or `"release"` as needed. Without
+`CLIENT_ID`/`REDIRECT_URI` only Apple sign-in on Android breaks; without the
+RevenueCat keys the gem store is hidden.
 
 ### Building releases
 
