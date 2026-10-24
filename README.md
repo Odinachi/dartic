@@ -527,12 +527,13 @@ built and uses the same crediting, so the two can't double-credit.
 
 **One-time setup**
 
-1. **Stores.** Create consumable products named `dartic_gems_<amount>`, for
-   example `dartic_gems_10`, `dartic_gems_30` and `dartic_gems_100`. The amount
-   in the ID is what the user receives. Use App Store Connect (In-App Purchases)
-   and Play Console (Monetize → In-app products).
+1. **Stores.** Create consumable products named `dartic_gem_<amount>` (or
+   `dartic_gems_<amount>`), for example `dartic_gem_30` and `dartic_gem_100`.
+   The number in the ID is how many gems the user gets. Use App Store Connect
+   (In-App Purchases) and Play Console (Monetize → In-app products).
 2. **RevenueCat.** Create a project with the iOS and Android apps. Add the
-   products, and put them in an offering with identifier **`gems`**.
+   products, and put them in an offering with identifier **`gem`** (or
+   `gems`; otherwise the current offering is used).
 3. **Vercel environment variables** (see `landing_page/api/.env.example`):
    - `REVENUECAT_SECRET_KEY`: RevenueCat → Project settings → API keys →
      secret key (`sk_…`). Server only; never put it in the app.

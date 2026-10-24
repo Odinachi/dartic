@@ -6,6 +6,8 @@ void main() {
     test('reads the amount from dartic_gems_<n> product ids', () {
       expect(GemStoreService.gemsForProduct('dartic_gems_10'), 10);
       expect(GemStoreService.gemsForProduct('dartic_gems_100'), 100);
+      expect(GemStoreService.gemsForProduct('dartic_gem_30'), 30);
+      expect(GemStoreService.gemsForProduct('dartic_gem_100'), 100);
     });
 
     test('handles Google Play base-plan suffixes', () {

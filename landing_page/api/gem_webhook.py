@@ -27,11 +27,12 @@ from google.cloud import firestore
 
 WELCOME_BONUS = 3
 ANONYMOUS_PREFIX = "$RCAnonymousID:"
-_GEMS_IN_PRODUCT = re.compile(r"gems_(\d+)")
+_GEMS_IN_PRODUCT = re.compile(r"gems?_(\d+)")
 
 
 def gems_for_product(product_id: str | None) -> int | None:
-    """`dartic_gems_25` -> 25. Same rule as GemStoreService.gemsForProduct."""
+    """`dartic_gem_25` / `dartic_gems_25` -> 25. Same rule as
+    GemStoreService.gemsForProduct."""
     match = _GEMS_IN_PRODUCT.search(product_id or "")
     return int(match.group(1)) if match else None
 

@@ -144,6 +144,11 @@ def test_revenuecat_failure_is_502_and_changes_nothing():
     assert wallet("broken") is None
 
 
+def test_singular_gem_product_ids_are_credited():
+    SUBSCRIBERS["alice"] = {"non_subscriptions": {"dartic_gem_30": [tx("rc7", "7")]}}
+    assert sync().json() == {"credited": 1, "gems": 30}
+
+
 def test_purchase_date_parsing():
     assert gem_sync._purchased_at_ms("2026-10-20T10:00:00Z") == 1792490400000
     assert gem_sync._purchased_at_ms(None) is None

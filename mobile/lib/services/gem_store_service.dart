@@ -23,12 +23,13 @@ class GemPack {
 /// starts the purchase and then watches the wallet.
 ///
 /// Store setup (see README → Gems):
-/// - consumable products named `dartic_gems_<amount>` (e.g. dartic_gems_10)
+/// - consumable products named `dartic_gem_<amount>` or `dartic_gems_<amount>`
+///   (e.g. dartic_gem_30)
 ///   in App Store Connect and Play Console;
-/// - a RevenueCat offering with identifier [offeringId] containing them;
+/// - a RevenueCat offering named `gem` or `gems` (else the current offering);
 /// - public SDK keys passed with --dart-define=RC_APPLE_KEY=… / RC_GOOGLE_KEY=….
 class GemStoreService {
-  static const offeringId = 'gems';
+  static const offeringIds = ['gem', 'gems'];
 
   static const _appleKey = String.fromEnvironment('RC_APPLE_KEY');
   static const _googleKey = String.fromEnvironment('RC_GOOGLE_KEY');
@@ -38,10 +39,11 @@ class GemStoreService {
   /// False when the build has no RevenueCat key for this platform.
   bool get isAvailable => _configured;
 
-  /// Gems granted by a product, from its id: `dartic_gems_25` → 25.
+  /// Gems granted by a product, from its id: `dartic_gem_25` or
+  /// `dartic_gems_25` → 25.
   /// The server (gem_webhook.gems_for_product) uses the same rule.
   static int? gemsForProduct(String productId) {
-    final match = RegExp(r'gems_(\d+)').firstMatch(productId);
+    final match = RegExp(r'gems?_(\d+)').firstMatch(productId);
     return match == null ? null : int.tryParse(match.group(1)!);
   }
 
@@ -82,14 +84,17 @@ class GemStoreService {
     }
   }
 
-  /// Gem packs from the [offeringId] offering, smallest first.
+  /// Gem packs from the gem offering, smallest first.
   Future<({List<GemPack> packs, String? error})> fetchPacks() async {
     if (!_configured) {
       return (packs: <GemPack>[], error: 'Gem purchases aren\'t available right now');
     }
     try {
       final offerings = await Purchases.getOfferings();
-      final offering = offerings.getOffering(offeringId) ?? offerings.current;
+      final offering = offeringIds
+              .map(offerings.getOffering)
+              .firstWhere((o) => o != null, orElse: () => null) ??
+          offerings.current;
       if (kDebugMode) {
         debugPrint('[GemStore] offerings: ${offerings.all.keys.toList()}, '
             'current: ${offerings.current?.identifier}, '

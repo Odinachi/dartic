@@ -76,6 +76,8 @@ def clean():
 
 def test_gems_for_product():
     assert gem_webhook.gems_for_product("dartic_gems_10") == 10
+    assert gem_webhook.gems_for_product("dartic_gem_30") == 30
+    assert gem_webhook.gems_for_product("dartic_gem_100") == 100
     assert gem_webhook.gems_for_product("dartic_gems_25:base") == 25
     assert gem_webhook.gems_for_product("dartic_pro") is None
     assert gem_webhook.gems_for_product(None) is None
