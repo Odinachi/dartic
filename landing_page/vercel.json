@@ -61,5 +61,11 @@
       "destination": "/terms/",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/index"
+    }
   ]
 }
