@@ -52,6 +52,9 @@ class GemStoreService {
     if (key.isEmpty) return; // store disabled in this build
     try {
       final config = PurchasesConfiguration(key)..appUserID = uid;
+      // Verbose RevenueCat logs in debug builds: they explain why products
+      // are missing (store setup, agreements, unapproved products, ...).
+      if (kDebugMode) await Purchases.setLogLevel(LogLevel.debug);
       await Purchases.configure(config);
       _configured = true;
     } catch (e) {
@@ -87,6 +90,16 @@ class GemStoreService {
     try {
       final offerings = await Purchases.getOfferings();
       final offering = offerings.getOffering(offeringId) ?? offerings.current;
+      if (kDebugMode) {
+        debugPrint('[GemStore] offerings: ${offerings.all.keys.toList()}, '
+            'current: ${offerings.current?.identifier}, '
+            'using: ${offering?.identifier}');
+        for (final p in offering?.availablePackages ?? const <Package>[]) {
+          debugPrint('[GemStore]   package ${p.identifier} -> product '
+              '${p.storeProduct.identifier} (${p.storeProduct.priceString}), '
+              'gems: ${gemsForProduct(p.storeProduct.identifier)}');
+        }
+      }
       final packs = <GemPack>[
         for (final p in offering?.availablePackages ?? const <Package>[])
           if (gemsForProduct(p.storeProduct.identifier) case final gems?)
