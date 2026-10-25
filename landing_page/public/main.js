@@ -402,6 +402,33 @@ function initStoreLinks() {
   }
 }
 
+// ── GitHub stars ──────────────────────────────────────────────
+// Live star count on the nav link, cached for an hour per visitor to stay
+// well under GitHub's anonymous rate limit. Hidden if it can't be loaded.
+async function initGitHubStars() {
+  const el = $("#gh-stars");
+  if (!el) return;
+  const KEY = "dartic-gh-stars";
+  const show = (n) => {
+    el.querySelector("b").textContent =
+      n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "")}k` : String(n);
+    el.setAttribute("aria-label", `${n} GitHub stars`);
+    el.hidden = false;
+  };
+  try {
+    const cached = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (cached && Date.now() - cached.at < 3600_000) return show(cached.n);
+  } catch (e) {}
+  try {
+    const res = await fetch("https://api.github.com/repos/Odinachi/dartic");
+    if (!res.ok) return;
+    const n = (await res.json()).stargazers_count;
+    if (typeof n !== "number") return;
+    show(n);
+    try { localStorage.setItem(KEY, JSON.stringify({ n, at: Date.now() })); } catch (e) {}
+  } catch (e) {}
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   $("#year").textContent = String(new Date().getFullYear());
   initHeader();
@@ -411,6 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initQuiz();
   initCodeDemo();
   initStoreLinks();
+  initGitHubStars();
   initReveal();
   initCounters();
 });

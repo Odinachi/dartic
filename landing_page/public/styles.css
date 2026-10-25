@@ -359,6 +359,25 @@ button {
   align-items: center;
   gap: 7px;
 }
+.gh-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2px;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.gh-stars svg {
+  color: #e3b341;
+}
+.gh-stars b {
+  font-weight: 500;
+}
 .nav-links a:hover {
   color: var(--ink);
   background: var(--surface-2);
