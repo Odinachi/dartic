@@ -354,6 +354,11 @@ button {
   text-decoration: none;
   transition: color 0.15s ease, background-color 0.15s ease;
 }
+.nav-links .nav-gh {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
 .nav-links a:hover {
   color: var(--ink);
   background: var(--surface-2);

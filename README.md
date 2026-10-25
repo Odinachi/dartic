@@ -646,7 +646,7 @@ Contributions are welcome: code, lessons, quiz questions, problems and design.
    screenshots for UI work.
 
 Report bugs and request features in
-[GitHub Issues](https://github.com/Odinachi/dartcoder/issues).
+[GitHub Issues](https://github.com/Odinachi/dartic/issues).
 
 ---
 
@@ -668,7 +668,7 @@ If you plan to reuse the code, open an issue first.
 
 ## Contact
 
-- **Issues:** <https://github.com/Odinachi/dartcoder/issues>
+- **Issues:** <https://github.com/Odinachi/dartic/issues>
 - **Email:** [odinachidavid@yahoo.com](mailto:odinachidavid@yahoo.com)
 
 Inspired by [DartPad](https://dartpad.dev). Thanks to the Flutter and Dart teams.

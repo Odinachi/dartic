@@ -398,7 +398,7 @@ function initStoreLinks() {
   }
   if (missing) {
     $("#store-note").innerHTML =
-      'Store listings are on the way. Meanwhile, follow along on <a href="https://github.com/Odinachi/dartcoder" rel="noopener">GitHub</a>.';
+      'Store listings are on the way. Meanwhile, follow along on <a href="https://github.com/Odinachi/dartic" rel="noopener">GitHub</a>.';
   }
 }
 
