@@ -37,7 +37,6 @@ void main() {
     test('gem rules match firestore.rules', () {
       // firestore.rules hard-codes these; update both together.
       expect(GemRules.welcomeBonus, 3);
-      expect(GemRules.solveReward, 1);
       expect(GemRules.solutionCost, 1);
     });
   });

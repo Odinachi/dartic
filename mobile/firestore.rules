@@ -79,12 +79,12 @@ service cloud.firestore {
           && request.resource.data.unlocked.size() == 0
           && request.resource.data.rewarded.size() == 0;
 
-        // Only two moves: spend 1 gem to unlock one problem, or earn 1 gem
-        // for the first solve of one problem.
+        // The only client move: spend 1 gem to unlock one problem. Gems are
+        // added only by the server (purchases, via the Admin SDK).
         allow update: if isOwner(userId) && docId == 'main'
           && request.resource.data.keys().hasOnly(['gems', 'unlocked', 'rewarded', 'createdAt'])
           && request.resource.data.get('createdAt', null) == resource.data.get('createdAt', null)
-          && (spendsOneGem() || earnsOneGem());
+          && spendsOneGem();
 
         // Allowed so account deletion can remove it.
         allow delete: if isOwner(userId);
@@ -102,12 +102,6 @@ service cloud.firestore {
             && request.resource.data.gems == resource.data.gems - 1
             && request.resource.data.rewarded == resource.data.rewarded
             && addedOne('unlocked');
-        }
-
-        function earnsOneGem() {
-          return request.resource.data.gems == resource.data.gems + 1
-            && request.resource.data.unlocked == resource.data.unlocked
-            && addedOne('rewarded');
         }
       }
     }

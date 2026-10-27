@@ -420,8 +420,8 @@ class _GemsCard extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             Text(
-              'Spend ${GemRules.solutionCost} gem to unlock a solution. Earn '
-              '${GemRules.solveReward} for every new problem you solve.',
+              'Spend ${GemRules.solutionCost} gem to unlock a solution. '
+              'Unlocked solutions stay unlocked.',
               style: context.text.bodySmall?.copyWith(
                   fontSize: 12.5.sp, height: 1.4, color: palette.textMuted),
             ),

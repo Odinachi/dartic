@@ -4,9 +4,6 @@ class GemRules {
   /// Gems granted once, when a user's wallet is first created.
   static const welcomeBonus = 3;
 
-  /// Gems earned the first time a user solves each problem.
-  static const solveReward = 1;
-
   /// Gems spent to unlock one problem's solution (unlocked for good).
   static const solutionCost = 1;
 }
@@ -18,7 +15,7 @@ class WalletModel {
   /// Problem IDs whose solutions this user has unlocked.
   final List<String> unlocked;
 
-  /// Problem IDs this user has already been paid a solve reward for.
+  /// Problem IDs paid a solve reward under the old rules (no longer earned).
   final List<String> rewarded;
 
   const WalletModel({

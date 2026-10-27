@@ -91,9 +91,8 @@ Future<void> showGemInfoSheet(BuildContext context) async {
     body:
         'Spend ${_gems(GemRules.solutionCost)} to unlock a problem\'s solution. '
         'Once unlocked, it stays unlocked.\n\n'
-        'Earn ${_gems(GemRules.solveReward)} the first time you solve each problem'
-        '${canBuy ? ', or get more in the gem store' : ''}. '
-        'New accounts start with ${_gems(GemRules.welcomeBonus)}.',
+        'New accounts start with ${_gems(GemRules.welcomeBonus)}'
+        '${canBuy ? '. Get more in the gem store.' : '.'}',
     primary: canBuy ? 'Get gems' : 'Got it',
     secondary: canBuy ? 'Close' : null,
   );
@@ -299,9 +298,9 @@ Future<void> openSolution(
         context,
         icon: const GemIcon(size: 30),
         title: 'Out of gems',
-        body: 'Solve a problem you haven\'t solved before to earn '
-            '${_gems(GemRules.solveReward)}'
-            '${canBuy ? ', or get a gem pack' : ''}, then come back to unlock this solution.',
+        body: canBuy
+            ? 'Get a gem pack to unlock this solution.'
+            : 'You\'re out of gems. Keep at it, you might not need the solution.',
         primary: canBuy ? 'Get gems' : 'Keep trying',
         secondary: canBuy ? 'Keep trying' : null,
       );

@@ -515,40 +515,6 @@ class FirebaseServices {
     }
   }
 
-  /// Pays the solve reward for [problemId] the first time it's solved.
-  /// `rewarded` is false when the reward was already collected.
-  Future<({WalletModel? wallet, bool rewarded, String? error})> rewardSolve(
-      String problemId) async {
-    final doc = _walletDoc;
-    if (doc == null) {
-      return (wallet: null, rewarded: false, error: "Sign in to use gems");
-    }
-    try {
-      final result = await _firestore.runTransaction((tx) async {
-        final snap = await tx.get(doc);
-        final current = WalletModel.fromJson(snap.data() ?? const {});
-        if (!snap.exists || current.rewarded.contains(problemId)) {
-          return (wallet: current, rewarded: false);
-        }
-        tx.update(doc, {
-          'gems': FieldValue.increment(GemRules.solveReward),
-          'rewarded': FieldValue.arrayUnion([problemId]),
-        });
-        return (
-          wallet: WalletModel(
-            gems: current.gems + GemRules.solveReward,
-            unlocked: current.unlocked,
-            rewarded: [...current.rewarded, problemId],
-          ),
-          rewarded: true,
-        );
-      });
-      return (wallet: result.wallet, rewarded: result.rewarded, error: null);
-    } catch (e) {
-      return (wallet: null, rewarded: false, error: e.toString());
-    }
-  }
-
   /// Reads an unlocked solution from `DSA/{id}/solution/main`. Falls back to
   /// the legacy `answer` field on the problem doc for problems that haven't
   /// been migrated yet (see scripts/move_dsa_solutions).

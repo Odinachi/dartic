@@ -68,15 +68,6 @@ class WalletCubit extends Cubit<WalletState> {
     return firebaseServices.fetchSolution(problemId);
   }
 
-  /// Pays the first-solve reward for [problemId]. Returns true if a gem was
-  /// earned (false if it was already collected or the call failed).
-  Future<bool> rewardSolve(String problemId) async {
-    if (state.wallet == null) await load();
-    final result = await firebaseServices.rewardSolve(problemId);
-    if (result.wallet != null) emit(WalletState(wallet: result.wallet));
-    return result.rewarded;
-  }
-
   /// Clear on sign-out so the next user doesn't see a stale balance.
   void reset() {
     _sub?.cancel();

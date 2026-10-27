@@ -14,7 +14,6 @@ import 'package:dartcoder/features/wallet/view_model/wallet_cubit.dart';
 import 'package:dartcoder/features/wallet/views/gem_widgets.dart';
 import 'package:dartcoder/main.dart';
 import 'package:dartcoder/services/test_runner_service.dart';
-import 'package:dartcoder/shared/navigation/router.dart';
 import 'package:dartcoder/shared/constants.dart';
 import 'package:dartcoder/shared/text_editor.dart';
 import 'package:flutter/material.dart';
@@ -190,11 +189,6 @@ class _EditorScreenState extends State<EditorScreen>
         if (mounted) {
           final problemId = widget.arg?.dsa?.id ?? "";
           context.read<AppCubit>().markProblemAsSolved(problemId);
-          final wallet = context.read<WalletCubit>();
-          if (await wallet.rewardSolve(problemId)) {
-            AppRouter.showMessage(
-                "Solved! +${GemRules.solveReward} gem · ${wallet.state.gems} total");
-          }
         }
       }
     } catch (e) {
